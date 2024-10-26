@@ -151,8 +151,7 @@ public class HungryDecayedLogBlock extends PillarBlock {
             double x = axis == Direction.Axis.X ? 0.5 + 0.5625 * direction.getOffsetX() : random.nextFloat();
             double y = axis == Direction.Axis.Y ? 0.5 + 0.5625 * direction.getOffsetY() : random.nextFloat();
             double z = axis == Direction.Axis.Z ? 0.5 + 0.5625 * direction.getOffsetZ() : random.nextFloat();
-
-            // todo: add custom particle
+            
             world.addParticle(BLParticles.DRIPPING_BLOOD, pos.getX() + x, pos.getY() + y, pos.getZ() + z, 0, 0, 0);
         }
     }
