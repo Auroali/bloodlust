@@ -39,7 +39,7 @@ public class BLBlocks {
     public static final Block STRIPPED_DECAYED_WOOD = new PillarBlock(AbstractBlock.Settings.create().mapColor(MapColor.OFF_WHITE).burnable().instrument(Instrument.BASS).strength(2.f).sounds(BlockSoundGroup.NETHER_WOOD));
     public static final Block DECAYED_TWIGS = new DecayedTwigsBlock(AbstractBlock.Settings.create().mapColor(MapColor.OFF_WHITE).noCollision().burnable().sounds(BlockSoundGroup.GRASS).breakInstantly());
     public static final Block GRAFTED_SAPLING = new GraftedSaplingBlock(AbstractBlock.Settings.copy(Blocks.OAK_SAPLING).mapColor(MapColor.OFF_WHITE).ticksRandomly());
-    public static final Block DECAYED_WOOD_PRESSURE_PLATE = new PredicatePressurePlateBlock(
+    public static final Block DECAYED_PRESSURE_PLATE = new PredicatePressurePlateBlock(
       PressurePlateBlock.ActivationRule.MOBS,
       e -> e instanceof LivingEntity entity && entity.isUndead(),
       AbstractBlock.Settings.create()
@@ -84,7 +84,7 @@ public class BLBlocks {
         Registry.register(Registries.BLOCK, BLResources.DECAYED_WOOD, DECAYED_WOOD);
         Registry.register(Registries.BLOCK, BLResources.DECAYED_TWIGS, DECAYED_TWIGS);
         Registry.register(Registries.BLOCK, BLResources.GRAFTED_SAPLING, GRAFTED_SAPLING);
-        Registry.register(Registries.BLOCK, BLResources.DECAYED_WOOD_PRESSURE_PLATE, DECAYED_WOOD_PRESSURE_PLATE);
+        Registry.register(Registries.BLOCK, BLResources.DECAYED_PRESSURE_PLATE, DECAYED_PRESSURE_PLATE);
         Registry.register(Registries.BLOCK, BLResources.SILVER_PRESSURE_PLATE, SILVER_PRESSURE_PLATE);
 
         StrippableBlockRegistry.register(HUNGRY_DECAYED_LOG, STRIPPED_HUNGRY_DECAYED_LOG);

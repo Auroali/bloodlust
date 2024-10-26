@@ -87,8 +87,8 @@ public class BloodlustClient implements ClientModInitializer {
             pluginContext.addModels(BLResources.MASK_THREE_ID.withPrefixedPath("item/").withSuffixedPath("_inventory"));
         });
 
-        BLItems.BLOOD_BAG.registerModelPredicate();
-        BLItems.BLOOD_BOTTLE.registerModelPredicate();
+        BloodStorageItem.registerModelPredicate(BLItems.BLOOD_BAG);
+        BloodStorageItem.registerModelPredicate(BLItems.BLOOD_BOTTLE);
 
         BlockRenderLayerMap.INSTANCE.putBlock(BLBlocks.BLOOD_SPLATTER, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(BLBlocks.PEDESTAL, RenderLayer.getCutout());

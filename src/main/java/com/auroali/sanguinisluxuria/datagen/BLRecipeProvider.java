@@ -163,7 +163,7 @@ public class BLRecipeProvider extends FabricRecipeProvider {
           .criterion(hasItem(BLItems.BLOOD_PETAL), conditionsFromItem(BLItems.BLOOD_PETAL))
           .offerTo(exporter);
         // i dont want to make planks ;-;
-        ShapedRecipeJsonBuilder.create(RecipeCategory.REDSTONE, BLBlocks.DECAYED_WOOD_PRESSURE_PLATE)
+        ShapedRecipeJsonBuilder.create(RecipeCategory.REDSTONE, BLBlocks.DECAYED_PRESSURE_PLATE)
           .pattern("##")
           .input('#', BLTags.Items.DECAYED_LOGS)
           .criterion("has_item", conditionsFromTag(BLTags.Items.DECAYED_LOGS))

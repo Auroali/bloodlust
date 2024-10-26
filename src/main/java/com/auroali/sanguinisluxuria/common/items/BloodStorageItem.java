@@ -89,8 +89,8 @@ public abstract class BloodStorageItem extends Item {
      * @see net.minecraft.client.item.ModelPredicateProviderRegistry
      * @see BloodStorageItem#modelPredicate(ItemStack, ClientWorld, LivingEntity, int)
      */
-    public void registerModelPredicate() {
-        ModelPredicateProviderRegistry.register(this, BLResources.BLOOD_STORAGE_ITEM_MODEL_PREDICATE, BloodStorageItem::modelPredicate);
+    public static void registerModelPredicate(Item item) {
+        ModelPredicateProviderRegistry.register(item, BLResources.BLOOD_STORAGE_ITEM_MODEL_PREDICATE, BloodStorageItem::modelPredicate);
     }
 
     /**

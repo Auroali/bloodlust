@@ -1,4 +1,4 @@
-// 1.20.1	2024-10-17T20:30:13.453485998	Sanguinis Luxuria/Block Loot Tables
+// 1.20.1	2024-10-26T10:59:09.221213022	Sanguinis Luxuria/Block Loot Tables
 850a0375e9b234938f132b106d17760c7fbdaa51 data/sanguinisluxuria/loot_tables/blocks/decayed_twigs.json
 5b4ac45791a6c83ab24ebdc0dc4a2fe2898f41ab data/sanguinisluxuria/loot_tables/blocks/decayed_log.json
 53e301e4415ce7371798e7c96ebb4fa2bf9dada6 data/sanguinisluxuria/loot_tables/blocks/stripped_decayed_wood.json
@@ -6,8 +6,8 @@ f832e07673c48757ee10c0b827244542b9ae4c19 data/sanguinisluxuria/loot_tables/block
 98d73e19be8dcd9460bc765bf5f9c5088f960c0d data/sanguinisluxuria/loot_tables/blocks/stripped_hungry_decayed_log.json
 009d1aea2d5ec32b53005948760a03d611047694 data/sanguinisluxuria/loot_tables/blocks/stripped_decayed_log.json
 6e086c7b9277a20f4d74974c22b9e584127269c6 data/sanguinisluxuria/loot_tables/blocks/grafted_sapling.json
+b6cebeb2edebaf6e96857a6ae1041d023c966791 data/sanguinisluxuria/loot_tables/blocks/decayed_pressure_plate.json
 60e383e41556e63e23da54104b981b78e11129fb data/sanguinisluxuria/loot_tables/blocks/silver_ore.json
-095fab64fd9ec2e38ed2d36495520afce2f7a5f5 data/sanguinisluxuria/loot_tables/blocks/decayed_wood_pressure_plate.json
 548d115eeb79b74d3fbe03951bdc179110ed6f8a data/sanguinisluxuria/loot_tables/blocks/blood_cauldron.json
 6bffc1b40b0af0791492ebe972ef62468c35d70d data/sanguinisluxuria/loot_tables/blocks/pedestal.json
 e386cd8492b0c1fe1a7446930dc586197aba2b60 data/sanguinisluxuria/loot_tables/blocks/decayed_wood.json

@@ -15,7 +15,7 @@
     },
     {
       "type": "patchouli:spotlight",
-      "item": "sanguinisluxuria:decayed_wood_pressure_plate",
+      "item": "sanguinisluxuria:decayed_pressure_plate",
       "advancement": "sanguinisluxuria:grow_decayed_tree",
       "title": "Decayed Pressure Plate",
       "text": "Making a pressure plate out of decayed wood, on the other hand, will result in one that only emits a signal when an undead creature steps on it."
@@ -23,7 +23,7 @@
     {
       "type": "patchouli:crafting",
       "advancement": "sanguinisluxuria:grow_decayed_tree",
-      "recipe": "sanguinisluxuria:silver_pressure_plate"
+      "recipe": "sanguinisluxuria:decayed_pressure_plate"
     }
   ]
 }

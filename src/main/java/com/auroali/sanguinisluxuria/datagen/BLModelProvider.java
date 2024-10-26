@@ -65,7 +65,7 @@ public class BLModelProvider extends FabricModelProvider {
         blockStateModelGenerator.registerSingleton(BLBlocks.GRAFTED_SAPLING, TextureMap.cross(BLBlocks.GRAFTED_SAPLING), Models.CROSS);
 
         registerPressurePlate(blockStateModelGenerator, BLBlocks.SILVER_PRESSURE_PLATE, BLBlocks.SILVER_BLOCK);
-        registerPressurePlate(blockStateModelGenerator, BLBlocks.DECAYED_WOOD_PRESSURE_PLATE, BLBlocks.DECAYED_LOG);
+        registerPressurePlate(blockStateModelGenerator, BLBlocks.DECAYED_PRESSURE_PLATE, BLBlocks.DECAYED_LOG);
     }
 
     private static void registerPressurePlate(BlockStateModelGenerator modelGenerator, Block pressurePlate, Block source) {
