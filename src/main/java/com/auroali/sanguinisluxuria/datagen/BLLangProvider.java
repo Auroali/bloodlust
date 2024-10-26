@@ -225,7 +225,7 @@ public class BLLangProvider extends FabricLanguageProvider {
         translationBuilder.add(BLBlocks.STRIPPED_DECAYED_WOOD, "Stripped Decayed Wood");
         translationBuilder.add(BLBlocks.DECAYED_TWIGS, "Decayed Twigs");
         translationBuilder.add(BLBlocks.GRAFTED_SAPLING, "Grafted Sapling");
-        translationBuilder.add(BLBlocks.DECAYED_PRESSURE_PLATE, "Decayed Wood Pressure Plate");
+        translationBuilder.add(BLBlocks.DECAYED_PRESSURE_PLATE, "Decayed Pressure Plate");
         translationBuilder.add(BLBlocks.SILVER_PRESSURE_PLATE, "Silver Pressure Plate");
     }
 
