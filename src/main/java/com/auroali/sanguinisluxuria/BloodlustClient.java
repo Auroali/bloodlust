@@ -1,6 +1,7 @@
 package com.auroali.sanguinisluxuria;
 
 import com.auroali.sanguinisluxuria.client.BLHud;
+import com.auroali.sanguinisluxuria.client.particles.DrippingBloodParticle;
 import com.auroali.sanguinisluxuria.client.render.blocks.PedestalBlockRenderer;
 import com.auroali.sanguinisluxuria.client.render.entities.VampireMerchantRenderer;
 import com.auroali.sanguinisluxuria.client.render.entities.VampireVillagerRenderer;
@@ -20,12 +21,14 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
 import net.fabricmc.fabric.api.client.render.fluid.v1.SimpleFluidRenderHandler;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
+import net.minecraft.client.particle.SpriteBillboardParticle;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
 import net.minecraft.client.util.InputUtil;
@@ -109,10 +112,22 @@ public class BloodlustClient implements ClientModInitializer {
           BLResources.BLOOD_STILL_TEXTURE,
           BLResources.BLOOD_FLOWING_TEXTURE
         ));
-//        ClientSpriteRegistryCallback.event(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE).register((atlasTexture, registry) -> {
-//            registry.register(BLResources.BLOOD_FLOWING_TEXTURE);
-//            registry.register(BLResources.BLOOD_STILL_TEXTURE);
-//        });
+
+        ParticleFactoryRegistry.getInstance().register(BLParticles.DRIPPING_BLOOD, sprite -> (type, world, x, y, z, velocityX, velocityY, velocityZ) -> {
+            SpriteBillboardParticle particle = DrippingBloodParticle.createDrippingBlood(type, world, x, y, z, velocityX, velocityY, velocityZ);
+            particle.setSprite(sprite);
+            return particle;
+        });
+        ParticleFactoryRegistry.getInstance().register(BLParticles.FALLING_BLOOD, sprite -> (type, world, x, y, z, velocityX, velocityY, velocityZ) -> {
+            SpriteBillboardParticle particle = DrippingBloodParticle.createFallingBlood(type, world, x, y, z, velocityX, velocityY, velocityZ);
+            particle.setSprite(sprite);
+            return particle;
+        });
+        ParticleFactoryRegistry.getInstance().register(BLParticles.LANDING_BLOOD, sprite -> (type, world, x, y, z, velocityX, velocityY, velocityZ) -> {
+            SpriteBillboardParticle particle = DrippingBloodParticle.createLandingBlood(type, world, x, y, z, velocityX, velocityY, velocityZ);
+            particle.setSprite(sprite);
+            return particle;
+        });
 
         ClientPlayNetworking.registerGlobalReceiver(BLResources.ABILITY_SYNC_CHANNEL, (client, handler, buf, responseSender) -> {
             int id = buf.readVarInt();

@@ -121,6 +121,9 @@ public class BLResources {
     public static final Identifier SILVER_PRESSURE_PLATE = id("silver_pressure_plate");
     public static final Identifier DECAYED_PRESSURE_PLATE = id("decayed_pressure_plate");
     public static final Identifier HUNGRY_DECAYED_LOGS_ID = id("hungry_decayed_logs");
+    public static final Identifier DRIPPING_BLOOD = id("dripping_blood");
+    public static final Identifier FALLING_BLOOD = id("falling_blood");
+    public static final Identifier LANDING_BLOOD = id("landing_blood");
 
     public static Identifier id(String path) {
         return new Identifier(Bloodlust.MODID, path);

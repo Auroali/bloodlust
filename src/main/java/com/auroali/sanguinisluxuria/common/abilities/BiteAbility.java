@@ -3,6 +3,7 @@ package com.auroali.sanguinisluxuria.common.abilities;
 import com.auroali.sanguinisluxuria.VampireHelper;
 import com.auroali.sanguinisluxuria.common.components.VampireComponent;
 import com.auroali.sanguinisluxuria.common.registry.BLDamageSources;
+import com.auroali.sanguinisluxuria.common.registry.BLParticles;
 import com.auroali.sanguinisluxuria.common.registry.BLStatusEffects;
 import com.auroali.sanguinisluxuria.common.registry.BLVampireAbilities;
 import com.jamieswhiteshirt.reachentityattributes.ReachEntityAttributes;
@@ -11,7 +12,6 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraft.particle.DustParticleEffect;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.Box;
@@ -103,7 +103,7 @@ public class BiteAbility extends VampireAbility implements SyncableVampireAbilit
             double y = box.minY + rand.nextDouble() * box.getYLength();
             double z = box.minZ + rand.nextDouble() * box.getZLength();
             data.getWorld().addParticle(
-              DustParticleEffect.DEFAULT,
+              BLParticles.FALLING_BLOOD,
               x,
               y,
               z,
