@@ -17,7 +17,9 @@ public class BLTags {
         //public static final TagKey<Block> BLOOD_SPLATTER_REPLACEABLE = TagKey.of(Registry.BLOCK_KEY, BLResources.BLOOD_SPLATTER_REPLACEABLE);;
         public static final TagKey<Block> DECAYED_LOGS = TagKey.of(RegistryKeys.BLOCK, BLResources.DECAYED_LOGS_ID);
         public static final TagKey<Block> HUNGRY_DECAYED_LOGS = TagKey.of(RegistryKeys.BLOCK, BLResources.HUNGRY_DECAYED_LOGS_ID);
-
+        public static final TagKey<Block> SILVER_BLOCKS = TagKey.of(RegistryKeys.BLOCK, new Identifier("c", "silver_blocks"));
+        public static final TagKey<Block> RAW_SILVER_BLOCKS = TagKey.of(RegistryKeys.BLOCK, new Identifier("c", "raw_silver_blocks"));
+        public static final TagKey<Block> SILVER_ORES = TagKey.of(RegistryKeys.BLOCK, new Identifier("c", "silver_ores"));
     }
 
     public static class Entities {
@@ -25,9 +27,7 @@ public class BLTags {
         public static final TagKey<EntityType<?>> GOOD_BLOOD = TagKey.of(RegistryKeys.ENTITY_TYPE, BLResources.GOOD_BLOOD_ID);
         public static final TagKey<EntityType<?>> TOXIC_BLOOD = TagKey.of(RegistryKeys.ENTITY_TYPE, BLResources.TOXIC_BLOOD_ID);
         public static final TagKey<EntityType<?>> CAN_DROP_BLOOD = TagKey.of(RegistryKeys.ENTITY_TYPE, BLResources.CAN_DROP_BLOOD);
-        ;
         public static final TagKey<EntityType<?>> TELEPORTS_ON_DRAIN = TagKey.of(RegistryKeys.ENTITY_TYPE, BLResources.TELEPORTS_ON_DRAIN_ID);
-        ;
     }
 
     public static class Items {
@@ -39,6 +39,9 @@ public class BLTags {
         public static final TagKey<Item> SILVER_INGOTS = TagKey.of(RegistryKeys.ITEM, new Identifier("c", "silver_ingots"));
         public static final TagKey<Item> DECAYED_LOGS = TagKey.of(RegistryKeys.ITEM, BLResources.DECAYED_LOGS_ID);
         public static final TagKey<Item> HUNGRY_DECAYED_LOGS = TagKey.of(RegistryKeys.ITEM, BLResources.HUNGRY_DECAYED_LOGS_ID);
+        public static final TagKey<Item> SILVER_BLOCKS = TagKey.of(RegistryKeys.ITEM, new Identifier("c", "silver_blocks"));
+        public static final TagKey<Item> RAW_SILVER_BLOCKS = TagKey.of(RegistryKeys.ITEM, new Identifier("c", "raw_silver_blocks"));
+        public static final TagKey<Item> SILVER_ORES = TagKey.of(RegistryKeys.ITEM, new Identifier("c", "silver_ores"));
     }
 
     public static class VampireAbilities {

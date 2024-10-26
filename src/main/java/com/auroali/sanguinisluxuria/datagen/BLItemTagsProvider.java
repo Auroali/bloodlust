@@ -79,5 +79,18 @@ public class BLItemTagsProvider extends FabricTagProvider<Item> {
         getOrCreateTagBuilder(BLTags.Items.HUNGRY_DECAYED_LOGS)
           .add(BLBlocks.HUNGRY_DECAYED_LOG.asItem())
           .add(BLBlocks.STRIPPED_HUNGRY_DECAYED_LOG.asItem());
+        getOrCreateTagBuilder(ItemTags.WOODEN_PRESSURE_PLATES)
+          .add(BLBlocks.DECAYED_PRESSURE_PLATE.asItem());
+        getOrCreateTagBuilder(BLTags.Items.SILVER_BLOCKS)
+          .add(BLBlocks.SILVER_BLOCK.asItem());
+        getOrCreateTagBuilder(BLTags.Items.RAW_SILVER_BLOCKS)
+          .add(BLBlocks.RAW_SILVER_BLOCK.asItem());
+        getOrCreateTagBuilder(BLTags.Items.SILVER_ORES)
+          .add(BLBlocks.SILVER_ORE.asItem())
+          .add(BLBlocks.DEEPSLATE_SILVER_ORE.asItem());
+        getOrCreateTagBuilder(ConventionalItemTags.INGOTS)
+          .add(BLItems.SILVER_INGOT);
+        getOrCreateTagBuilder(ItemTags.SAPLINGS)
+          .add(BLBlocks.GRAFTED_SAPLING.asItem());
     }
 }

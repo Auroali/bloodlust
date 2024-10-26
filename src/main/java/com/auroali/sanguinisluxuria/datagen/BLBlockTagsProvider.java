@@ -67,5 +67,17 @@ public class BLBlockTagsProvider extends FabricTagProvider<Block> {
         getOrCreateTagBuilder(BLTags.Blocks.HUNGRY_DECAYED_LOGS)
           .add(BLBlocks.HUNGRY_DECAYED_LOG)
           .add(BLBlocks.STRIPPED_HUNGRY_DECAYED_LOG);
+        getOrCreateTagBuilder(BlockTags.PRESSURE_PLATES)
+          .add(BLBlocks.SILVER_PRESSURE_PLATE)
+          .add(BLBlocks.DECAYED_PRESSURE_PLATE);
+        getOrCreateTagBuilder(BLTags.Blocks.SILVER_BLOCKS)
+          .add(BLBlocks.SILVER_BLOCK);
+        getOrCreateTagBuilder(BLTags.Blocks.RAW_SILVER_BLOCKS)
+          .add(BLBlocks.RAW_SILVER_BLOCK);
+        getOrCreateTagBuilder(BLTags.Blocks.SILVER_ORES)
+          .add(BLBlocks.SILVER_ORE)
+          .add(BLBlocks.DEEPSLATE_SILVER_ORE);
+        getOrCreateTagBuilder(BlockTags.SAPLINGS)
+          .add(BLBlocks.GRAFTED_SAPLING);
     }
 }
