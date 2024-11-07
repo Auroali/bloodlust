@@ -29,10 +29,10 @@ public class BloodSicknessEffect extends StatusEffect {
         if (entity.getWorld().isClient)
             return;
 
-        if (amplifier > 2 && entity.getRandom().nextInt(200) == 0)
-            entity.addStatusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 100));
+        if (amplifier >= 3 && entity.getRandom().nextInt(1000) == 0)
+            entity.addStatusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 40));
 
-        if (amplifier >= 4 && entity.getRandom().nextInt(325) == 0)
+        if (amplifier >= 4 && entity.getRandom().nextInt(420) == 0)
             entity.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, 200));
 
         if (duration == 1 && isRightConditions(entity, amplifier) && VampireHelper.canBeConvertedToVampire(entity)) {
