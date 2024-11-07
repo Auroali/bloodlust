@@ -5,6 +5,7 @@ import com.auroali.sanguinisluxuria.common.BloodConstants;
 import com.auroali.sanguinisluxuria.common.items.*;
 import com.auroali.sanguinisluxuria.common.items.tools.*;
 import dev.emi.trinkets.api.TrinketItem;
+import net.fabricmc.fabric.api.registry.CompostingChanceRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
@@ -77,6 +78,10 @@ public class BLItems {
         registerBlock(BLResources.GRAFTED_SAPLING, BLBlocks.GRAFTED_SAPLING);
         registerBlock(BLResources.SILVER_PRESSURE_PLATE, BLBlocks.SILVER_PRESSURE_PLATE);
         registerBlock(BLResources.DECAYED_PRESSURE_PLATE, BLBlocks.DECAYED_PRESSURE_PLATE);
+
+        CompostingChanceRegistry.INSTANCE.add(BLBlocks.DECAYED_TWIGS, 0.15f);
+        CompostingChanceRegistry.INSTANCE.add(BLBlocks.GRAFTED_SAPLING, 0.3f);
+        CompostingChanceRegistry.INSTANCE.add(BLOOD_PETAL, 0.4f);
     }
 
     public static void registerBlock(Identifier id, Block block, Item.Settings settings) {

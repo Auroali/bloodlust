@@ -49,6 +49,7 @@ public class BLItemGroups {
               entries.add(BLBlocks.ALTAR);
               entries.add(BLBlocks.PEDESTAL);
               entries.add(BLBlocks.GRAFTED_SAPLING);
+              entries.add(BLBlocks.DECAYED_TWIGS);
               entries.add(BLBlocks.HUNGRY_DECAYED_LOG);
               entries.add(BLBlocks.DECAYED_LOG);
               entries.add(BLBlocks.DECAYED_WOOD);
