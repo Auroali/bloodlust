@@ -9,21 +9,26 @@ import com.auroali.sanguinisluxuria.common.registry.BLAdvancementCriterion;
 import com.auroali.sanguinisluxuria.common.registry.BLItems;
 import com.auroali.sanguinisluxuria.common.registry.BLStatusEffects;
 import com.auroali.sanguinisluxuria.common.registry.BLTags;
+import com.google.common.base.Predicates;
 import dev.emi.trinkets.api.TrinketsApi;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
+
+import java.util.function.Predicate;
 
 public class VampireHelper {
     /**
@@ -158,7 +163,7 @@ public class VampireHelper {
               entity.getY() + (double) (entity.getRandom().nextInt(16) - 8),
               world.getBottomY(),
               (world.getBottomY() + ((ServerWorld) world).getLogicalHeight() - 1)
-            );
+                                             );
             double newPosZ = entity.getZ() + (entity.getRandom().nextDouble() - 0.5) * 16.0;
             if (entity.hasVehicle()) {
                 entity.stopRiding();
@@ -195,5 +200,44 @@ public class VampireHelper {
     @SuppressWarnings("UnstableApiUsage")
     public static int dropletsToBlood(long droplets) {
         return (int) (droplets * BloodConstants.BLOOD_PER_BOTTLE / FluidConstants.BOTTLE);
+    }
+
+    /**
+     * Gets the item in an entity's hand
+     *
+     * @param entity        the entity to get the item from
+     * @param initialHand   the hand to look in first
+     * @param itemPredicate the predicate for the item
+     * @return the item stack, or {@link net.minecraft.item.ItemStack#EMPTY} if nothing was found
+     */
+    public static ItemStack getItemInHand(LivingEntity entity, Hand initialHand, Predicate<ItemStack> itemPredicate) {
+        // check the stack in the initialHand
+        ItemStack stack = initialHand == Hand.MAIN_HAND ? entity.getMainHandStack() : entity.getOffHandStack();
+        if (!stack.isEmpty() && itemPredicate.test(stack))
+            return stack;
+
+        // the first one didn't match, so check the other hand
+        stack = initialHand == Hand.MAIN_HAND ? entity.getOffHandStack() : entity.getMainHandStack();
+        if (!stack.isEmpty() && itemPredicate.test(stack))
+            return stack;
+
+        // no matches, must not be holding a valid item
+        return ItemStack.EMPTY;
+    }
+
+    /**
+     * Gets the item in an entity's hand
+     *
+     * @param entity      the entity to get the item from
+     * @param initialHand the hand to look in first
+     * @return the item stack, or {@link net.minecraft.item.ItemStack#EMPTY} if nothing was found
+     * @see VampireHelper#getItemInHand(LivingEntity, Hand, Predicate)
+     */
+    public static ItemStack getItemInHand(LivingEntity entity, Hand initialHand) {
+        return getItemInHand(entity, initialHand, Predicates.alwaysTrue());
+    }
+
+    public static Hand getHandForStack(LivingEntity entity, ItemStack stack) {
+        return stack.isEmpty() || stack == entity.getMainHandStack() ? Hand.MAIN_HAND : Hand.OFF_HAND;
     }
 }

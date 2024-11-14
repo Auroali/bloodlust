@@ -13,10 +13,10 @@ public class BLRegistries {
         Lifecycle.stable(),
         true
       )
-    ).buildAndRegister();
+                                                                                               ).buildAndRegister();
 
     // called to cause the class the load
-    @SuppressWarnings({"unused", "EmptyMethod"})
+    @SuppressWarnings({ "unused", "EmptyMethod" })
     public static void init() {
     }
 }

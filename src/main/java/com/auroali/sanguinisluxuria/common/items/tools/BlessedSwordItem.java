@@ -19,15 +19,15 @@ public class BlessedSwordItem extends SwordItem {
         builder.put(
           EntityAttributes.GENERIC_ATTACK_DAMAGE,
           new EntityAttributeModifier(ATTACK_DAMAGE_MODIFIER_ID, "Weapon modifier", this.getAttackDamage(), EntityAttributeModifier.Operation.ADDITION)
-        );
+                   );
         builder.put(
           EntityAttributes.GENERIC_ATTACK_SPEED,
           new EntityAttributeModifier(ATTACK_SPEED_MODIFIER_ID, "Weapon modifier", attackSpeed, EntityAttributeModifier.Operation.ADDITION)
-        );
+                   );
         builder.put(
           BLEntityAttributes.BLESSED_DAMAGE,
           new EntityAttributeModifier(BLEntityAttributes.BLESSED_DAMAGE_UUID, "Weapon Modifier", blessedDamage, EntityAttributeModifier.Operation.ADDITION)
-        );
+                   );
         this.attributeModifiers = builder.build();
     }
 

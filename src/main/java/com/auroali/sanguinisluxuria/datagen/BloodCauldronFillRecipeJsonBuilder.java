@@ -88,7 +88,7 @@ public class BloodCauldronFillRecipeJsonBuilder extends RecipeJsonBuilder implem
             this,
             getCraftingCategory(this.category)
           )
-        );
+                       );
     }
 
     public static class Provider implements RecipeJsonProvider {

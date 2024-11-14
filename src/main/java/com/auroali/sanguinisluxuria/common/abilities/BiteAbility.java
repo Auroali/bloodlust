@@ -110,7 +110,7 @@ public class BiteAbility extends VampireAbility implements SyncableVampireAbilit
               0,
               0,
               0
-            );
+                                       );
         }
     }
 }

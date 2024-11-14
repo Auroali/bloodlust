@@ -4,6 +4,7 @@ import com.auroali.sanguinisluxuria.BLResources;
 import com.auroali.sanguinisluxuria.VampireHelper;
 import com.auroali.sanguinisluxuria.common.registry.BLFluids;
 import com.auroali.sanguinisluxuria.common.registry.BLItems;
+import com.auroali.sanguinisluxuria.common.registry.BLTags;
 import net.fabricmc.fabric.api.transfer.v1.context.ContainerItemContext;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
@@ -18,17 +19,22 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.util.Hand;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.function.Predicate;
 
 public abstract class BloodStorageItem extends Item {
     final int maxBlood;
     Item emptyItem = null;
+    /**
+     * Predicate that returns true if an item is either a blood storing item or in the blood_storing_bottles tag.
+     * This does not guarantee that an item that passes the predicate is a BloodStorageItem, so additional conversion may be required.
+     */
+    public static final Predicate<ItemStack> FILLABLE_ITEM_PREDICATE = stack -> isBloodStoringItem(stack) || stack.isIn(BLTags.Items.BLOOD_STORING_BOTTLES);
 
     public BloodStorageItem(Settings settings, int maxBlood) {
         super(settings);
@@ -39,21 +45,12 @@ public abstract class BloodStorageItem extends Item {
 
     public abstract boolean canDrain();
 
-
     public Collection<ItemStack> generateGroupEntries() {
         List<ItemStack> stacks = new ArrayList<>();
         if (this.emptyItem == null)
             stacks.add(new ItemStack(this));
         stacks.add(setStoredBlood(new ItemStack(this), getMaxBlood()));
         return stacks;
-    }
-
-    public static boolean isHoldingBloodFillableItem(LivingEntity entity) {
-        if (entity == null)
-            return false;
-
-        return (!getBloodStorageItemInHand(entity, Hand.OFF_HAND).isEmpty() && canBeFilled(getBloodStorageItemInHand(entity, Hand.OFF_HAND)))
-          || (!getBloodStorageItemInHand(entity, Hand.MAIN_HAND).isEmpty() && canBeFilled(getBloodStorageItemInHand(entity, Hand.MAIN_HAND)));
     }
 
     /**
@@ -67,6 +64,38 @@ public abstract class BloodStorageItem extends Item {
         return this;
     }
 
+    /**
+     * Gets the maximum amount of blood this item can store
+     *
+     * @return the maximum amount of blood
+     */
+    public int getMaxBlood() {
+        return maxBlood;
+    }
+
+    @Override
+    public boolean isItemBarVisible(ItemStack stack) {
+        // if theres no blood or the item is full, we don't need to display the fill bar
+        return getStoredBlood(stack) > 0 && getStoredBlood(stack) != getMaxBlood(stack);
+    }
+
+    @Override
+    public int getItemBarStep(ItemStack stack) {
+        return Math.round(13.f * getFillPercent(stack));
+    }
+
+    @Override
+    public int getItemBarColor(ItemStack stack) {
+        return 0xFFDF0000;
+    }
+
+    /**
+     * @return the item to replace this one with when emptied
+     */
+    public Item getEmptyItem() {
+        return this.emptyItem;
+    }
+
     public static float getFillPercent(ItemStack stack) {
         return (float) getStoredBlood(stack) / getMaxBlood(stack);
     }
@@ -74,7 +103,7 @@ public abstract class BloodStorageItem extends Item {
     /**
      * The model predicate to use with ModelPredicateProviderRegistry
      *
-     * @see BloodStorageItem#registerModelPredicate()
+     * @see BloodStorageItem#registerModelPredicate(Item)
      * @see net.minecraft.client.item.ModelPredicateProviderRegistry
      */
     @SuppressWarnings("unused")
@@ -107,15 +136,6 @@ public abstract class BloodStorageItem extends Item {
     /**
      * Gets the maximum amount of blood this item can store
      *
-     * @return the maximum amount of blood
-     */
-    public int getMaxBlood() {
-        return maxBlood;
-    }
-
-    /**
-     * Gets the maximum amount of blood this item can store
-     *
      * @param stack the blood storing item
      * @return the maximum amount of blood
      */
@@ -143,13 +163,6 @@ public abstract class BloodStorageItem extends Item {
         return stack.getItem() instanceof BloodStorageItem item && item.canDrain();
     }
 
-    private static ItemStack getBloodStorageItemInHand(LivingEntity entity, Hand hand) {
-        ItemStack stack = entity.getStackInHand(hand);
-        if (stack.isOf(Items.GLASS_BOTTLE))
-            return new ItemStack(BLItems.BLOOD_BOTTLE);
-        return stack.getItem() instanceof BloodStorageItem ? stack : ItemStack.EMPTY;
-    }
-
     /**
      * Tries to fill a valid blood-storing item in an entity's hand
      *
@@ -160,12 +173,12 @@ public abstract class BloodStorageItem extends Item {
     public static boolean tryAddBloodToItemInHand(LivingEntity entity, int amount) {
         // get the currently held blood storage item
         // will prefer to use the main hand
-        ItemStack stack = getBloodStorageItemInHand(entity, Hand.OFF_HAND);
-        Hand hand = Hand.OFF_HAND;
-        if (!getBloodStorageItemInHand(entity, Hand.MAIN_HAND).isEmpty()) {
-            stack = getBloodStorageItemInHand(entity, Hand.MAIN_HAND);
-            hand = Hand.MAIN_HAND;
-        }
+        ItemStack stack = VampireHelper.getItemInHand(entity, Hand.MAIN_HAND, FILLABLE_ITEM_PREDICATE);
+        Hand hand = VampireHelper.getHandForStack(entity, stack);
+
+        // convert a bottle to a blood bottle
+        if (stack.isIn(BLTags.Items.BLOOD_STORING_BOTTLES))
+            stack = new ItemStack(BLItems.BLOOD_BOTTLE);
 
         // if no item was found, or it cannot be filled, return false
         if (stack.isEmpty() || !canBeFilled(stack) || getStoredBlood(stack) + amount > getMaxBlood(stack))
@@ -173,15 +186,16 @@ public abstract class BloodStorageItem extends Item {
 
         setStoredBlood(stack, getStoredBlood(stack) + amount);
 
-        Item originalHeldItem = entity.getStackInHand(hand).getItem();
+        ItemStack originalHeldItem = entity.getStackInHand(hand);
 
         // decrement the held stack if it isn't the same as the final stack
         // this occurs in situations like filling bottles
-        if (stack != entity.getStackInHand(hand))
-            entity.getStackInHand(hand).decrement(1);
+        if (stack != originalHeldItem)
+            originalHeldItem.decrement(1);
 
         // set the item in the player's hand, or drop it if there isn't enough inventory space
-        if (stack == entity.getStackInHand(hand) || entity.getStackInHand(hand).isEmpty())
+        // todo: clean this up
+        if (stack == originalHeldItem || entity.getStackInHand(hand).isEmpty())
             entity.setStackInHand(hand, stack);
         else if (!(entity instanceof PlayerEntity e && e.getInventory().insertStack(stack))) {
             if (entity instanceof PlayerEntity player)
@@ -190,33 +204,14 @@ public abstract class BloodStorageItem extends Item {
         }
 
         // put the item on cooldown
-        if (entity instanceof PlayerEntity player)
-            player.getItemCooldownManager().set(originalHeldItem, 10);
+        if (!originalHeldItem.isEmpty() && entity instanceof PlayerEntity player)
+            player.getItemCooldownManager().set(originalHeldItem.getItem(), 10);
 
         return true;
     }
 
-    @Override
-    public boolean isItemBarVisible(ItemStack stack) {
-        // if theres no blood or the item is full, we don't need to display the fill bar
-        return getStoredBlood(stack) > 0 && getStoredBlood(stack) != getMaxBlood(stack);
-    }
-
-    @Override
-    public int getItemBarStep(ItemStack stack) {
-        return Math.round(13.f * getFillPercent(stack));
-    }
-
-    @Override
-    public int getItemBarColor(ItemStack stack) {
-        return 0xFFDF0000;
-    }
-
-    /**
-     * @return the item to replace this one with when emptied
-     */
-    public Item getEmptyItem() {
-        return this.emptyItem;
+    public static boolean isBloodStoringItem(ItemStack stack) {
+        return stack.getItem() instanceof BloodStorageItem;
     }
 
     @SuppressWarnings("UnstableApiUsage")

@@ -44,7 +44,7 @@ public class BLAdvancementsProvider extends FabricAdvancementProvider {
             true,
             true,
             false
-          )
+                  )
           .criterion("convert", BecomeVampireCriterion.Conditions.create())
           .build(BLResources.id("become_vampire"));
 
@@ -60,7 +60,7 @@ public class BLAdvancementsProvider extends FabricAdvancementProvider {
             true,
             true,
             false
-          )
+                  )
           .criterion("has_item", InventoryChangedCriterion.Conditions.items(BLBlocks.GRAFTED_SAPLING))
           .build(BLResources.id("craft_hungry_sapling"));
 
@@ -76,7 +76,7 @@ public class BLAdvancementsProvider extends FabricAdvancementProvider {
             true,
             true,
             false
-          )
+                  )
           .criterion("has_item", InventoryChangedCriterion.Conditions.items(ItemPredicate.Builder.create().tag(BLTags.Items.DECAYED_LOGS).build()))
           .build(BLResources.id("grow_decayed_tree"));
         Advancement obtainHungryLog = Advancement.Builder
@@ -91,7 +91,7 @@ public class BLAdvancementsProvider extends FabricAdvancementProvider {
             true,
             true,
             false
-          )
+                  )
           .criterion("has_item", InventoryChangedCriterion.Conditions.items(ItemPredicate.Builder.create().tag(BLTags.Items.HUNGRY_DECAYED_LOGS).build()))
           .build(BLResources.id("obtain_hungry_decayed_log"));
 
@@ -106,7 +106,7 @@ public class BLAdvancementsProvider extends FabricAdvancementProvider {
             true,
             true,
             false
-          )
+                  )
           .parent(becomeVampire)
           .criterion("unconvert", UnbecomeVampireCriterion.Conditions.create())
           .build(BLResources.id("unbecome_vampire"));
@@ -122,11 +122,11 @@ public class BLAdvancementsProvider extends FabricAdvancementProvider {
             true,
             true,
             false
-          )
+                  )
           .parent(becomeVampire)
           .criterion("get_blood_sickness", EffectsChangedCriterion.Conditions.create(
             EntityEffectPredicate.create().withEffect(BLStatusEffects.BLOOD_SICKNESS)
-          ))
+                                                                                    ))
           .build(BLResources.id("blood_sickness"));
 
         Advancement infectOther = Advancement.Builder
@@ -140,7 +140,7 @@ public class BLAdvancementsProvider extends FabricAdvancementProvider {
             true,
             true,
             false
-          )
+                  )
           .parent(bloodSickness)
           .criterion("give_blood_sickness", InfectEntityCriterion.Conditions.create())
           .build(BLResources.id("infect_other"));
@@ -156,7 +156,7 @@ public class BLAdvancementsProvider extends FabricAdvancementProvider {
             true,
             true,
             false
-          )
+                  )
           .criterion("drink_twisted_blood", ConsumeItemCriterion.Conditions.item(BLItems.TWISTED_BLOOD))
           .parent(growDecayedTree)
           .build(BLResources.id("drink_twisted_blood"));
@@ -172,7 +172,7 @@ public class BLAdvancementsProvider extends FabricAdvancementProvider {
             true,
             true,
             false
-          )
+                  )
           .parent(drinkTwistedBlood)
           .criterion("unlock_ability", UnlockAbilityCriterion.Conditions.create())
           .build(BLResources.id("unlock_ability"));
@@ -188,7 +188,7 @@ public class BLAdvancementsProvider extends FabricAdvancementProvider {
             true,
             true,
             false
-          )
+                  )
           .parent(unlockAnyAbility)
           .criterion("transfer_effects", TransferEffectsCriterion.Conditions.create())
           .build(BLResources.id("transfer_effects"));
@@ -204,7 +204,7 @@ public class BLAdvancementsProvider extends FabricAdvancementProvider {
             true,
             true,
             false
-          )
+                  )
           .parent(transferEffects)
           .criterion("transfer_effects", TransferEffectsCriterion.Conditions.create(4))
           .build(BLResources.id("transfer_more_effects"));
@@ -220,7 +220,7 @@ public class BLAdvancementsProvider extends FabricAdvancementProvider {
             true,
             true,
             false
-          )
+                  )
           .parent(unlockAnyAbility)
           .criterion("reset_abilities", ResetAbilitiesCriterion.Conditions.create())
           .build(BLResources.id("reset_abilities"));
@@ -249,7 +249,7 @@ public class BLAdvancementsProvider extends FabricAdvancementProvider {
             .criterion("become_vampire", BecomeVampireCriterion.Conditions.create())
             .criterion("grow_tree", InventoryChangedCriterion.Conditions.items(ItemPredicate.Builder.create().tag(BLTags.Items.DECAYED_LOGS).build()))
             .build(BLResources.id("unlock/grow_tree_and_become_vampire"))
-        );
+                       );
     }
 
     public static String title(String name) {

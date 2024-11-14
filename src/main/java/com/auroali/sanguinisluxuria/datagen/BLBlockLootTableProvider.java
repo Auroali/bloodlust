@@ -35,12 +35,12 @@ public class BLBlockLootTableProvider extends FabricBlockLootTableProvider {
                 ItemEntry.builder(BLBlocks.SILVER_ORE)
                   .conditionally(MatchToolLootCondition.builder(
                       ItemPredicate.Builder.create().enchantment(new EnchantmentPredicate(Enchantments.SILK_TOUCH, NumberRange.IntRange.atLeast(1)))
-                    )
-                  ), ItemEntry.builder(BLItems.RAW_SILVER)
+                                                               )
+                                ), ItemEntry.builder(BLItems.RAW_SILVER)
                   .apply(ApplyBonusLootFunction.oreDrops(Enchantments.FORTUNE))
                   .apply(ExplosionDecayLootFunction.builder())
-              )
-            )));
+                                          )
+                 )));
         addDrop(BLBlocks.DEEPSLATE_SILVER_ORE, new LootTable.Builder()
           .pool(new LootPool.Builder()
             .rolls(ConstantLootNumberProvider.create(1))
@@ -48,12 +48,12 @@ public class BLBlockLootTableProvider extends FabricBlockLootTableProvider {
                 ItemEntry.builder(BLBlocks.DEEPSLATE_SILVER_ORE)
                   .conditionally(MatchToolLootCondition.builder(
                       ItemPredicate.Builder.create().enchantment(new EnchantmentPredicate(Enchantments.SILK_TOUCH, NumberRange.IntRange.atLeast(1)))
-                    )
-                  ), ItemEntry.builder(BLItems.RAW_SILVER)
+                                                               )
+                                ), ItemEntry.builder(BLItems.RAW_SILVER)
                   .apply(ApplyBonusLootFunction.oreDrops(Enchantments.FORTUNE))
                   .apply(ExplosionDecayLootFunction.builder())
-              )
-            )));
+                                          )
+                 )));
         addDrop(BLBlocks.SILVER_BLOCK);
         addDrop(BLBlocks.RAW_SILVER_BLOCK);
 

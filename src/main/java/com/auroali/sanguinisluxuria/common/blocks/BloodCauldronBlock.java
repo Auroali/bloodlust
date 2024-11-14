@@ -3,6 +3,7 @@ package com.auroali.sanguinisluxuria.common.blocks;
 import com.auroali.sanguinisluxuria.common.registry.BLCauldronBehaviours;
 import com.auroali.sanguinisluxuria.common.registry.BLFluids;
 import com.auroali.sanguinisluxuria.common.registry.BLRecipeTypes;
+import com.google.common.base.Predicates;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.LeveledCauldronBlock;
@@ -21,7 +22,7 @@ import net.minecraft.world.event.GameEvent;
 
 public class BloodCauldronBlock extends LeveledCauldronBlock {
     public BloodCauldronBlock(Settings settings) {
-        super(settings, precipitation -> false, BLCauldronBehaviours.BLOOD_CAULDRON_BEHAVIOUR);
+        super(settings, Predicates.alwaysFalse(), BLCauldronBehaviours.BLOOD_CAULDRON_BEHAVIOUR);
     }
 
     @Override

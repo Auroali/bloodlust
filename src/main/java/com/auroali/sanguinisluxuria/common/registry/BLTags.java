@@ -42,6 +42,7 @@ public class BLTags {
         public static final TagKey<Item> SILVER_BLOCKS = TagKey.of(RegistryKeys.ITEM, new Identifier("c", "silver_blocks"));
         public static final TagKey<Item> RAW_SILVER_BLOCKS = TagKey.of(RegistryKeys.ITEM, new Identifier("c", "raw_silver_blocks"));
         public static final TagKey<Item> SILVER_ORES = TagKey.of(RegistryKeys.ITEM, new Identifier("c", "silver_ores"));
+        public static final TagKey<Item> BLOOD_STORING_BOTTLES = TagKey.of(RegistryKeys.ITEM, BLResources.BLOOD_STORING_BOTTLES);
     }
 
     public static class VampireAbilities {

@@ -25,16 +25,16 @@ public class BLEntityLootTableProvider extends SimpleFabricLootTableProvider {
     @Override
     public void accept(BiConsumer<Identifier, LootTable.Builder> identifierBuilderBiConsumer) {
         identifierBuilderBiConsumer.accept(BLResources.id("entities/vampire_villager"), LootTable.builder()
-          .type(LootContextTypes.ENTITY)
-          .pool(LootPool.builder()
-            .rolls(ConstantLootNumberProvider.create(1))
-            .with(ItemEntry.builder(BLItems.MASK_1))
-            .with(ItemEntry.builder(BLItems.BLOOD_BOTTLE)
-              .apply(createNbtLootFunc(c -> c.putInt("StoredBlood", 1)))
-            )
-            .build()
-          )
-        );
+            .type(LootContextTypes.ENTITY)
+            .pool(LootPool.builder()
+                .rolls(ConstantLootNumberProvider.create(1))
+                .with(ItemEntry.builder(BLItems.MASK_1))
+                .with(ItemEntry.builder(BLItems.BLOOD_BOTTLE)
+                    .apply(createNbtLootFunc(c -> c.putInt("StoredBlood", 1)))
+                     )
+                .build()
+                 )
+                                          );
     }
 
     public ConditionalLootFunction.Builder<?> createNbtLootFunc(Consumer<NbtCompound> compoundConsumer) {

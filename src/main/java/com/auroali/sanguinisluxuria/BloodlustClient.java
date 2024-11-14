@@ -35,6 +35,7 @@ import net.minecraft.client.util.InputUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.particle.DustParticleEffect;
+import net.minecraft.util.Hand;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
@@ -154,7 +155,7 @@ public class BloodlustClient implements ClientModInitializer {
                       0,
                       0,
                       0
-                    );
+                                     );
                 }
             }
         });
@@ -192,7 +193,7 @@ public class BloodlustClient implements ClientModInitializer {
                 ClientPlayNetworking.send(new ActivateAbilityC2S(1));
             }
             if (SUCK_BLOOD.isPressed()) {
-                if (isLookingAtValidTarget() || BloodStorageItem.isHoldingBloodFillableItem(client.player)) {
+                if (isLookingAtValidTarget() || !VampireHelper.getItemInHand(client.player, Hand.MAIN_HAND, BloodStorageItem.FILLABLE_ITEM_PREDICATE).isEmpty()) {
                     ClientPlayNetworking.send(new DrainBloodC2S(true));
                     drainingBlood = true;
                 }

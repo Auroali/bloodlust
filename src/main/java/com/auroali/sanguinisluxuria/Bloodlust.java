@@ -86,7 +86,7 @@ public class Bloodlust implements ModInitializer {
           BLResources.VAMPIRE_ABILITY_ARGUMENT_ID,
           VampireAbilityArgument.class,
           ConstantArgumentSerializer.of(VampireAbilityArgument::argument)
-        );
+                                                 );
 
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> dispatcher.register(BloodlustCommand.register()));
 

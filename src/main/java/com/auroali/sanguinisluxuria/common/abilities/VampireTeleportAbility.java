@@ -136,7 +136,7 @@ public class VampireTeleportAbility extends VampireAbility implements SyncableVa
               0,
               0,
               0
-            );
+                                         );
         }
     }
 

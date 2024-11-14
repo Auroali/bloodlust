@@ -1,6 +1,7 @@
 package com.auroali.sanguinisluxuria.common.advancements;
 
 import com.auroali.sanguinisluxuria.BLResources;
+import com.google.common.base.Predicates;
 import com.google.gson.JsonObject;
 import net.minecraft.advancement.criterion.AbstractCriterion;
 import net.minecraft.advancement.criterion.AbstractCriterionConditions;
@@ -21,7 +22,7 @@ public class ResetAbilitiesCriterion extends AbstractCriterion<ResetAbilitiesCri
     }
 
     public void trigger(ServerPlayerEntity entity) {
-        this.trigger(entity, e -> true);
+        this.trigger(entity, Predicates.alwaysTrue());
     }
 
     public static class Conditions extends AbstractCriterionConditions {

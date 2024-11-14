@@ -27,7 +27,7 @@ public class AltarBlock extends BlockWithEntity {
       Block.createCuboidShape(0, 0, 0, 16, 7, 16),
       Block.createCuboidShape(1, 7, 1, 15, 14, 15),
       Block.createCuboidShape(3, 7, 3, 13, 16, 13)
-    ).reduce((v1, v2) -> VoxelShapes.combineAndSimplify(v1, v2, BooleanBiFunction.OR)).get();
+                                                     ).reduce((v1, v2) -> VoxelShapes.combineAndSimplify(v1, v2, BooleanBiFunction.OR)).get();
 
     public static final BooleanProperty ACTIVE = BooleanProperty.of("active");
 

@@ -86,7 +86,7 @@ public class VampireAbilitiesScreen extends Screen {
                 text.add(Text.translatable(
                   "gui.sanguinisluxuria.abilities.incompatibilites_entry",
                   Text.translatable(ability.getTranslationKey())
-                ).formatted(Formatting.DARK_RED, Formatting.ITALIC));
+                                          ).formatted(Formatting.DARK_RED, Formatting.ITALIC));
             }
         }
 

@@ -124,6 +124,7 @@ public class BLResources {
     public static final Identifier DRIPPING_BLOOD = id("dripping_blood");
     public static final Identifier FALLING_BLOOD = id("falling_blood");
     public static final Identifier LANDING_BLOOD = id("landing_blood");
+    public static final Identifier BLOOD_STORING_BOTTLES = id("blood_storing_bottles");
 
     public static Identifier id(String path) {
         return new Identifier(Bloodlust.MODID, path);

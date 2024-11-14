@@ -53,7 +53,7 @@ public class BloodBottleItem extends DrinkableBloodStorageItem {
               GameEvent.BLOCK_PLACE,
               placementContext.getBlockPos(),
               GameEvent.Emitter.of(context.getPlayer(), bloodState)
-            );
+                                            );
 
             return ActionResult.success(context.getWorld().isClient);
         }

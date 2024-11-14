@@ -20,15 +20,15 @@ public class BlessedPickaxeItem extends PickaxeItem {
         builder.put(
           EntityAttributes.GENERIC_ATTACK_DAMAGE,
           new EntityAttributeModifier(ATTACK_DAMAGE_MODIFIER_ID, "Tool modifier", this.getAttackDamage(), EntityAttributeModifier.Operation.ADDITION)
-        );
+                   );
         builder.put(
           EntityAttributes.GENERIC_ATTACK_SPEED,
           new EntityAttributeModifier(ATTACK_SPEED_MODIFIER_ID, "Tool modifier", attackSpeed, EntityAttributeModifier.Operation.ADDITION)
-        );
+                   );
         builder.put(
           BLEntityAttributes.BLESSED_DAMAGE,
           new EntityAttributeModifier(BLEntityAttributes.BLESSED_DAMAGE_UUID, "Tool Modifier", blessedDamage, EntityAttributeModifier.Operation.ADDITION)
-        );
+                   );
         this.attributeModifiers = builder.build();
     }
 

@@ -38,7 +38,7 @@ public class MaskItem extends TrinketItem implements TrinketRenderer {
               vertexConsumers,
               entity.getWorld(),
               0
-            );
+                               );
             matrices.pop();
         }
     }

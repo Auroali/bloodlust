@@ -12,14 +12,14 @@ public class VampireCommand {
         return CommandManager.literal("vampire")
           .requires(ctx -> ctx.hasPermissionLevel(2))
           .then(CommandManager.argument("isVampire", BoolArgumentType.bool())
-            .executes(ctx -> {
-                if (!ctx.getSource().isExecutedByPlayer())
-                    return 1;
-                boolean isVampire = BoolArgumentType.getBool(ctx, "isVampire");
-                VampireComponent component = BLEntityComponents.VAMPIRE_COMPONENT.get(ctx.getSource().getPlayer());
-                component.setIsVampire(isVampire);
-                return 0;
-            })
-          );
+              .executes(ctx -> {
+                  if (!ctx.getSource().isExecutedByPlayer())
+                      return 1;
+                  boolean isVampire = BoolArgumentType.getBool(ctx, "isVampire");
+                  VampireComponent component = BLEntityComponents.VAMPIRE_COMPONENT.get(ctx.getSource().getPlayer());
+                  component.setIsVampire(isVampire);
+                  return 0;
+              })
+               );
     }
 }

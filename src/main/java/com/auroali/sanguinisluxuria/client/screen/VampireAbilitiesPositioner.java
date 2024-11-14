@@ -29,8 +29,8 @@ public class VampireAbilitiesPositioner {
             if (currentRow == 0) {
                 int size = abilities.size();
                 abilities.forEach(a ->
-                  a.setX(a.getX() - columnSpacing / 2 * (size))
-                );
+                    a.setX(a.getX() - columnSpacing / 2 * (size))
+                                 );
             }
             resolveCollisions(abilities, columnSpacing);
             currentRow++;

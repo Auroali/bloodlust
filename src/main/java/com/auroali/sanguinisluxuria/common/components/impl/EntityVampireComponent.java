@@ -10,6 +10,7 @@ import com.auroali.sanguinisluxuria.common.components.VampireComponent;
 import com.auroali.sanguinisluxuria.common.events.BloodEvents;
 import com.auroali.sanguinisluxuria.common.registry.*;
 import com.auroali.sanguinisluxuria.config.BLConfig;
+import com.google.common.base.Predicates;
 import net.minecraft.entity.EntityInteraction;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -39,7 +40,7 @@ public class EntityVampireComponent<T extends LivingEntity> implements VampireCo
     }
 
     public EntityVampireComponent(T holder, VampireAbility... abilities) {
-        this(holder, e -> true, abilities);
+        this(holder, Predicates.alwaysTrue(), abilities);
     }
 
     @Override
