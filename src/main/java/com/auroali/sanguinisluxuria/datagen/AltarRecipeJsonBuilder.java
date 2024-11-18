@@ -133,7 +133,7 @@ public class AltarRecipeJsonBuilder extends RecipeJsonBuilder implements Craftin
             getCraftingCategory(this.category),
             this
           )
-                       );
+        );
     }
 
     public static class Provider implements RecipeJsonProvider {

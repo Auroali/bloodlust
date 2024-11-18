@@ -155,7 +155,7 @@ public class BloodlustClient implements ClientModInitializer {
                       0,
                       0,
                       0
-                                     );
+                    );
                 }
             }
         });

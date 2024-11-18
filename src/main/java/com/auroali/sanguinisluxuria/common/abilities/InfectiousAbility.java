@@ -68,7 +68,7 @@ public class InfectiousAbility extends VampireAbility implements SyncableVampire
               colour.x(),
               colour.y(),
               colour.z()
-                                              );
+            );
         }
     }
 

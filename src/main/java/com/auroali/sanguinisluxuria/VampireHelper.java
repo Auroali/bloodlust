@@ -163,7 +163,7 @@ public class VampireHelper {
               entity.getY() + (double) (entity.getRandom().nextInt(16) - 8),
               world.getBottomY(),
               (world.getBottomY() + ((ServerWorld) world).getLogicalHeight() - 1)
-                                             );
+            );
             double newPosZ = entity.getZ() + (entity.getRandom().nextDouble() - 0.5) * 16.0;
             if (entity.hasVehicle()) {
                 entity.stopRiding();

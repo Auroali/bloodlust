@@ -280,7 +280,7 @@ public class PlayerVampireComponent implements VampireComponent {
               SoundCategory.PLAYERS,
               0.5f,
               1.0f
-                                       );
+            );
 
         // need to implement faster draining with bleeding
         int timeToDrain = targetHasBleeding ? BloodConstants.BLOOD_DRAIN_TIME_BLEEDING : BloodConstants.BLOOD_DRAIN_TIME;

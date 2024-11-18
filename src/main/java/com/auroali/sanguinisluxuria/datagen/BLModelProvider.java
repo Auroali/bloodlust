@@ -34,9 +34,9 @@ public class BLModelProvider extends FabricModelProvider {
 
         blockStateModelGenerator.blockStateCollector
           .accept(VariantsBlockStateSupplier
-              .create(BLBlocks.ALTAR)
-              .coordinate(BlockStateModelGenerator.createBooleanModelMap(AltarBlock.ACTIVE, BLResources.id("block/altar_active"), BLResources.id("block/altar")))
-                 );
+            .create(BLBlocks.ALTAR)
+            .coordinate(BlockStateModelGenerator.createBooleanModelMap(AltarBlock.ACTIVE, BLResources.id("block/altar_active"), BLResources.id("block/altar")))
+          );
 
         blockStateModelGenerator.blockStateCollector
           .accept(BlockStateModelGenerator.createSingletonBlockState(BLBlocks.PEDESTAL, BLResources.id("block/pedestal")));
@@ -55,12 +55,12 @@ public class BLModelProvider extends FabricModelProvider {
         blockStateModelGenerator.blockStateCollector.accept(
           VariantsBlockStateSupplier.create(BLBlocks.DECAYED_TWIGS)
             .coordinate(BlockStateVariantMap.create(Properties.HORIZONTAL_FACING)
-                .register(Direction.NORTH, BlockStateVariant.create().put(VariantSettings.MODEL, BLResources.id("block/decayed_twigs")))
-                .register(Direction.EAST, BlockStateVariant.create().put(VariantSettings.Y, VariantSettings.Rotation.R90).put(VariantSettings.MODEL, BLResources.id("block/decayed_twigs")))
-                .register(Direction.SOUTH, BlockStateVariant.create().put(VariantSettings.Y, VariantSettings.Rotation.R180).put(VariantSettings.MODEL, BLResources.id("block/decayed_twigs")))
-                .register(Direction.WEST, BlockStateVariant.create().put(VariantSettings.Y, VariantSettings.Rotation.R270).put(VariantSettings.MODEL, BLResources.id("block/decayed_twigs")))
-                       )
-                                                           );
+              .register(Direction.NORTH, BlockStateVariant.create().put(VariantSettings.MODEL, BLResources.id("block/decayed_twigs")))
+              .register(Direction.EAST, BlockStateVariant.create().put(VariantSettings.Y, VariantSettings.Rotation.R90).put(VariantSettings.MODEL, BLResources.id("block/decayed_twigs")))
+              .register(Direction.SOUTH, BlockStateVariant.create().put(VariantSettings.Y, VariantSettings.Rotation.R180).put(VariantSettings.MODEL, BLResources.id("block/decayed_twigs")))
+              .register(Direction.WEST, BlockStateVariant.create().put(VariantSettings.Y, VariantSettings.Rotation.R270).put(VariantSettings.MODEL, BLResources.id("block/decayed_twigs")))
+            )
+        );
         blockStateModelGenerator.registerItemModel(BLBlocks.GRAFTED_SAPLING);
         blockStateModelGenerator.registerSingleton(BLBlocks.GRAFTED_SAPLING, TextureMap.cross(BLBlocks.GRAFTED_SAPLING), Models.CROSS);
 
@@ -89,8 +89,8 @@ public class BLModelProvider extends FabricModelProvider {
                         VariantSettings.MODEL,
                         Models.TEMPLATE_CAULDRON_LEVEL1
                           .upload(block, "_level1", TextureMap.cauldron(fillTexture), blockStateModelGenerator.modelCollector)
-                          )
-                           )
+                      )
+                  )
                   .register(
                     2,
                     BlockStateVariant.create()
@@ -98,8 +98,8 @@ public class BLModelProvider extends FabricModelProvider {
                         VariantSettings.MODEL,
                         Models.TEMPLATE_CAULDRON_LEVEL2
                           .upload(block, "_level2", TextureMap.cauldron(fillTexture), blockStateModelGenerator.modelCollector)
-                          )
-                           )
+                      )
+                  )
                   .register(
                     3,
                     BlockStateVariant.create()
@@ -107,10 +107,10 @@ public class BLModelProvider extends FabricModelProvider {
                         VariantSettings.MODEL,
                         Models.TEMPLATE_CAULDRON_FULL
                           .upload(block, "_full", TextureMap.cauldron(fillTexture), blockStateModelGenerator.modelCollector)
-                          )
-                           )
-                         )
-                 );
+                      )
+                  )
+              )
+          );
     }
 
     private static void createBloodSplatter(BlockStateModelGenerator blockStateModelGenerator) {
@@ -135,52 +135,52 @@ public class BLModelProvider extends FabricModelProvider {
                 When.create()
                   .set(Properties.WEST_WIRE_CONNECTION, WireConnection.SIDE, WireConnection.UP)
                   .set(Properties.NORTH_WIRE_CONNECTION, WireConnection.SIDE, WireConnection.UP)
-                        ),
+              ),
               BlockStateVariant.create().put(VariantSettings.MODEL, BLResources.id("block/blood_splatter_dot"))
-                 )
+            )
             .with(
               When.create().set(Properties.NORTH_WIRE_CONNECTION, WireConnection.SIDE, WireConnection.UP),
               BlockStateVariant.create().put(VariantSettings.MODEL, BLResources.id("block/blood_splatter_side0"))
-                 )
+            )
             .with(
               When.create().set(Properties.SOUTH_WIRE_CONNECTION, WireConnection.SIDE, WireConnection.UP),
               BlockStateVariant.create().put(VariantSettings.MODEL, BLResources.id("block/blood_splatter_alt0"))
-                 )
+            )
             .with(
               When.create().set(Properties.EAST_WIRE_CONNECTION, WireConnection.SIDE, WireConnection.UP),
               BlockStateVariant.create()
                 .put(VariantSettings.MODEL, BLResources.id("block/blood_splatter_alt1"))
                 .put(VariantSettings.Y, VariantSettings.Rotation.R270)
-                 )
+            )
             .with(
               When.create().set(Properties.WEST_WIRE_CONNECTION, WireConnection.SIDE, WireConnection.UP),
               BlockStateVariant.create()
                 .put(VariantSettings.MODEL, BLResources.id("block/blood_splatter_side1"))
                 .put(VariantSettings.Y, VariantSettings.Rotation.R270)
-                 )
+            )
             .with(
               When.create().set(Properties.NORTH_WIRE_CONNECTION, WireConnection.UP),
               BlockStateVariant.create().put(VariantSettings.MODEL, BLResources.id("block/blood_splatter_up"))
-                 )
+            )
             .with(
               When.create().set(Properties.EAST_WIRE_CONNECTION, WireConnection.UP),
               BlockStateVariant.create()
                 .put(VariantSettings.MODEL, BLResources.id("block/blood_splatter_up"))
                 .put(VariantSettings.Y, VariantSettings.Rotation.R90)
-                 )
+            )
             .with(
               When.create().set(Properties.SOUTH_WIRE_CONNECTION, WireConnection.UP),
               BlockStateVariant.create()
                 .put(VariantSettings.MODEL, BLResources.id("block/blood_splatter_up"))
                 .put(VariantSettings.Y, VariantSettings.Rotation.R180)
-                 )
+            )
             .with(
               When.create().set(Properties.WEST_WIRE_CONNECTION, WireConnection.UP),
               BlockStateVariant.create()
                 .put(VariantSettings.MODEL, BLResources.id("block/blood_splatter_up"))
                 .put(VariantSettings.Y, VariantSettings.Rotation.R270)
-                 )
-                                                           );
+            )
+        );
     }
 
     public static VariantsBlockStateSupplier generateHungryDecayedLog(Block block, BiConsumer<Identifier, Supplier<JsonElement>> modelCollector) {

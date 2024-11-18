@@ -2,7 +2,6 @@ package com.auroali.sanguinisluxuria.compat.emi;
 
 import com.auroali.sanguinisluxuria.common.recipes.BloodCauldronRecipe;
 import com.auroali.sanguinisluxuria.common.registry.BLBlocks;
-import com.mojang.blaze3d.systems.RenderSystem;
 import dev.emi.emi.api.recipe.EmiRecipe;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.render.EmiTexture;
@@ -13,12 +12,9 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.LeveledCauldronBlock;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.tooltip.TooltipComponent;
-import net.minecraft.client.render.DiffuseLighting;
+import net.minecraft.client.render.LightmapTextureManager;
 import net.minecraft.client.render.OverlayTexture;
-import net.minecraft.client.render.RenderLayers;
-import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.block.BlockRenderManager;
-import net.minecraft.client.render.model.BakedModel;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -73,24 +69,18 @@ public class CauldronInfusingEmiRecipe implements EmiRecipe {
     @Override
     public void addWidgets(WidgetHolder widgets) {
         widgets.addSlot(inputs.get(0), 3, 6);
-        widgets.addDrawable(1, 44, 16, 16, (drawContext, mouseX, mouseY, delta) -> {
+        widgets.addDrawable(4, 36, 16, 16, (drawContext, mouseX, mouseY, delta) -> {
             MatrixStack stack = drawContext.getMatrices();
             MinecraftClient client = MinecraftClient.getInstance();
             BlockState state = BLBlocks.BLOOD_CAULDRON.getDefaultState().with(LeveledCauldronBlock.LEVEL, recipe.getCauldronLevel());
             BlockRenderManager blockRenderer = client.getBlockRenderManager();
-            BakedModel model = blockRenderer.getModel(state);
-            VertexConsumer consumer = drawContext.getVertexConsumers().getBuffer(RenderLayers.getBlockLayer(state));
             stack.push();
-            stack.translate(0, 8, 140);
+            stack.translate(-3, 16, 140);
             stack.multiplyPositionMatrix(new Matrix4f().scaling(1.0f, -1.0f, 1.0f));
             stack.scale(16, 16, 16);
-            //stack.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(180));
             stack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(35));
             stack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(45));
-            DiffuseLighting.enableGuiDepthLighting();
-            blockRenderer.getModelRenderer().render(stack.peek(), consumer, state, model, 1.0f, 1.0f, 1.0f, 15728880, OverlayTexture.DEFAULT_UV);
-            DiffuseLighting.disableGuiDepthLighting();
-            RenderSystem.disableDepthTest();
+            blockRenderer.renderBlockAsEntity(state, stack, drawContext.getVertexConsumers(), LightmapTextureManager.MAX_LIGHT_COORDINATE, OverlayTexture.DEFAULT_UV);
             stack.pop();
         }).tooltip(List.of(TooltipComponent.of(Text.translatable("gui.sanguinisluxuria.blood_bottle_tooltip", recipe.getCauldronLevel()).asOrderedText())));
         widgets.addTexture(EmiTexture.EMPTY_ARROW, 24, 36);

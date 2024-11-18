@@ -50,7 +50,7 @@ public class BLHud {
         RenderSystem.enableBlend();
         RenderSystem.blendFuncSeparate(
           GlStateManager.SrcFactor.ONE_MINUS_DST_COLOR, GlStateManager.DstFactor.ONE_MINUS_SRC_COLOR, GlStateManager.SrcFactor.ONE, GlStateManager.DstFactor.ZERO
-                                      );
+        );
 
 
         Entity targetedEntity = ((EntityHitResult) client.crosshairTarget).getEntity();

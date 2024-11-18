@@ -68,7 +68,7 @@ public class VampireVillagerEntity extends HostileEntity {
                   0,
                   0,
                   0
-                                      );
+                );
             }
         }
     }

@@ -50,8 +50,8 @@ public class BloodSplatterBlock extends Block {
         Block.createCuboidShape(3.0, 0.0, 3.0, 16.0, 1.0, 13.0),
         Direction.WEST,
         Block.createCuboidShape(0.0, 0.0, 3.0, 13.0, 1.0, 13.0)
-                     )
-                                                                                             );
+      )
+    );
     private static final Map<Direction, VoxelShape> DIRECTION_TO_UP_SHAPE = Maps.newEnumMap(
       ImmutableMap.of(
         Direction.NORTH,
@@ -62,8 +62,8 @@ public class BloodSplatterBlock extends Block {
         VoxelShapes.union(DIRECTION_TO_SIDE_SHAPE.get(Direction.EAST), Block.createCuboidShape(15.0, 0.0, 3.0, 16.0, 16.0, 13.0)),
         Direction.WEST,
         VoxelShapes.union(DIRECTION_TO_SIDE_SHAPE.get(Direction.WEST), Block.createCuboidShape(0.0, 0.0, 3.0, 1.0, 16.0, 13.0))
-                     )
-                                                                                           );
+      )
+    );
     private static final HashMap<BlockState, VoxelShape> SHAPES = new HashMap<>();
 
     private static final BooleanProperty PERSISTENT = Properties.PERSISTENT;
@@ -74,18 +74,18 @@ public class BloodSplatterBlock extends Block {
     public static final Map<Direction, EnumProperty<WireConnection>> DIRECTION_TO_WIRE_CONNECTION_PROPERTY = Maps.newEnumMap(
       ImmutableMap.of(
         Direction.NORTH, WIRE_CONNECTION_NORTH, Direction.EAST, WIRE_CONNECTION_EAST, Direction.SOUTH, WIRE_CONNECTION_SOUTH, Direction.WEST, WIRE_CONNECTION_WEST
-                     )
-                                                                                                                            );
+      )
+    );
 
     public BloodSplatterBlock(Settings settings) {
         super(settings);
         this.setDefaultState(this.getStateManager().getDefaultState()
-            .with(PERSISTENT, false)
-            .with(WIRE_CONNECTION_NORTH, WireConnection.NONE)
-            .with(WIRE_CONNECTION_EAST, WireConnection.NONE)
-            .with(WIRE_CONNECTION_SOUTH, WireConnection.NONE)
-            .with(WIRE_CONNECTION_WEST, WireConnection.NONE)
-                            );
+          .with(PERSISTENT, false)
+          .with(WIRE_CONNECTION_NORTH, WireConnection.NONE)
+          .with(WIRE_CONNECTION_EAST, WireConnection.NONE)
+          .with(WIRE_CONNECTION_SOUTH, WireConnection.NONE)
+          .with(WIRE_CONNECTION_WEST, WireConnection.NONE)
+        );
 
         for (BlockState state : this.getStateManager().getStates()) {
             if (state.get(PERSISTENT))

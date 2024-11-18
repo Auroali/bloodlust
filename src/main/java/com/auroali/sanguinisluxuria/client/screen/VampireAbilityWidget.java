@@ -89,12 +89,12 @@ public class VampireAbilityWidget implements Comparable<VampireAbilityWidget> {
           HEIGHT,
           256,
           256
-                           );
+        );
         context.drawItem(
           icon,
           getX() + offsetX + 1,
           getY() + offsetY + 1
-                        );
+        );
         RenderSystem.disableDepthTest();
     }
 

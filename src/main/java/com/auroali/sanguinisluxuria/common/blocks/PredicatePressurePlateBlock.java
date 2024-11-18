@@ -49,7 +49,7 @@ public class PredicatePressurePlateBlock extends AbstractPressurePlateBlock {
           entityClass,
           box,
           EntityPredicates.EXCEPT_SPECTATOR.and(entity -> !entity.canAvoidTraps()).and(predicate)
-                                       ).size();
+        ).size();
     }
 
     @Override

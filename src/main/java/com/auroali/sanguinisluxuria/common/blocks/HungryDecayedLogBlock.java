@@ -39,7 +39,7 @@ public class HungryDecayedLogBlock extends PillarBlock {
           this.getStateManager().getDefaultState()
             .with(BLOOD_LEVEL, 0)
             .with(AXIS, Direction.Axis.Y)
-                            );
+        );
     }
 
     @Override
