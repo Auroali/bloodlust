@@ -45,6 +45,9 @@ import net.minecraft.world.event.GameEvent;
 import java.util.UUID;
 
 public class PlayerVampireComponent implements VampireComponent {
+    private static final int SYNC_BLOOD_DRAIN = 1;
+    private static final int SYNC_SUN_TICKS = 1 << 1;
+    private static final int SYNC_ABILITIES = 1 << 2;
     private static final EntityAttributeModifier SPEED_ATTRIBUTE = new EntityAttributeModifier(
       UUID.fromString("a2440a9d-964a-4a84-beac-3c56917cc9fd"),
       "bloodlust.vampire_speed",
@@ -53,6 +56,7 @@ public class PlayerVampireComponent implements VampireComponent {
     );
 
     private boolean needsSync;
+    private int syncType;
     public boolean targetHasBleeding;
     private final VampireAbilityContainer abilities = new VampireAbilityContainer();
     private final PlayerEntity holder;
@@ -88,7 +92,6 @@ public class PlayerVampireComponent implements VampireComponent {
                 a.onUnVampire(holder, this);
             }
         }
-        abilities.setShouldSync(true);
         BLEntityComponents.VAMPIRE_COMPONENT.sync(holder);
     }
 
@@ -183,6 +186,8 @@ public class PlayerVampireComponent implements VampireComponent {
             return;
 
         abilities.tick(holder, this);
+        if (abilities.needsSync())
+            requestSync(SYNC_ABILITIES);
 
         tickSunEffects();
         tickBloodEffects();
@@ -191,7 +196,7 @@ public class PlayerVampireComponent implements VampireComponent {
             tickBloodDrain();
         }
 
-        if (needsSync || abilities.needsSync())
+        if (needsSync)
             BLEntityComponents.VAMPIRE_COMPONENT.sync(holder);
     }
 
@@ -226,7 +231,7 @@ public class PlayerVampireComponent implements VampireComponent {
         if (!isAffectedByDaylight()) {
             if (timeInSun > 0) {
                 timeInSun = 0;
-                needsSync = true;
+                requestSync(SYNC_SUN_TICKS);
             }
             return;
         }
@@ -243,7 +248,7 @@ public class PlayerVampireComponent implements VampireComponent {
 
         if (timeInSun < getMaxTimeInSun()) {
             timeInSun++;
-            needsSync = true;
+            requestSync(SYNC_SUN_TICKS);
             return;
         }
 
@@ -254,7 +259,7 @@ public class PlayerVampireComponent implements VampireComponent {
         updateTarget();
         if (target == null) {
             bloodDrainTimer = 0;
-            needsSync = true;
+            requestSync(SYNC_BLOOD_DRAIN);
             return;
         }
 
@@ -289,7 +294,7 @@ public class PlayerVampireComponent implements VampireComponent {
             bloodDrainTimer = 0;
         }
 
-        needsSync = true;
+        requestSync(SYNC_BLOOD_DRAIN);
     }
 
     // from MobEntity
@@ -310,31 +315,46 @@ public class PlayerVampireComponent implements VampireComponent {
     public void writeSyncPacket(PacketByteBuf buf, ServerPlayerEntity recipient) {
         needsSync = false;
         buf.writeBoolean(isVampire);
-        buf.writeVarInt(bloodDrainTimer);
-        buf.writeVarInt(timeInSun);
-        buf.writeInt(skillPoints);
-        buf.writeInt(level);
         buf.writeBoolean(isDowned);
-        buf.writeBoolean(targetHasBleeding);
-        buf.writeBoolean(abilities.needsSync());
-        if (abilities.needsSync()) {
+        // sync blood drain info
+        buf.writeBoolean(shouldSync(SYNC_BLOOD_DRAIN));
+        if (shouldSync(SYNC_BLOOD_DRAIN)) {
+            buf.writeVarInt(bloodDrainTimer);
+            buf.writeBoolean(targetHasBleeding);
+        }
+        // sync time in sun
+        buf.writeBoolean(shouldSync(SYNC_SUN_TICKS));
+        if (shouldSync(SYNC_SUN_TICKS))
+            buf.writeVarInt(timeInSun);
+        // sync abilities
+        buf.writeBoolean(shouldSync(SYNC_ABILITIES));
+        if (shouldSync(SYNC_ABILITIES)) {
+            buf.writeInt(level);
+            buf.writeInt(skillPoints);
             abilities.writePacket(buf);
             abilities.setShouldSync(false);
         }
+        this.syncType = 0;
     }
 
     @Override
     public void applySyncPacket(PacketByteBuf buf) {
         isVampire = buf.readBoolean();
-        bloodDrainTimer = buf.readVarInt();
-        timeInSun = buf.readVarInt();
-        skillPoints = buf.readInt();
-        level = buf.readInt();
         isDowned = buf.readBoolean();
-        targetHasBleeding = buf.readBoolean();
-        boolean abilitiesSync = buf.readBoolean();
-        if (abilitiesSync)
+
+        if (buf.readBoolean()) {
+            bloodDrainTimer = buf.readVarInt();
+            targetHasBleeding = buf.readBoolean();
+        }
+
+        if (buf.readBoolean())
+            timeInSun = buf.readVarInt();
+
+        if (buf.readBoolean()) {
+            level = buf.readInt();
+            skillPoints = buf.readInt();
             abilities.readPacket(buf);
+        }
     }
 
     @Override
@@ -359,6 +379,7 @@ public class PlayerVampireComponent implements VampireComponent {
     public void stopSuckingBlood() {
         target = null;
         bloodDrainTimer = 0;
+        requestSync(SYNC_BLOOD_DRAIN);
         BLEntityComponents.VAMPIRE_COMPONENT.sync(holder);
     }
 
@@ -407,6 +428,7 @@ public class PlayerVampireComponent implements VampireComponent {
     public void unlockAbility(VampireAbility ability) {
         getAbilties().addAbility(ability);
         skillPoints -= ability.getRequiredSkillPoints();
+        requestSync(SYNC_ABILITIES);
         BLEntityComponents.VAMPIRE_COMPONENT.sync(holder);
         if (holder instanceof ServerPlayerEntity entity) {
             BLAdvancementCriterion.UNLOCK_ABILITY.trigger(entity, ability);
@@ -427,6 +449,7 @@ public class PlayerVampireComponent implements VampireComponent {
     @Override
     public void setSkillPoints(int i) {
         this.skillPoints = i;
+        requestSync(SYNC_BLOOD_DRAIN);
         BLEntityComponents.VAMPIRE_COMPONENT.sync(holder);
     }
 
@@ -434,6 +457,7 @@ public class PlayerVampireComponent implements VampireComponent {
     public void setLevel(int level) {
         this.skillPoints += BLConfig.INSTANCE.skillPointsPerLevel * Math.max(level - this.level, 0);
         this.level = level;
+        requestSync(SYNC_BLOOD_DRAIN);
         BLEntityComponents.VAMPIRE_COMPONENT.sync(holder);
     }
 
@@ -490,5 +514,14 @@ public class PlayerVampireComponent implements VampireComponent {
             }
         }
         return result;
+    }
+
+    private void requestSync(int flags) {
+        this.syncType |= flags;
+        this.needsSync = true;
+    }
+
+    private boolean shouldSync(int flag) {
+        return this.syncType == 0 || (this.syncType & flag) != 0;
     }
 }
