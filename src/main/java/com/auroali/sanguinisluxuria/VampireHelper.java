@@ -126,6 +126,9 @@ public class VampireHelper {
      */
     public static void transferStatusEffects(LivingEntity from, LivingEntity to) {
         for (StatusEffectInstance instance : from.getStatusEffects()) {
+            if (instance.isAmbient())
+                continue;
+
             to.addStatusEffect(instance);
         }
 
