@@ -6,7 +6,6 @@ import com.auroali.sanguinisluxuria.common.abilities.VampireAbilityContainer;
 import com.auroali.sanguinisluxuria.common.components.BLEntityComponents;
 import com.auroali.sanguinisluxuria.common.components.VampireComponent;
 import com.auroali.sanguinisluxuria.common.registry.BLAdvancementCriterion;
-import com.auroali.sanguinisluxuria.common.registry.BLItems;
 import com.auroali.sanguinisluxuria.common.registry.BLStatusEffects;
 import com.auroali.sanguinisluxuria.common.registry.BLTags;
 import com.google.common.base.Predicates;
@@ -137,16 +136,6 @@ public class VampireHelper {
         }
 
         from.clearStatusEffects();
-    }
-
-    /**
-     * Checks if an entity should fill any held blood storage items upon draining blood
-     *
-     * @param entity the entity to check
-     * @return if any held blood storage items should be filled
-     */
-    public static boolean shouldFillHeldItemOnDrain(LivingEntity entity) {
-        return TrinketsApi.getTrinketComponent(entity).map(c -> c.isEquipped(BLItems.PENDANT_OF_TRANSFUSION)).orElse(false);
     }
 
     /**

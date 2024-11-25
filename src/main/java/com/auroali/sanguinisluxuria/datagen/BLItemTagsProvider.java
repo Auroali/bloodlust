@@ -26,7 +26,6 @@ public class BLItemTagsProvider extends FabricTagProvider<Item> {
           .add(BLItems.MASK_2)
           .add(BLItems.MASK_3);
         getOrCreateTagBuilder(BLTags.Items.NECKLACE_TRINKETS)
-          .add(BLItems.PENDANT_OF_TRANSFUSION)
           .add(BLItems.PENDANT_OF_PIERCING);
 //        getOrCreateTagBuilder(BLTags.Items.VAMPIRE_EDIBLE)
 //                .add(Items.GOLDEN_APPLE)

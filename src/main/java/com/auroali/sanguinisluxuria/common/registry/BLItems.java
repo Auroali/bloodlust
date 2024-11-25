@@ -31,7 +31,6 @@ public class BLItems {
     public static final Item BLESSED_BLOOD = new BlessedBloodItem(new Item.Settings().maxCount(1));
     public static final Item VAMPIRE_VILLAGER_SPAWN_EGG = new SpawnEggItem(BLEntities.VAMPIRE_VILLAGER, 0xFF1E1C1B, 0xFFF9f8EF, new Item.Settings());
     public static final Item PENDANT_OF_PIERCING = new TrinketItem(new Item.Settings().maxCount(1));
-    public static final Item PENDANT_OF_TRANSFUSION = new TrinketItem(new Item.Settings().maxCount(1));
     public static final Item BLOOD_PETAL = new Item(new Item.Settings());
     public static final Item SILVER_INGOT = new Item(new Item.Settings());
     public static final Item RAW_SILVER = new Item(new Item.Settings());
@@ -51,7 +50,6 @@ public class BLItems {
         Registry.register(Registries.ITEM, BLResources.BLESSED_BLOOD_ID, BLESSED_BLOOD);
         Registry.register(Registries.ITEM, BLResources.VAMPIRE_VILLAGER_SPAWN_EGG, VAMPIRE_VILLAGER_SPAWN_EGG);
         Registry.register(Registries.ITEM, BLResources.PENDANT_OF_PIERCING, PENDANT_OF_PIERCING);
-        Registry.register(Registries.ITEM, BLResources.PENDANT_OF_TRANSFUSION, PENDANT_OF_TRANSFUSION);
         Registry.register(Registries.ITEM, BLResources.BLOOD_PETAL_ID, BLOOD_PETAL);
         Registry.register(Registries.ITEM, BLResources.SILVER_INGOT_ID, SILVER_INGOT);
         Registry.register(Registries.ITEM, BLResources.RAW_SILVER_ID, RAW_SILVER);

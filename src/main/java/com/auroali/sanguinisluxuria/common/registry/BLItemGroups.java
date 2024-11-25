@@ -33,7 +33,6 @@ public class BLItemGroups {
               entries.add(BLItems.MASK_3);
               entries.add(BLItems.BLOOD_PETAL);
               entries.add(BLItems.PENDANT_OF_PIERCING);
-              entries.add(BLItems.PENDANT_OF_TRANSFUSION);
               entries.add(BLItems.SILVER_SWORD);
               entries.add(BLItems.SILVER_PICKAXE);
               entries.add(BLItems.SILVER_AXE);

@@ -79,13 +79,6 @@ public class BLRecipeProvider extends FabricRecipeProvider {
           .input(Items.STRING)
           .criterion("unlock_abilities", UnlockAbilityCriterion.Conditions.create(BLVampireAbilities.TELEPORT))
           .offerTo(exporter);
-        AltarRecipeJsonBuilder.create(RecipeCategory.TOOLS, BLItems.PENDANT_OF_TRANSFUSION)
-          .input(Items.GLASS_BOTTLE)
-          .input(Items.GLASS_BOTTLE)
-          .input(Items.IRON_INGOT)
-          .input(Items.STRING)
-          .criterion("drink_twisted_blood", ConsumeItemCriterion.Conditions.item(BLItems.TWISTED_BLOOD))
-          .offerTo(exporter);
         BloodCauldronRecipeJsonBuilder.create(RecipeCategory.BREWING, Ingredient.fromTag(ItemTags.FLOWERS), BLItems.BLOOD_PETAL)
           .criterion("become_vampire", BecomeVampireCriterion.Conditions.create())
           .offerTo(exporter);

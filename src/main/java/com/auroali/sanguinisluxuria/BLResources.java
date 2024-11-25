@@ -76,7 +76,6 @@ public class BLResources {
     public static final Identifier PENDANT_OF_PIERCING = id("pendant_of_piercing");
     public static final Identifier UNBECOME_VAMPIRE_CRITERION_ID = id("unbecome_vampire");
     public static final Identifier BLESSED_WATER_TWO_ID = id("strong_blessed_water");
-    public static final Identifier PENDANT_OF_TRANSFUSION = id("pendant_of_transfusion");
     public static final Identifier DOWNED_RESISTANCE_ID = id("downed_resistance");
     public static final Identifier SERRATED_ID = id("serrated");
     public static final Identifier VAMPIRE_MERCHANT = id("vampire_merchant");

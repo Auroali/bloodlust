@@ -118,10 +118,9 @@ public class PlayerVampireComponent implements VampireComponent {
 
         // try to fill any held blood-storing items first if possible and allowed. if that fails,
         // add to the player's hunger
-        if (!VampireHelper.shouldFillHeldItemOnDrain(holder) || !BloodStorageItem.tryAddBloodToItemInHand(holder, bloodAmount)) {
-            ((VampireHungerManager) holder.getHungerManager()).sanguinisluxuria$addHunger(bloodAmount, 0.125f);
-            BloodEvents.BLOOD_DRAINED.invoker().onBloodDrained(holder, entity, bloodAmount);
-        }
+        ((VampireHungerManager) holder.getHungerManager()).sanguinisluxuria$addHunger(bloodAmount, 0.125f);
+        BloodEvents.BLOOD_DRAINED.invoker().onBloodDrained(holder, entity, bloodAmount);
+
 
         // reset the downed state
         setDowned(false);
