@@ -1,6 +1,7 @@
 package com.auroali.sanguinisluxuria.common.registry;
 
 import com.auroali.sanguinisluxuria.common.abilities.VampireAbility;
+import com.auroali.sanguinisluxuria.common.rituals.RitualType;
 import com.mojang.serialization.Lifecycle;
 import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
 import net.minecraft.registry.Registry;
@@ -14,6 +15,9 @@ public class BLRegistries {
         true
       )
     ).buildAndRegister();
+    public static final Registry<RitualType<?>> RITUAL_TYPES = FabricRegistryBuilder
+      .createSimple(BLRegistryKeys.RITUAL_TYPES)
+      .buildAndRegister();
 
     // called to cause the class the load
     @SuppressWarnings({ "unused", "EmptyMethod" })

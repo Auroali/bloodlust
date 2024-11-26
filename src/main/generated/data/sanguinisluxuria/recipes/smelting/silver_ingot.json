@@ -3,6 +3,7 @@
   "category": "misc",
   "cookingtime": 200,
   "experience": 0.35,
+  "group": "smelting",
   "ingredient": {
     "item": "sanguinisluxuria:raw_silver"
   },

@@ -7,7 +7,6 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.util.ActionResult;
@@ -49,19 +48,6 @@ public class AltarBlock extends BlockWithEntity {
         if (altar == null)
             return ActionResult.FAIL;
 
-        if (player.isSneaking()) {
-            altar.checkAndStartRecipe(world, player);
-            return ActionResult.success(world.isClient);
-        }
-
-        ItemStack stack = player.getStackInHand(hand);
-        ItemStack catalyst = altar.getCatalyst();
-
-        altar.setCatalyst(stack);
-        player.setStackInHand(hand, catalyst);
-
-        //altar.checkAndStartRecipe(world, player);
-
         return ActionResult.success(world.isClient);
     }
 
@@ -80,8 +66,8 @@ public class AltarBlock extends BlockWithEntity {
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
         if (world.isClient)
-            return checkType(type, BLBlockEntities.SKILL_UPGRADER, AltarBlockEntity::vfxTick);
-        return checkType(type, BLBlockEntities.SKILL_UPGRADER, AltarBlockEntity::tick);
+            return checkType(type, BLBlockEntities.ALTAR, AltarBlockEntity::tickClient);
+        return checkType(type, BLBlockEntities.ALTAR, AltarBlockEntity::tick);
     }
 
     @Override
@@ -89,11 +75,9 @@ public class AltarBlock extends BlockWithEntity {
         if (!state.isOf(newState.getBlock())) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
             if (blockEntity instanceof AltarBlockEntity e) {
-                ItemScatterer.spawn(world, pos, e.getInventory());
-                ItemScatterer.spawn(world, pos, e.getRecipeItems());
+                ItemScatterer.spawn(world, pos, e);
                 world.updateComparators(pos, this);
             }
-
             super.onStateReplaced(state, world, pos, newState, moved);
         }
     }

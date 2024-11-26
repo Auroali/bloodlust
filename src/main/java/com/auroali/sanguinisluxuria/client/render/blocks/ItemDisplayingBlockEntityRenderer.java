@@ -1,6 +1,7 @@
 package com.auroali.sanguinisluxuria.client.render.blocks;
 
-import com.auroali.sanguinisluxuria.common.blockentities.PedestalBlockEntity;
+import com.auroali.sanguinisluxuria.common.blockentities.ItemDisplayingBlockEntity;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
@@ -12,13 +13,14 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RotationAxis;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.Random;
 
-public class PedestalBlockRenderer implements BlockEntityRenderer<PedestalBlockEntity> {
+public class ItemDisplayingBlockEntityRenderer<T extends BlockEntity & ItemDisplayingBlockEntity> implements BlockEntityRenderer<T> {
     final ItemRenderer itemRenderer;
     final Random random;
 
-    public PedestalBlockRenderer(ItemRenderer itemRenderer) {
+    public ItemDisplayingBlockEntityRenderer(ItemRenderer itemRenderer) {
         this.itemRenderer = itemRenderer;
         this.random = Random.create();
     }
@@ -39,19 +41,22 @@ public class PedestalBlockRenderer implements BlockEntityRenderer<PedestalBlockE
     }
 
     @Override
-    public void render(PedestalBlockEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
-        if (entity.getItem().isEmpty())
+    public void render(T entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
+        if (entity.getDisplayItem().isEmpty())
             return;
+        ItemStack displayItem = entity.getDisplayItem();
+        int displayTicks = entity.getDisplayTicks();
+        Vec3d displayOffset = entity.getDisplayOffset();
 
         matrices.push();
-        random.setSeed(entity.getItem().isEmpty() ? 187 : Item.getRawId(entity.getItem().getItem()) + entity.getItem().getDamage());
-        matrices.translate(0.5, 0.8, 0.5);
-        float bobbing = MathHelper.sin((entity.getItemAge() + tickDelta) / 10.0F) * 0.1F + 0.1F;
+        random.setSeed(Item.getRawId(displayItem.getItem()) + displayItem.getDamage());
+        matrices.translate(displayOffset.getX(), displayOffset.getY(), displayOffset.getZ());
+        float bobbing = MathHelper.sin((displayTicks + tickDelta) / 10.0F) * 0.1F + 0.1F;
         //matrices.translate(0, bobbing, 0);
-        float rotation = (entity.getItemAge() + tickDelta) / 20.0f;
+        float rotation = (displayTicks + tickDelta) / 20.0f;
         matrices.multiply(RotationAxis.POSITIVE_Y.rotation(rotation));
 
-        BakedModel model = itemRenderer.getModel(entity.getItem(), entity.getWorld(), null, entity.getPos().hashCode());
+        BakedModel model = itemRenderer.getModel(displayItem, entity.getWorld(), null, entity.getPos().hashCode());
         boolean hasDepth = model.hasDepth();
 
         float yScale = model.getTransformation().getTransformation(ModelTransformationMode.GROUND).scale.y();
@@ -59,7 +64,7 @@ public class PedestalBlockRenderer implements BlockEntityRenderer<PedestalBlockE
         float xGroundScale = model.getTransformation().ground.scale.x();
         float yGroundScale = model.getTransformation().ground.scale.y();
         float zGroundScale = model.getTransformation().ground.scale.z();
-        int amount = getRenderedAmount(entity.getItem());
+        int amount = getRenderedAmount(displayItem);
         if (!hasDepth) {
             float r = -0.0F * (float) (amount - 1) * 0.5F * xGroundScale;
             float s = -0.0F * (float) (amount - 1) * 0.5F * yGroundScale;
@@ -83,7 +88,7 @@ public class PedestalBlockRenderer implements BlockEntityRenderer<PedestalBlockE
             }
 
             this.itemRenderer
-              .renderItem(entity.getItem(), ModelTransformationMode.GROUND, false, matrices, vertexConsumers, light, OverlayTexture.DEFAULT_UV, model);
+              .renderItem(displayItem, ModelTransformationMode.GROUND, false, matrices, vertexConsumers, light, OverlayTexture.DEFAULT_UV, model);
             matrices.pop();
             if (!hasDepth) {
                 matrices.translate((0.0F * xGroundScale), (0.0F * yGroundScale), (0.09375F * zGroundScale));

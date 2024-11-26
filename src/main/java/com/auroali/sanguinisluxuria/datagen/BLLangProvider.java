@@ -233,7 +233,6 @@ public class BLLangProvider extends FabricLanguageProvider {
         translationBuilder.add(BLItems.BLOOD_PETAL, "Blood Petal");
         translationBuilder.add(BLItems.PENDANT_OF_PIERCING, "Pendant of Piercing");
         translationBuilder.add(BLItems.TWISTED_BLOOD, "Twisted Blood Bottle");
-        translationBuilder.add(BLItems.BLESSED_BLOOD, "Blessed Blood Bottle");
         translationBuilder.add(BLItems.SILVER_INGOT, "Silver Ingot");
         translationBuilder.add(BLItems.RAW_SILVER, "Raw Silver");
         translationBuilder.add(BLItems.SILVER_SWORD, "Silver Sword");

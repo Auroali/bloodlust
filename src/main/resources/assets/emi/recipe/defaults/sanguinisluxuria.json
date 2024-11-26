@@ -2,12 +2,11 @@
   "added": [
     "sanguinisluxuria:mask_1",
     "sanguinisluxuria:blood_petal",
-    "sanguinisluxuria:blood_bag",
+    "sanguinisluxuria:rituals/blood_bag",
     "sanguinisluxuria:raw_silver",
-    "sanguinisluxuria:twisted_blood_bottle",
+    "sanguinisluxuria:rituals/twisted_blood",
     "sanguinisluxuria:silver_pickaxe",
-    "sanguinisluxuria:blessed_blood_bottle",
-    "sanguinisluxuria:pendant_of_piercing",
+    "sanguinisluxuria:rituals/pendant_of_piercing",
     "sanguinisluxuria:mask_3",
     "sanguinisluxuria:silver_axe",
     "sanguinisluxuria:silver_hoe",
@@ -16,7 +15,6 @@
     "sanguinisluxuria:altar",
     "sanguinisluxuria:silver_shovel",
     "sanguinisluxuria:raw_silver_block",
-    "sanguinisluxuria:pendant_of_transfusion",
     "sanguinisluxuria:silver_sword",
     "sanguinisluxuria:pedestal"
   ]

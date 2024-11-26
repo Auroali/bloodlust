@@ -45,14 +45,13 @@ public class BLResources {
     public static final Identifier BECOME_VAMPIRE_CRITERION_ID = id("become_vampire");
     public static final Identifier ALTAR_ID = id("altar");
     public static final Identifier MORE_BLOOD_ID = id("more_blood");
-    public static final Identifier ALTAR_RECIPE_ID = id("altar_recipe");
+    public static final Identifier ALTAR_RECIPE_ID = id("ritual");
     public static final Identifier TWISTED_BLOOD_ID = id("twisted_blood_bottle");
     public static final Identifier PEDESTAL_ID = id("pedestal");
     public static final Identifier TRANSFER_EFFECTS_ID = id("transfer_effects");
     public static final Identifier BITE_ID = id("bite");
     public static final Identifier SUN_PROTECTION_ID = id("sun_protection");
     public static final Identifier BLOOD_DRAIN_ID = id("blood_drain");
-    public static final Identifier BLESSED_BLOOD_ID = id("blessed_blood_bottle");
     public static final Identifier DAMAGE_REDUCTION_ID = id("damage_reduction");
     public static final Identifier ALTAR_BEATS_SOUND = id("altar_beats");
     public static final Identifier BLOOD_STILL = id("blood");
@@ -124,6 +123,10 @@ public class BLResources {
     public static final Identifier FALLING_BLOOD = id("falling_blood");
     public static final Identifier LANDING_BLOOD = id("landing_blood");
     public static final Identifier BLOOD_STORING_BOTTLES = id("blood_storing_bottles");
+    public static final Identifier RITUAL_TYPE_REGISTRY_ID = id("ritual_types");
+    public static final Identifier ITEM_RITUAL_TYPE = id("item_ritual");
+    public static final Identifier ABILITY_RITUAL_TYPE = id("ability");
+    public static final Identifier ABILITY_RESET_RITUAL_TYPE = id("reset_abilities");
 
     public static Identifier id(String path) {
         return new Identifier(Bloodlust.MODID, path);

@@ -3,24 +3,24 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "sanguinisluxuria:twisted_blood_bottle"
+        "recipe": "sanguinisluxuria:rituals/ability_test"
       },
       "trigger": "minecraft:recipe_unlocked"
     },
-    "is_vampire": {
+    "test": {
       "conditions": {},
-      "trigger": "sanguinisluxuria:become_vampire"
+      "trigger": "minecraft:tick"
     }
   },
   "requirements": [
     [
-      "is_vampire",
+      "test",
       "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
-      "sanguinisluxuria:twisted_blood_bottle"
+      "sanguinisluxuria:rituals/ability_test"
     ]
   },
   "sends_telemetry_event": true

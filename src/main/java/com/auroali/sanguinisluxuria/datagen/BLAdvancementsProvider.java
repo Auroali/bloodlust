@@ -212,7 +212,7 @@ public class BLAdvancementsProvider extends FabricAdvancementProvider {
         Advancement resetAbilities = Advancement.Builder
           .create()
           .display(
-            BLItems.BLESSED_BLOOD,
+            BLItems.BLOOD_PETAL,
             Text.translatable(title("reset_abilities")),
             Text.translatable(desc("reset_abilities")),
             null,

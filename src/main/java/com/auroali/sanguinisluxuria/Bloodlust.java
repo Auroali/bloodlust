@@ -78,6 +78,7 @@ public class Bloodlust implements ModInitializer {
         BLEntities.register();
         BLFeatures.register();
         BLParticles.register();
+        BLRitualTypes.register();
 
         ArgumentTypeRegistry.registerArgumentType(
           BLResources.VAMPIRE_ABILITY_ARGUMENT_ID,
@@ -111,7 +112,7 @@ public class Bloodlust implements ModInitializer {
             if (blockEntity instanceof PedestalBlockEntity e)
                 return InventoryStorage.of(e.getInventory(), null);
             if (blockEntity instanceof AltarBlockEntity e)
-                return InventoryStorage.of(e.getInventory(), null);
+                return InventoryStorage.of(e, null);
             return null;
         }, BLBlockEntities.PEDESTAL);
 

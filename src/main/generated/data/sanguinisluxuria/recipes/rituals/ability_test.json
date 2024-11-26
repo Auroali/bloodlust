@@ -1,0 +1,12 @@
+{
+  "type": "sanguinisluxuria:ritual",
+  "catalyst": {
+    "item": "minecraft:ender_pearl"
+  },
+  "category": "misc",
+  "inputs": [],
+  "ritual": {
+    "type": "sanguinisluxuria:ability",
+    "ability": "sanguinisluxuria:teleport"
+  }
+}

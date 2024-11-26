@@ -1,0 +1,25 @@
+{
+  "type": "sanguinisluxuria:ritual",
+  "catalyst": {
+    "fabric:type": "fabric:nbt",
+    "base": {
+      "item": "minecraft:potion"
+    },
+    "nbt": {
+      "Potion": "sanguinisluxuria:blessed_water"
+    },
+    "strict": false
+  },
+  "category": "misc",
+  "inputs": [
+    {
+      "item": "minecraft:sunflower"
+    },
+    {
+      "item": "minecraft:sunflower"
+    }
+  ],
+  "ritual": {
+    "type": "sanguinisluxuria:reset_abilities"
+  }
+}

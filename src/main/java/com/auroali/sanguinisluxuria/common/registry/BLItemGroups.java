@@ -26,7 +26,6 @@ public class BLItemGroups {
           .entries((displayContext, entries) -> {
               entries.addAll(BLItems.BLOOD_BOTTLE.generateGroupEntries());
               entries.add(BLItems.TWISTED_BLOOD);
-              entries.add(BLItems.BLESSED_BLOOD);
               entries.addAll(BLItems.BLOOD_BAG.generateGroupEntries());
               entries.add(BLItems.MASK_1);
               entries.add(BLItems.MASK_2);

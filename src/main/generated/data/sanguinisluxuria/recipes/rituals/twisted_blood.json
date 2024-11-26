@@ -1,10 +1,10 @@
 {
-  "type": "sanguinisluxuria:altar_recipe",
+  "type": "sanguinisluxuria:ritual",
   "catalyst": {
     "item": "sanguinisluxuria:blood_bottle"
   },
   "category": "misc",
-  "input": [
+  "inputs": [
     {
       "item": "minecraft:nether_wart"
     },
@@ -15,9 +15,11 @@
       "item": "sanguinisluxuria:blood_petal"
     }
   ],
-  "minLevel": 0,
-  "result": {
-    "item": "sanguinisluxuria:twisted_blood_bottle"
-  },
-  "ticksToProcess": 300
+  "ritual": {
+    "type": "sanguinisluxuria:item_ritual",
+    "result": {
+      "Count": 1,
+      "id": "sanguinisluxuria:twisted_blood_bottle"
+    }
+  }
 }

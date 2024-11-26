@@ -2,8 +2,7 @@ package com.auroali.sanguinisluxuria;
 
 import com.auroali.sanguinisluxuria.client.BLHud;
 import com.auroali.sanguinisluxuria.client.particles.DrippingBloodParticle;
-import com.auroali.sanguinisluxuria.client.render.blocks.AltarBlockRenderer;
-import com.auroali.sanguinisluxuria.client.render.blocks.PedestalBlockRenderer;
+import com.auroali.sanguinisluxuria.client.render.blocks.ItemDisplayingBlockEntityRenderer;
 import com.auroali.sanguinisluxuria.client.render.entities.VampireMerchantRenderer;
 import com.auroali.sanguinisluxuria.client.render.entities.VampireVillagerRenderer;
 import com.auroali.sanguinisluxuria.common.abilities.SyncableVampireAbility;
@@ -97,8 +96,8 @@ public class BloodlustClient implements ClientModInitializer {
         EntityRendererRegistry.register(BLEntities.VAMPIRE_VILLAGER, VampireVillagerRenderer::new);
         EntityRendererRegistry.register(BLEntities.VAMPIRE_MERCHANT, VampireMerchantRenderer::new);
 
-        BlockEntityRendererFactories.register(BLBlockEntities.PEDESTAL, ctx -> new PedestalBlockRenderer(ctx.getItemRenderer()));
-        BlockEntityRendererFactories.register(BLBlockEntities.SKILL_UPGRADER, ctx -> new AltarBlockRenderer(ctx.getItemRenderer()));
+        BlockEntityRendererFactories.register(BLBlockEntities.PEDESTAL, ctx -> new ItemDisplayingBlockEntityRenderer<>(ctx.getItemRenderer()));
+        BlockEntityRendererFactories.register(BLBlockEntities.ALTAR, ctx -> new ItemDisplayingBlockEntityRenderer<>(ctx.getItemRenderer()));
 
         HudRenderCallback.EVENT.register(BLHud::render);
 

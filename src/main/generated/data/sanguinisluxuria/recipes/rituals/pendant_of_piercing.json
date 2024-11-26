@@ -1,10 +1,10 @@
 {
-  "type": "sanguinisluxuria:altar_recipe",
+  "type": "sanguinisluxuria:ritual",
   "catalyst": {
     "item": "minecraft:arrow"
   },
   "category": "equipment",
-  "input": [
+  "inputs": [
     {
       "item": "sanguinisluxuria:twisted_blood_bottle"
     },
@@ -15,9 +15,11 @@
       "item": "minecraft:string"
     }
   ],
-  "minLevel": 0,
-  "result": {
-    "item": "sanguinisluxuria:pendant_of_piercing"
-  },
-  "ticksToProcess": 300
+  "ritual": {
+    "type": "sanguinisluxuria:item_ritual",
+    "result": {
+      "Count": 1,
+      "id": "sanguinisluxuria:pendant_of_piercing"
+    }
+  }
 }

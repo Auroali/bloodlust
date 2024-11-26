@@ -28,7 +28,6 @@ public class BLItems {
       BloodConstants.BLOOD_PER_BOTTLE
     ).emptyItem(Items.GLASS_BOTTLE);
     public static final Item TWISTED_BLOOD = new TwistedBloodItem(new Item.Settings().maxCount(1));
-    public static final Item BLESSED_BLOOD = new BlessedBloodItem(new Item.Settings().maxCount(1));
     public static final Item VAMPIRE_VILLAGER_SPAWN_EGG = new SpawnEggItem(BLEntities.VAMPIRE_VILLAGER, 0xFF1E1C1B, 0xFFF9f8EF, new Item.Settings());
     public static final Item PENDANT_OF_PIERCING = new TrinketItem(new Item.Settings().maxCount(1));
     public static final Item BLOOD_PETAL = new Item(new Item.Settings());
@@ -47,7 +46,6 @@ public class BLItems {
         Registry.register(Registries.ITEM, BLResources.BLOOD_BAG_ID, BLOOD_BAG);
         Registry.register(Registries.ITEM, BLResources.BLOOD_BOTTLE_ID, BLOOD_BOTTLE);
         Registry.register(Registries.ITEM, BLResources.TWISTED_BLOOD_ID, TWISTED_BLOOD);
-        Registry.register(Registries.ITEM, BLResources.BLESSED_BLOOD_ID, BLESSED_BLOOD);
         Registry.register(Registries.ITEM, BLResources.VAMPIRE_VILLAGER_SPAWN_EGG, VAMPIRE_VILLAGER_SPAWN_EGG);
         Registry.register(Registries.ITEM, BLResources.PENDANT_OF_PIERCING, PENDANT_OF_PIERCING);
         Registry.register(Registries.ITEM, BLResources.BLOOD_PETAL_ID, BLOOD_PETAL);

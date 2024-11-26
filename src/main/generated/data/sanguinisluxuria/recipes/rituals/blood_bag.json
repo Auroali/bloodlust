@@ -1,0 +1,22 @@
+{
+  "type": "sanguinisluxuria:ritual",
+  "catalyst": {
+    "item": "minecraft:glass_bottle"
+  },
+  "category": "equipment",
+  "inputs": [
+    {
+      "item": "minecraft:glass"
+    },
+    {
+      "item": "minecraft:glass"
+    }
+  ],
+  "ritual": {
+    "type": "sanguinisluxuria:item_ritual",
+    "result": {
+      "Count": 1,
+      "id": "sanguinisluxuria:blood_bag"
+    }
+  }
+}

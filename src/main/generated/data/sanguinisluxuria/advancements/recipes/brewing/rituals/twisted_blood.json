@@ -1,0 +1,27 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "sanguinisluxuria:rituals/twisted_blood"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "is_vampire": {
+      "conditions": {},
+      "trigger": "sanguinisluxuria:become_vampire"
+    }
+  },
+  "requirements": [
+    [
+      "is_vampire",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "sanguinisluxuria:rituals/twisted_blood"
+    ]
+  },
+  "sends_telemetry_event": true
+}

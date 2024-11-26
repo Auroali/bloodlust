@@ -13,10 +13,11 @@ import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.util.Clearable;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-public class PedestalBlockEntity extends BlockEntity implements Clearable {
+public class PedestalBlockEntity extends BlockEntity implements Clearable, ItemDisplayingBlockEntity {
     final SimpleInventory inv = new SimpleInventory(ItemStack.EMPTY);
     int spinTicks = 0;
 
@@ -34,10 +35,6 @@ public class PedestalBlockEntity extends BlockEntity implements Clearable {
 
     public ItemStack getItem() {
         return inv.getStack(0);
-    }
-
-    public int getItemAge() {
-        return spinTicks;
     }
 
     public void setItem(ItemStack stack) {
@@ -81,5 +78,20 @@ public class PedestalBlockEntity extends BlockEntity implements Clearable {
     @Override
     public void clear() {
         inv.clear();
+    }
+
+    @Override
+    public ItemStack getDisplayItem() {
+        return this.inv.getStack(0);
+    }
+
+    @Override
+    public int getDisplayTicks() {
+        return this.spinTicks;
+    }
+
+    @Override
+    public Vec3d getDisplayOffset() {
+        return new Vec3d(0.5, 0.8, 0.5);
     }
 }

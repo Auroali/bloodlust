@@ -4,9 +4,12 @@ import com.auroali.sanguinisluxuria.BLResources;
 import com.auroali.sanguinisluxuria.common.advancements.BecomeVampireCriterion;
 import com.auroali.sanguinisluxuria.common.advancements.UnlockAbilityCriterion;
 import com.auroali.sanguinisluxuria.common.registry.*;
+import com.auroali.sanguinisluxuria.common.rituals.ItemRitual;
+import com.auroali.sanguinisluxuria.common.rituals.VampireAbilityResetRitual;
+import com.auroali.sanguinisluxuria.common.rituals.VampireAbilityRitual;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
-import net.minecraft.advancement.criterion.ConsumeItemCriterion;
+import net.minecraft.advancement.criterion.TickCriterion;
 import net.minecraft.data.server.recipe.*;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -24,6 +27,25 @@ public class BLRecipeProvider extends FabricRecipeProvider {
 
     @Override
     public void generate(Consumer<RecipeJsonProvider> exporter) {
+        this.generateCraftingRecipes(exporter);
+        this.generateFurnaceRecipes(exporter);
+        this.generateSingleItemRecipes(exporter);
+        this.generateCauldronInfusingRecipes(exporter);
+        this.generateRitualRecipes(exporter);
+    }
+
+    public void generateFurnaceRecipes(Consumer<RecipeJsonProvider> exporter) {
+        CookingRecipeJsonBuilder.createSmelting(Ingredient.ofItems(BLItems.RAW_SILVER), RecipeCategory.MISC, BLItems.SILVER_INGOT, 0.35f, 200)
+          .group("smelting")
+          .criterion("has_item", conditionsFromItem(BLItems.RAW_SILVER))
+          .offerTo(exporter, BLResources.id("smelting/silver_ingot"));
+        CookingRecipeJsonBuilder.createBlasting(Ingredient.ofItems(BLItems.RAW_SILVER), RecipeCategory.MISC, BLItems.SILVER_INGOT, 0.35f, 100)
+          .group("blasting")
+          .criterion("has_item", conditionsFromItem(BLItems.RAW_SILVER))
+          .offerTo(exporter, BLResources.id("blasting/silver_ingot"));
+    }
+
+    public void generateSingleItemRecipes(Consumer<RecipeJsonProvider> exporter) {
         SingleItemRecipeJsonBuilder.createStonecutting(Ingredient.fromTag(BLTags.Items.DECAYED_LOGS), RecipeCategory.TOOLS, BLItems.MASK_1)
           .criterion("has_log", conditionsFromTag(ItemTags.LOGS))
           .offerTo(exporter);
@@ -33,16 +55,24 @@ public class BLRecipeProvider extends FabricRecipeProvider {
         SingleItemRecipeJsonBuilder.createStonecutting(Ingredient.fromTag(BLTags.Items.DECAYED_LOGS), RecipeCategory.TOOLS, BLItems.MASK_3)
           .criterion("has_log", conditionsFromTag(ItemTags.LOGS))
           .offerTo(exporter);
-        AltarRecipeJsonBuilder.create(RecipeCategory.BREWING, BLItems.TWISTED_BLOOD, BLItems.BLOOD_BOTTLE)
-          .input(Items.NETHER_WART)
-          .input(Items.FERMENTED_SPIDER_EYE)
+    }
+
+    public void generateCraftingRecipes(Consumer<RecipeJsonProvider> exporter) {
+        ShapelessRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, BLBlocks.GRAFTED_SAPLING)
           .input(BLItems.BLOOD_PETAL)
-          .criterion("is_vampire", BecomeVampireCriterion.Conditions.create())
+          .input(ItemTags.SAPLINGS)
+          .criterion(hasItem(BLItems.BLOOD_PETAL), conditionsFromItem(BLItems.BLOOD_PETAL))
           .offerTo(exporter);
-        AltarRecipeJsonBuilder.create(RecipeCategory.TOOLS, BLItems.BLOOD_BAG, Items.GLASS_BOTTLE)
-          .input(Items.GLASS)
-          .input(Items.GLASS)
-          .criterion("has_twisted_blood", conditionsFromItem(BLItems.TWISTED_BLOOD))
+        // i dont want to make planks ;-;
+        ShapedRecipeJsonBuilder.create(RecipeCategory.REDSTONE, BLBlocks.DECAYED_PRESSURE_PLATE)
+          .pattern("##")
+          .input('#', BLTags.Items.DECAYED_LOGS)
+          .criterion("has_item", conditionsFromTag(BLTags.Items.DECAYED_LOGS))
+          .offerTo(exporter);
+        ShapedRecipeJsonBuilder.create(RecipeCategory.REDSTONE, BLBlocks.SILVER_PRESSURE_PLATE)
+          .pattern("##")
+          .input('#', BLTags.Items.SILVER_INGOTS)
+          .criterion("has_item", conditionsFromTag(BLTags.Items.SILVER_INGOTS))
           .offerTo(exporter);
         ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, BLBlocks.ALTAR)
           .pattern("lbl")
@@ -60,27 +90,6 @@ public class BLRecipeProvider extends FabricRecipeProvider {
           .input('l', BLTags.Items.DECAYED_LOGS)
           .criterion("has_blackstone", conditionsFromItem(Items.BLACKSTONE))
           .offerTo(exporter);
-        AltarRecipeJsonBuilder.create(RecipeCategory.BREWING, BLItems.BLESSED_BLOOD, BLItems.TWISTED_BLOOD)
-          .input(Items.GOLDEN_APPLE)
-          .input(Items.SUNFLOWER)
-          .input(PotionUtil.setPotion(new ItemStack(Items.POTION), BLStatusEffects.BLESSED_WATER_POTION))
-          .criterion("drink_twisted_blood", ConsumeItemCriterion.Conditions.item(BLItems.TWISTED_BLOOD))
-          .offerTo(exporter);
-        AltarRecipeJsonBuilder.create(RecipeCategory.TOOLS, BLItems.PENDANT_OF_PIERCING, Items.ARROW)
-          .input(BLItems.TWISTED_BLOOD)
-          .input(Items.GOLD_INGOT)
-          .input(Items.STRING)
-          .criterion("unlock_abilities", UnlockAbilityCriterion.Conditions.create(BLVampireAbilities.TELEPORT))
-          .offerTo(exporter);
-        BloodCauldronRecipeJsonBuilder.create(RecipeCategory.BREWING, Ingredient.fromTag(ItemTags.FLOWERS), BLItems.BLOOD_PETAL)
-          .criterion("become_vampire", BecomeVampireCriterion.Conditions.create())
-          .offerTo(exporter);
-        CookingRecipeJsonBuilder.createSmelting(Ingredient.ofItems(BLItems.RAW_SILVER), RecipeCategory.MISC, BLItems.SILVER_INGOT, 0.35f, 200)
-          .criterion("has_item", conditionsFromItem(BLItems.RAW_SILVER))
-          .offerTo(exporter, BLResources.id("smelting/silver_ingot"));
-        CookingRecipeJsonBuilder.createBlasting(Ingredient.ofItems(BLItems.RAW_SILVER), RecipeCategory.MISC, BLItems.SILVER_INGOT, 0.35f, 100)
-          .criterion("has_item", conditionsFromItem(BLItems.RAW_SILVER))
-          .offerTo(exporter, BLResources.id("blasting/silver_ingot"));
         ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, BLItems.SILVER_SWORD)
           .pattern("I")
           .pattern("I")
@@ -137,27 +146,50 @@ public class BLRecipeProvider extends FabricRecipeProvider {
           .input(BLItems.RAW_SILVER, 9)
           .criterion("has_silver", conditionsFromItem(BLItems.RAW_SILVER))
           .offerTo(exporter);
+    }
+
+    public void generateCauldronInfusingRecipes(Consumer<RecipeJsonProvider> exporter) {
+        BloodCauldronRecipeJsonBuilder.create(RecipeCategory.BREWING, Ingredient.fromTag(ItemTags.FLOWERS), BLItems.BLOOD_PETAL)
+          .criterion("become_vampire", BecomeVampireCriterion.Conditions.create())
+          .offerTo(exporter);
         BloodCauldronFillRecipeJsonBuilder.create(RecipeCategory.BREWING, Ingredient.ofItems(Items.GLASS_BOTTLE), BLItems.BLOOD_BOTTLE)
           .criterion("has_item", conditionsFromItem(BLItems.BLOOD_BOTTLE))
           .offerTo(exporter);
         BloodCauldronFillRecipeJsonBuilder.create(RecipeCategory.BREWING, BLItems.BLOOD_BAG)
           .criterion("has_item", conditionsFromItem(BLItems.BLOOD_BAG))
           .offerTo(exporter);
-        ShapelessRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, BLBlocks.GRAFTED_SAPLING)
+    }
+
+    public void generateRitualRecipes(Consumer<RecipeJsonProvider> exporter) {
+        RitualRecipeJsonBuilder.create(RecipeCategory.BREWING, new ItemRitual(BLItems.TWISTED_BLOOD))
+          .catalyst(BLItems.BLOOD_BOTTLE)
+          .input(Items.NETHER_WART)
+          .input(Items.FERMENTED_SPIDER_EYE)
           .input(BLItems.BLOOD_PETAL)
-          .input(ItemTags.SAPLINGS)
-          .criterion(hasItem(BLItems.BLOOD_PETAL), conditionsFromItem(BLItems.BLOOD_PETAL))
-          .offerTo(exporter);
-        // i dont want to make planks ;-;
-        ShapedRecipeJsonBuilder.create(RecipeCategory.REDSTONE, BLBlocks.DECAYED_PRESSURE_PLATE)
-          .pattern("##")
-          .input('#', BLTags.Items.DECAYED_LOGS)
-          .criterion("has_item", conditionsFromTag(BLTags.Items.DECAYED_LOGS))
-          .offerTo(exporter);
-        ShapedRecipeJsonBuilder.create(RecipeCategory.REDSTONE, BLBlocks.SILVER_PRESSURE_PLATE)
-          .pattern("##")
-          .input('#', BLTags.Items.SILVER_INGOTS)
-          .criterion("has_item", conditionsFromTag(BLTags.Items.SILVER_INGOTS))
-          .offerTo(exporter);
+          .criterion("is_vampire", BecomeVampireCriterion.Conditions.create())
+          .offerTo(exporter, BLResources.id("rituals/twisted_blood"));
+        RitualRecipeJsonBuilder.create(RecipeCategory.TOOLS, new ItemRitual(BLItems.BLOOD_BAG))
+          .catalyst(Items.GLASS_BOTTLE)
+          .input(Items.GLASS)
+          .input(Items.GLASS)
+          .criterion("has_twisted_blood", conditionsFromItem(BLItems.TWISTED_BLOOD))
+          .offerTo(exporter, BLResources.id("rituals/blood_bag"));
+        RitualRecipeJsonBuilder.create(RecipeCategory.TOOLS, new ItemRitual(BLItems.PENDANT_OF_PIERCING))
+          .catalyst(Items.ARROW)
+          .input(BLItems.TWISTED_BLOOD)
+          .input(Items.GOLD_INGOT)
+          .input(Items.STRING)
+          .criterion("unlock_abilities", UnlockAbilityCriterion.Conditions.create(BLVampireAbilities.TELEPORT))
+          .offerTo(exporter, BLResources.id("rituals/pendant_of_piercing"));
+        RitualRecipeJsonBuilder.create(RecipeCategory.MISC, new VampireAbilityRitual(BLVampireAbilities.TELEPORT))
+          .catalyst(Items.ENDER_PEARL)
+          .criterion("test", TickCriterion.Conditions.createTick())
+          .offerTo(exporter, BLResources.id("rituals/ability_test"));
+        RitualRecipeJsonBuilder.create(RecipeCategory.MISC, VampireAbilityResetRitual.INSTANCE)
+          .catalyst(PotionUtil.setPotion(new ItemStack(Items.POTION), BLStatusEffects.BLESSED_WATER_POTION))
+          .input(Items.SUNFLOWER)
+          .input(Items.SUNFLOWER)
+          .criterion("test", TickCriterion.Conditions.createTick())
+          .offerTo(exporter, BLResources.id("rituals/ability_reset_test"));
     }
 }

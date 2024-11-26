@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "sanguinisluxuria:rituals/blood_bag"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_twisted_blood": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "sanguinisluxuria:twisted_blood_bottle"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_twisted_blood",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "sanguinisluxuria:rituals/blood_bag"
+    ]
+  },
+  "sends_telemetry_event": true
+}
