@@ -20,7 +20,7 @@ public class LightmapTextureManagerMixin {
 
     @Inject(method = "update", at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/client/world/ClientWorld;getSkyBrightness(F)F", shift = At.Shift.AFTER))
     public void sanguinisluxuria$raiseMinimumSkyBrightness(float delta, CallbackInfo ci, @Local(ordinal = 1) LocalFloatRef brightness) {
-        if (VampireHelper.isVampire(client.player))
+        if (VampireHelper.isVampire(this.client.player))
             brightness.set(Math.max(brightness.get(), 0.46f));
     }
 }

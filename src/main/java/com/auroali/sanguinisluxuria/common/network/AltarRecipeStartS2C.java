@@ -17,8 +17,8 @@ public record AltarRecipeStartS2C(BlockPos pos, List<BlockPos> pedestals) implem
 
     @Override
     public void write(PacketByteBuf buf) {
-        buf.writeBlockPos(pos);
-        buf.writeCollection(pedestals, PacketByteBuf::writeBlockPos);
+        buf.writeBlockPos(this.pos);
+        buf.writeCollection(this.pedestals, PacketByteBuf::writeBlockPos);
     }
 
     @Override

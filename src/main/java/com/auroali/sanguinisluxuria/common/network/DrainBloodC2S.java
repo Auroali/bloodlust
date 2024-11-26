@@ -14,7 +14,7 @@ public record DrainBloodC2S(boolean draining) implements FabricPacket {
 
     @Override
     public void write(PacketByteBuf buf) {
-        buf.writeBoolean(draining);
+        buf.writeBoolean(this.draining);
     }
 
     @Override

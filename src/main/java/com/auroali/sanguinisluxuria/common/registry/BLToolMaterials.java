@@ -27,31 +27,31 @@ public enum BLToolMaterials implements ToolMaterial {
 
     @Override
     public int getDurability() {
-        return durability;
+        return this.durability;
     }
 
     @Override
     public float getMiningSpeedMultiplier() {
-        return miningSpeedMultiplier;
+        return this.miningSpeedMultiplier;
     }
 
     @Override
     public float getAttackDamage() {
-        return attackDamage;
+        return this.attackDamage;
     }
 
     @Override
     public int getMiningLevel() {
-        return miningLevel;
+        return this.miningLevel;
     }
 
     @Override
     public int getEnchantability() {
-        return enchantibility;
+        return this.enchantibility;
     }
 
     @Override
     public Ingredient getRepairIngredient() {
-        return repairIngredient.get();
+        return this.repairIngredient.get();
     }
 }

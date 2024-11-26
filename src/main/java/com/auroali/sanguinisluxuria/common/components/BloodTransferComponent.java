@@ -26,72 +26,72 @@ public class BloodTransferComponent implements Component, AutoSyncedComponent {
     }
 
     public int getBloodTransferLevel() {
-        if (bloodTransferLevel != -1)
-            return bloodTransferLevel;
+        if (this.bloodTransferLevel != -1)
+            return this.bloodTransferLevel;
 
-        bloodTransferLevel = 0;
-        if (holder.getWorld().isClient)
-            return bloodTransferLevel;
-        bloodTransferLevel = EnchantmentHelper.getLevel(BLEnchantments.BLOOD_DRAIN, ((PersistentProjectileEntityAccessor) holder).sanguinisluxuria$asItemStack());
-        return bloodTransferLevel;
+        this.bloodTransferLevel = 0;
+        if (this.holder.getWorld().isClient)
+            return this.bloodTransferLevel;
+        this.bloodTransferLevel = EnchantmentHelper.getLevel(BLEnchantments.BLOOD_DRAIN, ((PersistentProjectileEntityAccessor) this.holder).sanguinisluxuria$asItemStack());
+        return this.bloodTransferLevel;
     }
 
     public void setBloodTransferLevel(int level) {
         this.bloodTransferLevel = level;
-        if (!holder.getWorld().isClient)
-            BLEntityComponents.BLOOD_TRANSFER_COMPONENT.sync(holder);
+        if (!this.holder.getWorld().isClient)
+            BLEntityComponents.BLOOD_TRANSFER_COMPONENT.sync(this.holder);
     }
 
     public Entity getLatchedEntity() {
-        if (holder.getWorld() instanceof ServerWorld world && latchedEntityId != null && (latchedEntity == null || !latchedEntity.isAlive() || latchedEntity.isRemoved())) {
-            latchedEntity = null;
-            Entity newEntity = world.getEntity(latchedEntityId);
+        if (this.holder.getWorld() instanceof ServerWorld world && this.latchedEntityId != null && (this.latchedEntity == null || !this.latchedEntity.isAlive() || this.latchedEntity.isRemoved())) {
+            this.latchedEntity = null;
+            Entity newEntity = world.getEntity(this.latchedEntityId);
             if (newEntity == null) {
-                latchedEntity = null;
-                latchedEntityId = null;
-                BLEntityComponents.BLOOD_TRANSFER_COMPONENT.sync(holder);
+                this.latchedEntity = null;
+                this.latchedEntityId = null;
+                BLEntityComponents.BLOOD_TRANSFER_COMPONENT.sync(this.holder);
                 return null;
             }
-            latchedEntity = newEntity;
-            BLEntityComponents.BLOOD_TRANSFER_COMPONENT.sync(holder);
+            this.latchedEntity = newEntity;
+            BLEntityComponents.BLOOD_TRANSFER_COMPONENT.sync(this.holder);
         }
-        return latchedEntity;
+        return this.latchedEntity;
     }
 
     public void setLatchedEntity(Entity entity) {
-        latchedEntity = entity;
-        latchedEntityId = null;
+        this.latchedEntity = entity;
+        this.latchedEntityId = null;
         if (entity != null)
-            latchedEntityId = entity.getUuid();
-        BLEntityComponents.BLOOD_TRANSFER_COMPONENT.sync(holder);
+            this.latchedEntityId = entity.getUuid();
+        BLEntityComponents.BLOOD_TRANSFER_COMPONENT.sync(this.holder);
     }
 
     @Override
     public void readFromNbt(NbtCompound tag) {
         if (tag.contains("LatchedEntity", NbtElement.INT_ARRAY_TYPE))
-            latchedEntityId = tag.getUuid("LatchedEntity");
-        getLatchedEntity();
+            this.latchedEntityId = tag.getUuid("LatchedEntity");
+        this.getLatchedEntity();
     }
 
     @Override
     public void writeToNbt(NbtCompound tag) {
-        if (latchedEntityId != null)
-            tag.putUuid("LatchedEntity", latchedEntityId);
+        if (this.latchedEntityId != null)
+            tag.putUuid("LatchedEntity", this.latchedEntityId);
     }
 
     @Override
     public void writeSyncPacket(PacketByteBuf buf, ServerPlayerEntity recipient) {
-        buf.writeVarInt(getBloodTransferLevel());
-        if (latchedEntity != null)
-            buf.writeVarInt(latchedEntity.getId());
+        buf.writeVarInt(this.getBloodTransferLevel());
+        if (this.latchedEntity != null)
+            buf.writeVarInt(this.latchedEntity.getId());
     }
 
     @Override
     public void applySyncPacket(PacketByteBuf buf) {
-        bloodTransferLevel = buf.readVarInt();
+        this.bloodTransferLevel = buf.readVarInt();
         if (buf.isReadable())
-            latchedEntity = holder.getWorld().getEntityById(buf.readVarInt());
+            this.latchedEntity = this.holder.getWorld().getEntityById(buf.readVarInt());
         else
-            latchedEntity = null;
+            this.latchedEntity = null;
     }
 }

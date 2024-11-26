@@ -41,7 +41,7 @@ public class VampireAbilityArgument implements ArgumentType<VampireAbility> {
         StringReader stringReader = new StringReader(builder.getInput());
         stringReader.setCursor(builder.getStart());
         try {
-            parse(stringReader);
+            this.parse(stringReader);
             return Suggestions.empty();
         } catch (Exception ignored) {
         }

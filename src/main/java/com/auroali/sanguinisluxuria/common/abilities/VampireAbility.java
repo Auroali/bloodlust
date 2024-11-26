@@ -44,7 +44,7 @@ public class VampireAbility {
     }
 
     public RegistryEntry.Reference<VampireAbility> getRegistryEntry() {
-        return holder;
+        return this.holder;
     }
 
     /**
@@ -55,7 +55,7 @@ public class VampireAbility {
     }
 
     public boolean isIn(TagKey<VampireAbility> tag) {
-        return getRegistryEntry().isIn(tag);
+        return this.getRegistryEntry().isIn(tag);
     }
 
     /**
@@ -66,10 +66,10 @@ public class VampireAbility {
      * @return if this ability should be hidden
      */
     public boolean isHidden(LivingEntity entity) {
-        if (conditions.isEmpty())
+        if (this.conditions.isEmpty())
             return false;
         VampireComponent vampire = BLEntityComponents.VAMPIRE_COMPONENT.get(entity);
-        for (VampireAbilityCondition condition : conditions) {
+        for (VampireAbilityCondition condition : this.conditions) {
             if (!condition.test(entity, vampire, vampire.getAbilties()))
                 return true;
         }
@@ -93,7 +93,7 @@ public class VampireAbility {
      * @return this ability's parent, or null if it doesn't have one
      */
     public VampireAbility getParent() {
-        return parent;
+        return this.parent;
     }
 
     /**
@@ -104,22 +104,22 @@ public class VampireAbility {
      * and does not cache the result
      */
     public ItemStack getIcon() {
-        return icon.get();
+        return this.icon.get();
     }
 
     /**
      * @return the ability's translation key, usually in the form 'vampire_ability.modid.ability_id'
      */
     public String getTranslationKey() {
-        if (transKey == null && getRegistryEntry().getKey().isPresent()) {
-            Identifier id = getRegistryEntry().getKey().get().getValue();
-            transKey = "vampire_ability.%s.%s".formatted(id.getNamespace(), id.getPath());
+        if (this.transKey == null && this.getRegistryEntry().getKey().isPresent()) {
+            Identifier id = this.getRegistryEntry().getKey().get().getValue();
+            this.transKey = "vampire_ability.%s.%s".formatted(id.getNamespace(), id.getPath());
         }
-        return transKey == null ? "" : transKey;
+        return this.transKey == null ? "" : this.transKey;
     }
 
     public String getDescTranslationKey() {
-        return descTransKey == null ? descTransKey = getTranslationKey() + ".desc" : descTransKey;
+        return this.descTransKey == null ? this.descTransKey = this.getTranslationKey() + ".desc" : this.descTransKey;
     }
 
 
@@ -129,7 +129,7 @@ public class VampireAbility {
      * @return the required skill points amount
      */
     public int getRequiredSkillPoints() {
-        return skillPoints;
+        return this.skillPoints;
     }
 
     /**
@@ -137,10 +137,8 @@ public class VampireAbility {
      *
      * @param entity    the entity using the ability
      * @param component the entity's vampire component
-     * @return if the ability successfully activated
      */
-    public boolean activate(LivingEntity entity, VampireComponent component) {
-        return false;
+    public void activate(LivingEntity entity, VampireComponent component) {
     }
 
     /**
@@ -162,7 +160,7 @@ public class VampireAbility {
      * @return if this ability is compatible with the other ability
      */
     public boolean incompatibleWith(VampireAbility ability) {
-        return incompatibilities
+        return this.incompatibilities
           .stream()
           .map(Supplier::get)
           .anyMatch(a -> a == ability)
@@ -197,7 +195,7 @@ public class VampireAbility {
      * @return a list of abilities this one is incompatible with
      */
     public List<VampireAbility> getIncompatibilities() {
-        return incompatibilities.stream().map(Supplier::get).toList();
+        return this.incompatibilities.stream().map(Supplier::get).toList();
     }
 
     /**
@@ -207,7 +205,7 @@ public class VampireAbility {
      * @return this ability
      */
     public VampireAbility incompatible(Supplier<VampireAbility> abilitySupplier) {
-        incompatibilities.add(abilitySupplier);
+        this.incompatibilities.add(abilitySupplier);
         return this;
     }
 

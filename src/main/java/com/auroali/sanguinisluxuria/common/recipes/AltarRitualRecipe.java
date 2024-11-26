@@ -43,7 +43,7 @@ public class AltarRitualRecipe implements Recipe<Inventory> {
     }
 
     public Ritual getRitual() {
-        return ritual;
+        return this.ritual;
     }
 
     @Override

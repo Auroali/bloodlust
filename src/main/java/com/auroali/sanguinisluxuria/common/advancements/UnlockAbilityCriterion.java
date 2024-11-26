@@ -56,8 +56,8 @@ public class UnlockAbilityCriterion extends AbstractCriterion<UnlockAbilityCrite
         @Override
         public JsonObject toJson(AdvancementEntityPredicateSerializer predicateSerializer) {
             JsonObject obj = super.toJson(predicateSerializer);
-            if (ability != null) {
-                ability.getRegistryEntry().getKey().ifPresent(k ->
+            if (this.ability != null) {
+                this.ability.getRegistryEntry().getKey().ifPresent(k ->
                   obj.addProperty("ability", k.getValue().toString())
                 );
             }

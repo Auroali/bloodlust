@@ -45,7 +45,7 @@ public class TransferEffectsCriterion extends AbstractCriterion<TransferEffectsC
         @Override
         public JsonObject toJson(AdvancementEntityPredicateSerializer predicateSerializer) {
             JsonObject obj = super.toJson(predicateSerializer);
-            obj.addProperty("min_effects", minCount);
+            obj.addProperty("min_effects", this.minCount);
             return obj;
         }
     }

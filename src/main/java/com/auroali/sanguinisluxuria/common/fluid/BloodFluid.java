@@ -48,7 +48,7 @@ public class BloodFluid extends FlowableFluid {
 
     @Override
     protected boolean canBeReplacedWith(FluidState state, BlockView world, BlockPos pos, Fluid fluid, Direction direction) {
-        return direction == Direction.DOWN && !matchesType(fluid);
+        return direction == Direction.DOWN && !this.matchesType(fluid);
     }
 
     @Override
@@ -88,7 +88,7 @@ public class BloodFluid extends FlowableFluid {
 
     @Override
     public boolean matchesType(Fluid fluid) {
-        return fluid == getStill() || fluid == getFlowing();
+        return fluid == this.getStill() || fluid == this.getFlowing();
     }
 
     @SuppressWarnings("UnstableApiUsage")

@@ -28,12 +28,12 @@ public class BloodCauldronRecipe implements Recipe<SimpleInventory> {
 
     @Override
     public boolean matches(SimpleInventory inventory, World world) {
-        return inventory.size() == 1 && ingredient.test(inventory.getStack(0));
+        return inventory.size() == 1 && this.ingredient.test(inventory.getStack(0));
     }
 
     @Override
     public ItemStack craft(SimpleInventory inventory, DynamicRegistryManager registryManager) {
-        return result.copy();
+        return this.result.copy();
     }
 
     @Override
@@ -43,17 +43,17 @@ public class BloodCauldronRecipe implements Recipe<SimpleInventory> {
 
     @Override
     public ItemStack getOutput(DynamicRegistryManager registryManager) {
-        return result;
+        return this.result;
     }
 
     @Override
     public DefaultedList<Ingredient> getIngredients() {
-        return DefaultedList.copyOf(Ingredient.EMPTY, ingredient);
+        return DefaultedList.copyOf(Ingredient.EMPTY, this.ingredient);
     }
 
     @Override
     public Identifier getId() {
-        return id;
+        return this.id;
     }
 
     @Override
@@ -67,7 +67,7 @@ public class BloodCauldronRecipe implements Recipe<SimpleInventory> {
     }
 
     public int getCauldronLevel() {
-        return level;
+        return this.level;
     }
 
     public static class Serializer implements RecipeSerializer<BloodCauldronRecipe> {

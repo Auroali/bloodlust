@@ -44,7 +44,7 @@ public class AltarEmiRecipe implements EmiRecipe {
         }
         this.inputs = stacks;
         this.output = this.ritual instanceof ItemRitual itemRitual
-          ? EmiStack.of(itemRitual.getOutputItem())
+          ? EmiStack.of(itemRitual.stack())
           : EmiStack.EMPTY;
     }
 

@@ -42,7 +42,7 @@ public abstract class ServerWorldMixin extends World {
     @Inject(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/MutableWorldProperties;getTimeOfDay()J", ordinal = 0))
     public void sanguinisluxuria$modifySleep(BooleanSupplier shouldKeepTicking, CallbackInfo ci, @Share("hasSetTime") LocalBooleanRef hasSetTime, @Share("time") LocalLongRef time) {
         if (this.isDay() && this.players.stream().filter(VampireHelper::isVampire).anyMatch(PlayerEntity::isSleeping)) {
-            time.set(properties.getTimeOfDay());
+            time.set(this.properties.getTimeOfDay());
             hasSetTime.set(true);
         }
     }
@@ -51,7 +51,7 @@ public abstract class ServerWorldMixin extends World {
     public void sanguinisluxuria$setTimeOfDay(BooleanSupplier shouldKeepTicking, CallbackInfo ci, @Share("hasSetTime") LocalBooleanRef hasSetTime, @Share("time") LocalLongRef time) {
         if (hasSetTime.get()) {
             long timeOfDay = time.get() + 24000L;
-            setTimeOfDay((timeOfDay - timeOfDay % 24000L) - 11000L);
+            this.setTimeOfDay((timeOfDay - timeOfDay % 24000L) - 11000L);
         }
     }
 }

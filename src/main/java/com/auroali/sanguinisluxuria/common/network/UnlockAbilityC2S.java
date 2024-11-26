@@ -16,7 +16,7 @@ public record UnlockAbilityC2S(VampireAbility ability) implements FabricPacket {
 
     @Override
     public void write(PacketByteBuf buf) {
-        buf.writeRegistryValue(BLRegistries.VAMPIRE_ABILITIES, ability);
+        buf.writeRegistryValue(BLRegistries.VAMPIRE_ABILITIES, this.ability);
     }
 
     @Override

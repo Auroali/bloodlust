@@ -34,7 +34,7 @@ public class AltarBlock extends BlockWithEntity {
 
     public AltarBlock(Settings settings) {
         super(settings);
-        this.setDefaultState(getStateManager().getDefaultState().with(ACTIVE, false));
+        this.setDefaultState(this.getStateManager().getDefaultState().with(ACTIVE, false));
     }
 
     @Override

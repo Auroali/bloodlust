@@ -50,9 +50,9 @@ public abstract class TridentEntityMixin extends PersistentProjectileEntity {
                 ci.cancel();
                 return;
             }
-            if (sanguinisluxuria$latchedTicks > 300) {
+            if (this.sanguinisluxuria$latchedTicks > 300) {
                 bloodTransfer.setLatchedEntity(null);
-                sanguinisluxuria$latchedTicks = 0;
+                this.sanguinisluxuria$latchedTicks = 0;
                 return;
             }
 
@@ -61,22 +61,22 @@ public abstract class TridentEntityMixin extends PersistentProjectileEntity {
 
             if ((latched instanceof LivingEntity livingTarget && livingTarget.hasStatusEffect(BLStatusEffects.BLOOD_PROTECTION)) || blood.getBlood() <= Math.max(1, blood.getMaxBlood() / (1 + bloodDrainLevel))) {
                 bloodTransfer.setLatchedEntity(null);
-                sanguinisluxuria$latchedTicks = 0;
+                this.sanguinisluxuria$latchedTicks = 0;
                 return;
             }
 
-            setPosition(latched.getPos().add(0, latched.getEyeHeight(latched.getPose()) * 0.75, 0));
-            setVelocity(Vec3d.ZERO);
+            this.setPosition(latched.getPos().add(0, latched.getEyeHeight(latched.getPose()) * 0.75, 0));
+            this.setVelocity(Vec3d.ZERO);
 
             int timeToDrain = latched instanceof LivingEntity e && e.hasStatusEffect(BLStatusEffects.BLEEDING) ? 20 : 40;
-            if (sanguinisluxuria$latchedTicks % timeToDrain == 0 && !getWorld().isClient && blood.drainBlood()) {
+            if (this.sanguinisluxuria$latchedTicks % timeToDrain == 0 && !this.getWorld().isClient && blood.drainBlood()) {
                 if (!(owner instanceof LivingEntity entity && BloodStorageItem.tryAddBloodToItemInHand(entity, 1)) && VampireHelper.isVampire(owner)) {
                     ownerBlood.addBlood(1);
                 }
-                playSound(BLSounds.DRAIN_BLOOD, 1.0f, 1.0f);
+                this.playSound(BLSounds.DRAIN_BLOOD, 1.0f, 1.0f);
             }
 
-            sanguinisluxuria$latchedTicks++;
+            this.sanguinisluxuria$latchedTicks++;
             ci.cancel();
         }
     }
@@ -88,7 +88,7 @@ public abstract class TridentEntityMixin extends PersistentProjectileEntity {
             if (target instanceof LivingEntity livingTarget && livingTarget.hasStatusEffect(BLStatusEffects.BLOOD_PROTECTION))
                 return;
             bloodTransfer.setLatchedEntity(target);
-            sanguinisluxuria$latchedTicks = 0;
+            this.sanguinisluxuria$latchedTicks = 0;
         }
     }
 }

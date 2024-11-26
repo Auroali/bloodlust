@@ -71,19 +71,19 @@ public class ConvertibleVampireComponent<U extends LivingEntity, T extends Livin
 
     @Override
     public void setIsVampire(boolean isVampire) {
-        if (!isVampire || !AllowVampireChangeEvent.EVENT.invoker().onChanged(holder, this, isVampire))
+        if (!isVampire || !AllowVampireChangeEvent.EVENT.invoker().onChanged(this.holder, this, true))
             return;
-        T entity = conversionType.create(holder.getWorld());
+        T entity = this.conversionType.create(this.holder.getWorld());
         if (entity == null) {
-            Bloodlust.LOGGER.error("Could not perform conversion for entity {}!", Registries.ENTITY_TYPE.getId(holder.getType()));
+            Bloodlust.LOGGER.error("Could not perform conversion for entity {}!", Registries.ENTITY_TYPE.getId(this.holder.getType()));
             return;
         }
-        entity.setPosition(holder.getX(), holder.getY(), holder.getZ());
-        entity.setYaw(holder.getYaw());
-        entity.setPitch(holder.getPitch());
+        entity.setPosition(this.holder.getX(), this.holder.getY(), this.holder.getZ());
+        entity.setYaw(this.holder.getYaw());
+        entity.setPitch(this.holder.getPitch());
 
-        if (holder.getType().isIn(BLTags.Entities.HAS_BLOOD) && conversionType.isIn(BLTags.Entities.HAS_BLOOD)) {
-            BloodComponent component = BLEntityComponents.BLOOD_COMPONENT.get(holder);
+        if (this.holder.getType().isIn(BLTags.Entities.HAS_BLOOD) && this.conversionType.isIn(BLTags.Entities.HAS_BLOOD)) {
+            BloodComponent component = BLEntityComponents.BLOOD_COMPONENT.get(this.holder);
             BloodComponent newBlood = BLEntityComponents.BLOOD_COMPONENT.get(entity);
             // we do this as otherwise the values we set will be overridden
             if (newBlood instanceof InitializableBloodComponent c)
@@ -91,20 +91,20 @@ public class ConvertibleVampireComponent<U extends LivingEntity, T extends Livin
             newBlood.setBlood(Math.min(newBlood.getMaxBlood(), component.getBlood()));
         }
 
-        entity.setCustomName(holder.getCustomName());
+        entity.setCustomName(this.holder.getCustomName());
 
 
-        if (entity instanceof TameableEntity tameable && holder instanceof TameableEntity holderTameable && holderTameable.isTamed()) {
+        if (entity instanceof TameableEntity tameable && this.holder instanceof TameableEntity holderTameable && holderTameable.isTamed()) {
             tameable.setOwnerUuid(holderTameable.getOwnerUuid());
             tameable.setTamed(true);
         }
 
-        conversionHandler.accept(holder, entity);
+        this.conversionHandler.accept(this.holder, entity);
 
-        holder.getWorld().spawnEntity(entity);
+        this.holder.getWorld().spawnEntity(entity);
 
-        holder.getWorld().playSound(null, holder.getX(), holder.getY(), holder.getZ(), BLSounds.VAMPIRE_CONVERT, holder.getSoundCategory(), 1.0f, 1.0f);
-        holder.remove(Entity.RemovalReason.DISCARDED);
+        this.holder.getWorld().playSound(null, this.holder.getX(), this.holder.getY(), this.holder.getZ(), BLSounds.VAMPIRE_CONVERT, this.holder.getSoundCategory(), 1.0f, 1.0f);
+        this.holder.remove(Entity.RemovalReason.DISCARDED);
     }
 
     @Override

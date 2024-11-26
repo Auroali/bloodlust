@@ -35,21 +35,21 @@ public class VampireTeleportAbility extends VampireAbility implements SyncableVa
     }
 
     @Override
-    public boolean activate(LivingEntity entity, VampireComponent component) {
+    public void activate(LivingEntity entity, VampireComponent component) {
         if (component.getAbilties().isOnCooldown(this))
-            return false;
+            return;
 
         Vec3d start = entity.getPos();
         BlockHitResult result = entity.getWorld().raycast(new RaycastContext(
           entity.getEyePos(),
-          entity.getEyePos().add(entity.getRotationVector().multiply(getRange(entity))),
+          entity.getEyePos().add(entity.getRotationVector().multiply(this.getRange(entity))),
           RaycastContext.ShapeType.COLLIDER,
           RaycastContext.FluidHandling.NONE,
           entity
         ));
 
         if (result == null)
-            return false;
+            return;
 
         if (entity.hasVehicle())
             entity.stopRiding();
@@ -62,14 +62,13 @@ public class VampireTeleportAbility extends VampireAbility implements SyncableVa
         entity.getWorld().playSound(null, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.PLAYERS, 1.0f, 1.0f);
         TrinketsApi.getTrinketComponent(entity).ifPresent(c -> {
             if (c.isEquipped(BLItems.PENDANT_OF_PIERCING))
-                damageEntitiesBetween(entity, start, newPos);
+                this.damageEntitiesBetween(entity, start, newPos);
         });
 
 
-        sync(entity, new TeleportData(start, entity.getPos()));
+        this.sync(entity, new TeleportData(start, entity.getPos()));
 
-        component.getAbilties().setCooldown(this, getCooldown(entity));
-        return true;
+        component.getAbilties().setCooldown(this, this.getCooldown(entity));
     }
 
     public void damageEntitiesBetween(LivingEntity entity, Vec3d start, Vec3d end) {

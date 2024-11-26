@@ -33,27 +33,26 @@ public class BiteAbility extends VampireAbility implements SyncableVampireAbilit
     }
 
     @Override
-    public boolean activate(LivingEntity entity, VampireComponent component) {
+    public void activate(LivingEntity entity, VampireComponent component) {
         if (component.getAbilties().isOnCooldown(this) || VampireHelper.isMasked(entity))
-            return false;
+            return;
 
-        HitResult result = getTarget(entity);
+        HitResult result = this.getTarget(entity);
         if (result.getType() != HitResult.Type.ENTITY)
-            return false;
+            return;
 
         LivingEntity target = ((EntityHitResult) result).getEntity() instanceof LivingEntity e ? e : null;
         if (target == null)
-            return false;
+            return;
 
         target.damage(BLDamageSources.bite(entity), 3);
         target.addStatusEffect(new StatusEffectInstance(BLStatusEffects.BLEEDING, 100, 0));
-        sync(entity, target);
+        this.sync(entity, target);
         if (component.getAbilties().hasAbility(BLVampireAbilities.TRANSFER_EFFECTS)) {
             BLVampireAbilities.TRANSFER_EFFECTS.sync(entity, InfectiousAbility.InfectiousData.create(target, entity.getStatusEffects()));
             VampireHelper.transferStatusEffects(entity, target);
         }
         component.getAbilties().setCooldown(this, 220);
-        return true;
     }
 
     private HitResult getTarget(LivingEntity entity) {

@@ -49,7 +49,7 @@ public abstract class BloodStorageItem extends Item {
         List<ItemStack> stacks = new ArrayList<>();
         if (this.emptyItem == null)
             stacks.add(new ItemStack(this));
-        stacks.add(setStoredBlood(new ItemStack(this), getMaxBlood()));
+        stacks.add(setStoredBlood(new ItemStack(this), this.getMaxBlood()));
         return stacks;
     }
 
@@ -70,7 +70,7 @@ public abstract class BloodStorageItem extends Item {
      * @return the maximum amount of blood
      */
     public int getMaxBlood() {
-        return maxBlood;
+        return this.maxBlood;
     }
 
     @Override
@@ -227,31 +227,31 @@ public abstract class BloodStorageItem extends Item {
         }
 
         private long getStoredFluid() {
-            if (context.getItemVariant().getNbt() == null)
+            if (this.context.getItemVariant().getNbt() == null)
                 return 0;
-            return VampireHelper.bloodToDroplets(context.getItemVariant().getNbt().getInt("StoredBlood"));
+            return VampireHelper.bloodToDroplets(this.context.getItemVariant().getNbt().getInt("StoredBlood"));
         }
 
         private long getMaxStoredFluid() {
-            return VampireHelper.bloodToDroplets(item.getMaxBlood());
+            return VampireHelper.bloodToDroplets(this.item.getMaxBlood());
         }
 
         @Override
         public long insert(FluidVariant resource, long maxAmount, TransactionContext transaction) {
             StoragePreconditions.notBlankNotNegative(resource, maxAmount);
 
-            Item emptyItem = item.getEmptyItem() == null ? item : item.emptyItem;
-            long insertableAmount = Math.min(maxAmount, getMaxStoredFluid() - getStoredFluid());
+            Item emptyItem = this.item.getEmptyItem() == null ? this.item : this.item.emptyItem;
+            long insertableAmount = Math.min(maxAmount, this.getMaxStoredFluid() - this.getStoredFluid());
 
             // Can't insert if the item is not emptyItem anymore.
-            if (!context.getItemVariant().isOf(emptyItem) || !item.canFill()) return 0;
+            if (!this.context.getItemVariant().isOf(emptyItem) || !this.item.canFill()) return 0;
 
             // Make sure that the fluid and amount match.
             if (resource.isOf(BLFluids.BLOOD) && insertableAmount != 0) {
                 // If that's ok, just convert one of the empty item into the full item, with the mapping function.
-                ItemVariant newVariant = ItemVariant.of(setStoredBlood(new ItemStack(this.item), VampireHelper.dropletsToBlood(getStoredFluid() + insertableAmount)));
+                ItemVariant newVariant = ItemVariant.of(setStoredBlood(new ItemStack(this.item), VampireHelper.dropletsToBlood(this.getStoredFluid() + insertableAmount)));
 
-                if (context.exchange(newVariant, 1, transaction) == 1) {
+                if (this.context.exchange(newVariant, 1, transaction) == 1) {
                     // Conversion ok!
                     return insertableAmount;
                 }
@@ -265,17 +265,17 @@ public abstract class BloodStorageItem extends Item {
             StoragePreconditions.notBlankNotNegative(resource, maxAmount);
 
             // If the context's item is not fullItem anymore, can't extract!
-            if (!context.getItemVariant().isOf(item) || !item.canDrain()) return 0;
+            if (!this.context.getItemVariant().isOf(this.item) || !this.item.canDrain()) return 0;
 
-            long storedAmount = Math.min(getStoredFluid(), maxAmount);
+            long storedAmount = Math.min(this.getStoredFluid(), maxAmount);
             // Make sure that the fluid and the amount match.
-            if (resource.equals(containedFluid) && storedAmount != 0) {
+            if (resource.equals(this.containedFluid) && storedAmount != 0) {
                 // If that's ok, just convert one of the full item into the empty item, copying the nbt.
-                ItemVariant newVariant = getStoredFluid() - storedAmount > 0
-                  ? ItemVariant.of(setStoredBlood(new ItemStack(item), VampireHelper.dropletsToBlood(getStoredFluid() - storedAmount)))
+                ItemVariant newVariant = this.getStoredFluid() - storedAmount > 0
+                  ? ItemVariant.of(setStoredBlood(new ItemStack(this.item), VampireHelper.dropletsToBlood(this.getStoredFluid() - storedAmount)))
                   : this.item.getEmptyItem() == null ? ItemVariant.of(this.item) : ItemVariant.of(this.item.getEmptyItem());
 
-                if (context.exchange(newVariant, 1, transaction) == 1) {
+                if (this.context.exchange(newVariant, 1, transaction) == 1) {
                     // Conversion ok!
                     return storedAmount;
                 }
@@ -286,23 +286,23 @@ public abstract class BloodStorageItem extends Item {
 
         @Override
         public boolean isResourceBlank() {
-            ItemVariant variant = context.getItemVariant();
-            return !variant.isOf(item) || (!variant.hasNbt() || variant.getNbt().getInt("StoredBlood") == 0);
+            ItemVariant variant = this.context.getItemVariant();
+            return !variant.isOf(this.item) || (!variant.hasNbt() || variant.getNbt().getInt("StoredBlood") == 0);
         }
 
         @Override
         public FluidVariant getResource() {
-            return containedFluid;
+            return this.containedFluid;
         }
 
         @Override
         public long getAmount() {
-            return getStoredFluid();
+            return this.getStoredFluid();
         }
 
         @Override
         public long getCapacity() {
-            return getMaxStoredFluid();
+            return this.getMaxStoredFluid();
         }
 
         @Override

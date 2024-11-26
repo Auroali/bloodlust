@@ -98,7 +98,7 @@ public class VampireMerchant extends MerchantEntity {
         this.lastRestockCheckTime = timeOfDay;
         if (restockPossible) {
             this.lastRestockTime = currentTime;
-            restocksToday = 0;
+            this.restocksToday = 0;
         }
 
         return this.canRestock() && this.needsRestock();
@@ -107,8 +107,8 @@ public class VampireMerchant extends MerchantEntity {
     @Override
     public void tick() {
         super.tick();
-        if (shouldRestock())
-            restock();
+        if (this.shouldRestock())
+            this.restock();
     }
 
     @Override
@@ -116,7 +116,7 @@ public class VampireMerchant extends MerchantEntity {
         TradeOfferList offers = this.getOffers();
         TradeOffers.Factory[] tradePool = BLVampireVillagerTrades.TRADES.get(1);
         if (offers != null) {
-            fillRecipesFromPool(offers, tradePool, 6);
+            this.fillRecipesFromPool(offers, tradePool, 6);
         }
     }
 
@@ -129,16 +129,16 @@ public class VampireMerchant extends MerchantEntity {
     @Override
     public void writeCustomDataToNbt(NbtCompound nbt) {
         super.writeCustomDataToNbt(nbt);
-        nbt.putInt("RestocksToday", restocksToday);
-        nbt.putLong("LastRestockTime", lastRestockTime);
-        nbt.putLong("LastRestockCheckTime", lastRestockCheckTime);
+        nbt.putInt("RestocksToday", this.restocksToday);
+        nbt.putLong("LastRestockTime", this.lastRestockTime);
+        nbt.putLong("LastRestockCheckTime", this.lastRestockCheckTime);
     }
 
     @Override
     public void readCustomDataFromNbt(NbtCompound nbt) {
         super.readCustomDataFromNbt(nbt);
-        lastRestockTime = nbt.getLong("LastRestockTime");
-        restocksToday = nbt.getInt("RestocksToday");
-        lastRestockTime = nbt.getLong("LastRestockCheckTime");
+        this.lastRestockTime = nbt.getLong("LastRestockTime");
+        this.restocksToday = nbt.getInt("RestocksToday");
+        this.lastRestockTime = nbt.getLong("LastRestockCheckTime");
     }
 }

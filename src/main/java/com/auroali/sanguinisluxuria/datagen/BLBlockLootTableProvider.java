@@ -25,10 +25,10 @@ public class BLBlockLootTableProvider extends FabricBlockLootTableProvider {
 
     @Override
     public void generate() {
-        addDrop(BLBlocks.ALTAR);
-        addDrop(BLBlocks.PEDESTAL);
-        addDrop(BLBlocks.BLOOD_CAULDRON, Items.CAULDRON);
-        addDrop(BLBlocks.SILVER_ORE, new LootTable.Builder()
+        this.addDrop(BLBlocks.ALTAR);
+        this.addDrop(BLBlocks.PEDESTAL);
+        this.addDrop(BLBlocks.BLOOD_CAULDRON, Items.CAULDRON);
+        this.addDrop(BLBlocks.SILVER_ORE, new LootTable.Builder()
           .pool(new LootPool.Builder()
             .rolls(ConstantLootNumberProvider.create(1))
             .with(AlternativeEntry.builder(
@@ -41,7 +41,7 @@ public class BLBlockLootTableProvider extends FabricBlockLootTableProvider {
                   .apply(ExplosionDecayLootFunction.builder())
               )
             )));
-        addDrop(BLBlocks.DEEPSLATE_SILVER_ORE, new LootTable.Builder()
+        this.addDrop(BLBlocks.DEEPSLATE_SILVER_ORE, new LootTable.Builder()
           .pool(new LootPool.Builder()
             .rolls(ConstantLootNumberProvider.create(1))
             .with(AlternativeEntry.builder(
@@ -54,19 +54,19 @@ public class BLBlockLootTableProvider extends FabricBlockLootTableProvider {
                   .apply(ExplosionDecayLootFunction.builder())
               )
             )));
-        addDrop(BLBlocks.SILVER_BLOCK);
-        addDrop(BLBlocks.RAW_SILVER_BLOCK);
+        this.addDrop(BLBlocks.SILVER_BLOCK);
+        this.addDrop(BLBlocks.RAW_SILVER_BLOCK);
 
-        addDrop(BLBlocks.STRIPPED_HUNGRY_DECAYED_LOG);
-        addDrop(BLBlocks.HUNGRY_DECAYED_LOG);
-        addDrop(BLBlocks.DECAYED_LOG);
-        addDrop(BLBlocks.DECAYED_WOOD);
-        addDrop(BLBlocks.STRIPPED_DECAYED_LOG);
-        addDrop(BLBlocks.STRIPPED_DECAYED_WOOD);
-        addDrop(BLBlocks.DECAYED_TWIGS);
-        addDrop(BLBlocks.GRAFTED_SAPLING);
+        this.addDrop(BLBlocks.STRIPPED_HUNGRY_DECAYED_LOG);
+        this.addDrop(BLBlocks.HUNGRY_DECAYED_LOG);
+        this.addDrop(BLBlocks.DECAYED_LOG);
+        this.addDrop(BLBlocks.DECAYED_WOOD);
+        this.addDrop(BLBlocks.STRIPPED_DECAYED_LOG);
+        this.addDrop(BLBlocks.STRIPPED_DECAYED_WOOD);
+        this.addDrop(BLBlocks.DECAYED_TWIGS);
+        this.addDrop(BLBlocks.GRAFTED_SAPLING);
 
-        addDrop(BLBlocks.DECAYED_PRESSURE_PLATE);
-        addDrop(BLBlocks.SILVER_PRESSURE_PLATE);
+        this.addDrop(BLBlocks.DECAYED_PRESSURE_PLATE);
+        this.addDrop(BLBlocks.SILVER_PRESSURE_PLATE);
     }
 }

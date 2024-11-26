@@ -21,7 +21,7 @@ public abstract class VillagerEntityMixin {
     public void sanguinisluxuria$preventUnmaskedVampiresFromTrading(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
         if (VampireHelper.isVampire(player) && !VampireHelper.isMasked(player)) {
             if (hand == Hand.MAIN_HAND && !player.getWorld().isClient)
-                sayNo();
+                this.sayNo();
 
             player.incrementStat(Stats.TALKED_TO_VILLAGER);
             cir.setReturnValue(ActionResult.success(player.getWorld().isClient));

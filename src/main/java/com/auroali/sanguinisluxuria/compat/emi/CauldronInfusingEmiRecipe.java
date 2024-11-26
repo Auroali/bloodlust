@@ -33,7 +33,6 @@ public class CauldronInfusingEmiRecipe implements EmiRecipe {
         this.recipe = recipe;
         this.inputs = List.of(EmiIngredient.of(recipe.getIngredients().get(0)));
         this.outputs = List.of(EmiStack.of(recipe.getOutput(client.world.getRegistryManager())));
-        ;
     }
 
     @Override
@@ -43,17 +42,17 @@ public class CauldronInfusingEmiRecipe implements EmiRecipe {
 
     @Override
     public @Nullable Identifier getId() {
-        return recipe.getId();
+        return this.recipe.getId();
     }
 
     @Override
     public List<EmiIngredient> getInputs() {
-        return inputs;
+        return this.inputs;
     }
 
     @Override
     public List<EmiStack> getOutputs() {
-        return outputs;
+        return this.outputs;
     }
 
     @Override
@@ -68,11 +67,11 @@ public class CauldronInfusingEmiRecipe implements EmiRecipe {
 
     @Override
     public void addWidgets(WidgetHolder widgets) {
-        widgets.addSlot(inputs.get(0), 3, 6);
+        widgets.addSlot(this.inputs.get(0), 3, 6);
         widgets.addDrawable(4, 36, 16, 16, (drawContext, mouseX, mouseY, delta) -> {
             MatrixStack stack = drawContext.getMatrices();
             MinecraftClient client = MinecraftClient.getInstance();
-            BlockState state = BLBlocks.BLOOD_CAULDRON.getDefaultState().with(LeveledCauldronBlock.LEVEL, recipe.getCauldronLevel());
+            BlockState state = BLBlocks.BLOOD_CAULDRON.getDefaultState().with(LeveledCauldronBlock.LEVEL, this.recipe.getCauldronLevel());
             BlockRenderManager blockRenderer = client.getBlockRenderManager();
             stack.push();
             stack.translate(-3, 16, 140);
@@ -82,8 +81,8 @@ public class CauldronInfusingEmiRecipe implements EmiRecipe {
             stack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(45));
             blockRenderer.renderBlockAsEntity(state, stack, drawContext.getVertexConsumers(), LightmapTextureManager.MAX_LIGHT_COORDINATE, OverlayTexture.DEFAULT_UV);
             stack.pop();
-        }).tooltip(List.of(TooltipComponent.of(Text.translatable("gui.sanguinisluxuria.blood_bottle_tooltip", recipe.getCauldronLevel()).asOrderedText())));
+        }).tooltip(List.of(TooltipComponent.of(Text.translatable("gui.sanguinisluxuria.blood_bottle_tooltip", this.recipe.getCauldronLevel()).asOrderedText())));
         widgets.addTexture(EmiTexture.EMPTY_ARROW, 24, 36);
-        widgets.addSlot(outputs.get(0), 47, 36).drawBack(false).recipeContext(this);
+        widgets.addSlot(this.outputs.get(0), 47, 36).drawBack(false).recipeContext(this);
     }
 }

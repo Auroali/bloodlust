@@ -30,7 +30,7 @@ public class BLEntityLootTableProvider extends SimpleFabricLootTableProvider {
             .rolls(ConstantLootNumberProvider.create(1))
             .with(ItemEntry.builder(BLItems.MASK_1))
             .with(ItemEntry.builder(BLItems.BLOOD_BOTTLE)
-              .apply(createNbtLootFunc(c -> c.putInt("StoredBlood", 1)))
+              .apply(this.createNbtLootFunc(c -> c.putInt("StoredBlood", 1)))
             )
             .build()
           )

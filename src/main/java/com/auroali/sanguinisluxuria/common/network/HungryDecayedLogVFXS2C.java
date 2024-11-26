@@ -14,7 +14,7 @@ public record HungryDecayedLogVFXS2C(int entityId) implements FabricPacket {
 
     @Override
     public void write(PacketByteBuf buf) {
-        buf.writeVarInt(entityId);
+        buf.writeVarInt(this.entityId);
     }
 
     @Override

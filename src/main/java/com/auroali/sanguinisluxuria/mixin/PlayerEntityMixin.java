@@ -33,14 +33,14 @@ public abstract class PlayerEntityMixin extends LivingEntity {
             return;
 
         VampireComponent vampire = BLEntityComponents.VAMPIRE_COMPONENT.get(this);
-        if (!hasVehicle() && vampire.isDown()) {
-            setPose(EntityPose.SWIMMING);
+        if (!this.hasVehicle() && vampire.isDown()) {
+            this.setPose(EntityPose.SWIMMING);
             ci.cancel();
         }
     }
 
     @Inject(method = "<init>", at = @At("RETURN"))
     public void sanguinisluxuria$setVampireHungerManagerPlayer(World world, BlockPos pos, float yaw, GameProfile gameProfile, CallbackInfo ci) {
-        ((VampireHungerManager) hungerManager).sanguinisluxuria$setPlayer((PlayerEntity) (Object) this);
+        ((VampireHungerManager) this.hungerManager).sanguinisluxuria$setPlayer((PlayerEntity) (Object) this);
     }
 }

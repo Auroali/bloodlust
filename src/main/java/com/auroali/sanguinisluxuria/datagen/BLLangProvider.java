@@ -27,7 +27,7 @@ public class BLLangProvider extends FabricLanguageProvider {
         translationBuilder.add(BLItemGroups.SANGUINIS_LUXURIA_TAB, "Sanguinis Luxuria");
         translationBuilder.add("fluids.sanguinisluxuria.blood", "Blood");
         translationBuilder.add("argument.sanguinisluxuria.id.invalid", "'%s' is not a valid id!");
-        tags(translationBuilder);
+        this.tags(translationBuilder);
         subtitles(translationBuilder);
         keybindings(translationBuilder);
         config(translationBuilder);
@@ -40,9 +40,9 @@ public class BLLangProvider extends FabricLanguageProvider {
         attributes(translationBuilder);
         potions(translationBuilder);
         abilities(translationBuilder);
-        deathMessages(translationBuilder);
+        this.deathMessages(translationBuilder);
         advancements(translationBuilder);
-        emiTranslations(translationBuilder);
+        this.emiTranslations(translationBuilder);
     }
 
     private void generateTagTranslation(TranslationBuilder builder, TagKey<?> key, String translation) {
@@ -56,9 +56,9 @@ public class BLLangProvider extends FabricLanguageProvider {
     }
 
     private void tags(TranslationBuilder builder) {
-        generateTagTranslation(builder, BLTags.Items.VAMPIRE_MASKS, "Vampire Masks");
-        generateTagTranslation(builder, BLTags.Items.SUN_BLOCKING_HELMETS, "Sun Blocking Helmets");
-        generateTagTranslation(builder, BLTags.Items.VAMPIRES_GET_HUNGER_FROM, "Vampire Food");
+        this.generateTagTranslation(builder, BLTags.Items.VAMPIRE_MASKS, "Vampire Masks");
+        this.generateTagTranslation(builder, BLTags.Items.SUN_BLOCKING_HELMETS, "Sun Blocking Helmets");
+        this.generateTagTranslation(builder, BLTags.Items.VAMPIRES_GET_HUNGER_FROM, "Vampire Food");
     }
 
     private void deathMessages(TranslationBuilder translationBuilder) {

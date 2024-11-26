@@ -27,7 +27,7 @@ public class VampireAttributeModifierAbility extends VampireAbility {
     public void onAbilityRemoved(LivingEntity entity, VampireComponent vampire) {
         super.onAbilityRemoved(entity, vampire);
         AttributeContainer attributes = entity.getAttributes();
-        modifiers.forEach((attribute, modifier) -> {
+        this.modifiers.forEach((attribute, modifier) -> {
             EntityAttributeInstance instance = attributes.getCustomInstance(attribute);
             if (instance == null)
                 return;
@@ -39,7 +39,7 @@ public class VampireAttributeModifierAbility extends VampireAbility {
 
     @Override
     public AbilityTicker<?> createTicker() {
-        return checkType(VampireAttributeModifierAbility::tick);
+        return this.checkType(VampireAttributeModifierAbility::tick);
     }
 
     public static void tick(VampireAttributeModifierAbility ability, World world, LivingEntity entity, VampireComponent component, VampireAbilityContainer container, BloodComponent blood) {
@@ -76,11 +76,11 @@ public class VampireAttributeModifierAbility extends VampireAbility {
         }
 
         public VampireAttributeModifierAbilityBuilder addModifier(EntityAttribute attribute, String uuid, double value, EntityAttributeModifier.Operation operation) {
-            return addModifier(attribute, uuid, value, operation, 0);
+            return this.addModifier(attribute, uuid, value, operation, 0);
         }
 
         public VampireAttributeModifierAbilityBuilder addModifier(EntityAttribute attribute, String uuid, double value, EntityAttributeModifier.Operation operation, int minBlood) {
-            modifiers.put(attribute, new VampireAttributeModifier(
+            this.modifiers.put(attribute, new VampireAttributeModifier(
               new EntityAttributeModifier(
                 UUID.fromString(uuid),
                 () -> "sanguinisluxuria.vampire_ability",
@@ -93,7 +93,7 @@ public class VampireAttributeModifierAbility extends VampireAbility {
         }
 
         public VampireAttributeModifierAbility build() {
-            return new VampireAttributeModifierAbility(icon, parent, modifiers);
+            return new VampireAttributeModifierAbility(this.icon, this.parent, this.modifiers);
         }
     }
 

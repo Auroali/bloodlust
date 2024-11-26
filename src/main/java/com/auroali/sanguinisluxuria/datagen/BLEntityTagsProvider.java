@@ -18,7 +18,7 @@ public class BLEntityTagsProvider extends FabricTagProvider<EntityType<?>> {
 
     @Override
     protected void configure(RegistryWrapper.WrapperLookup arg) {
-        getOrCreateTagBuilder(BLTags.Entities.HAS_BLOOD)
+        this.getOrCreateTagBuilder(BLTags.Entities.HAS_BLOOD)
           .add(EntityType.SHEEP)
           .add(EntityType.COW)
           .add(EntityType.PLAYER)
@@ -60,7 +60,7 @@ public class BLEntityTagsProvider extends FabricTagProvider<EntityType<?>> {
           .addOptional(new Identifier("spectrum", "egg_laying_wooly_pig"))
           .addOptional(new Identifier("spectrum", "kindling"));
 
-        getOrCreateTagBuilder(BLTags.Entities.GOOD_BLOOD)
+        this.getOrCreateTagBuilder(BLTags.Entities.GOOD_BLOOD)
           .add(EntityType.VILLAGER)
           .add(EntityType.PILLAGER)
           .add(EntityType.VINDICATOR)
@@ -69,7 +69,7 @@ public class BLEntityTagsProvider extends FabricTagProvider<EntityType<?>> {
           .add(EntityType.WANDERING_TRADER)
           .add(EntityType.PLAYER);
 
-        getOrCreateTagBuilder(BLTags.Entities.TOXIC_BLOOD)
+        this.getOrCreateTagBuilder(BLTags.Entities.TOXIC_BLOOD)
           .add(EntityType.ZOMBIE)
           .add(EntityType.ZOMBIE_VILLAGER)
           .add(EntityType.ZOMBIE_HORSE)
@@ -78,13 +78,13 @@ public class BLEntityTagsProvider extends FabricTagProvider<EntityType<?>> {
           .add(EntityType.ZOGLIN)
           .add(EntityType.ZOMBIFIED_PIGLIN);
 
-        getOrCreateTagBuilder(BLTags.Entities.CAN_DROP_BLOOD)
+        this.getOrCreateTagBuilder(BLTags.Entities.CAN_DROP_BLOOD)
           .add(EntityType.VILLAGER)
           .add(EntityType.EVOKER)
           .add(EntityType.VINDICATOR)
           .add(EntityType.PILLAGER);
 
-        getOrCreateTagBuilder(BLTags.Entities.TELEPORTS_ON_DRAIN)
+        this.getOrCreateTagBuilder(BLTags.Entities.TELEPORTS_ON_DRAIN)
           .add(EntityType.ENDERMAN);
     }
 }

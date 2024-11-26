@@ -24,16 +24,16 @@ public class BloodCauldronFillRecipe extends BloodCauldronRecipe {
     @Override
     public boolean matches(SimpleInventory inventory, World world) {
         ItemStack stack = inventory.getStack(0);
-        return ingredient.test(inventory.getStack(0))
+        return this.ingredient.test(inventory.getStack(0))
           && (!BloodStorageItem.canBeFilled(stack) || BloodStorageItem.getMaxBlood(stack) - BloodStorageItem.getStoredBlood(stack) >= BloodConstants.BLOOD_PER_BOTTLE);
     }
 
     @Override
     public ItemStack craft(SimpleInventory inventory, DynamicRegistryManager registryManager) {
         ItemStack stack = inventory.getStack(0).copy();
-        if (!stack.isOf(result.getItem())) {
+        if (!stack.isOf(this.result.getItem())) {
             NbtCompound tag = stack.getNbt();
-            stack = new ItemStack(result.getItem());
+            stack = new ItemStack(this.result.getItem());
             stack.setNbt(tag);
         }
 

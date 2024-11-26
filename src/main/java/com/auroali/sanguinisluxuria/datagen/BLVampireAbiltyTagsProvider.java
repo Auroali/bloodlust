@@ -17,7 +17,7 @@ public class BLVampireAbiltyTagsProvider extends FabricTagProvider<VampireAbilit
 
     @Override
     protected void configure(RegistryWrapper.WrapperLookup args) {
-        getOrCreateTagBuilder(BLTags.VampireAbilities.TELEPORT_RANGE)
+        this.getOrCreateTagBuilder(BLTags.VampireAbilities.TELEPORT_RANGE)
           .add(BLVampireAbilities.TELEPORT_RANGE_1)
           .add(BLVampireAbilities.TELEPORT_RANGE_2);
     }

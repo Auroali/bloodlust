@@ -19,65 +19,65 @@ public class BLBlockTagsProvider extends FabricTagProvider<Block> {
 
     @Override
     protected void configure(RegistryWrapper.WrapperLookup args) {
-        getOrCreateTagBuilder(BlockTags.PICKAXE_MINEABLE)
+        this.getOrCreateTagBuilder(BlockTags.PICKAXE_MINEABLE)
           .add(BLBlocks.ALTAR)
           .add(BLBlocks.PEDESTAL)
           .add(BLBlocks.SILVER_ORE)
           .add(BLBlocks.DEEPSLATE_SILVER_ORE)
           .add(BLBlocks.SILVER_BLOCK)
           .add(BLBlocks.RAW_SILVER_BLOCK);
-        getOrCreateTagBuilder(BlockTags.NEEDS_STONE_TOOL)
+        this.getOrCreateTagBuilder(BlockTags.NEEDS_STONE_TOOL)
           .add(BLBlocks.SILVER_ORE)
           .add(BLBlocks.DEEPSLATE_SILVER_ORE)
           .add(BLBlocks.SILVER_BLOCK)
           .add(BLBlocks.RAW_SILVER_BLOCK);
-        getOrCreateTagBuilder(BlockTags.CAULDRONS)
+        this.getOrCreateTagBuilder(BlockTags.CAULDRONS)
           .add(BLBlocks.BLOOD_CAULDRON);
-        getOrCreateTagBuilder(ConventionalBlockTags.ORES)
+        this.getOrCreateTagBuilder(ConventionalBlockTags.ORES)
           .add(BLBlocks.SILVER_ORE)
           .add(BLBlocks.DEEPSLATE_SILVER_ORE);
-        getOrCreateTagBuilder(BlockTags.AXE_MINEABLE)
+        this.getOrCreateTagBuilder(BlockTags.AXE_MINEABLE)
           .add(BLBlocks.DECAYED_WOOD)
           .add(BLBlocks.DECAYED_LOG)
           .add(BLBlocks.STRIPPED_DECAYED_LOG)
           .add(BLBlocks.STRIPPED_DECAYED_WOOD)
           .add(BLBlocks.HUNGRY_DECAYED_LOG)
           .add(BLBlocks.STRIPPED_HUNGRY_DECAYED_LOG);
-        getOrCreateTagBuilder(BLTags.Blocks.DECAYED_LOGS)
+        this.getOrCreateTagBuilder(BLTags.Blocks.DECAYED_LOGS)
           .add(BLBlocks.DECAYED_WOOD)
           .add(BLBlocks.DECAYED_LOG)
           .add(BLBlocks.STRIPPED_DECAYED_LOG)
           .add(BLBlocks.STRIPPED_DECAYED_WOOD)
           .add(BLBlocks.HUNGRY_DECAYED_LOG)
           .add(BLBlocks.STRIPPED_HUNGRY_DECAYED_LOG);
-        getOrCreateTagBuilder(BlockTags.LOGS)
+        this.getOrCreateTagBuilder(BlockTags.LOGS)
           .add(BLBlocks.DECAYED_WOOD)
           .add(BLBlocks.DECAYED_LOG)
           .add(BLBlocks.STRIPPED_DECAYED_LOG)
           .add(BLBlocks.STRIPPED_DECAYED_WOOD)
           .add(BLBlocks.HUNGRY_DECAYED_LOG)
           .add(BLBlocks.STRIPPED_HUNGRY_DECAYED_LOG);
-        getOrCreateTagBuilder(BlockTags.LOGS_THAT_BURN)
+        this.getOrCreateTagBuilder(BlockTags.LOGS_THAT_BURN)
           .add(BLBlocks.DECAYED_WOOD)
           .add(BLBlocks.DECAYED_LOG)
           .add(BLBlocks.STRIPPED_DECAYED_LOG)
           .add(BLBlocks.STRIPPED_DECAYED_WOOD)
           .add(BLBlocks.HUNGRY_DECAYED_LOG)
           .add(BLBlocks.STRIPPED_HUNGRY_DECAYED_LOG);
-        getOrCreateTagBuilder(BLTags.Blocks.HUNGRY_DECAYED_LOGS)
+        this.getOrCreateTagBuilder(BLTags.Blocks.HUNGRY_DECAYED_LOGS)
           .add(BLBlocks.HUNGRY_DECAYED_LOG)
           .add(BLBlocks.STRIPPED_HUNGRY_DECAYED_LOG);
-        getOrCreateTagBuilder(BlockTags.PRESSURE_PLATES)
+        this.getOrCreateTagBuilder(BlockTags.PRESSURE_PLATES)
           .add(BLBlocks.SILVER_PRESSURE_PLATE)
           .add(BLBlocks.DECAYED_PRESSURE_PLATE);
-        getOrCreateTagBuilder(BLTags.Blocks.SILVER_BLOCKS)
+        this.getOrCreateTagBuilder(BLTags.Blocks.SILVER_BLOCKS)
           .add(BLBlocks.SILVER_BLOCK);
-        getOrCreateTagBuilder(BLTags.Blocks.RAW_SILVER_BLOCKS)
+        this.getOrCreateTagBuilder(BLTags.Blocks.RAW_SILVER_BLOCKS)
           .add(BLBlocks.RAW_SILVER_BLOCK);
-        getOrCreateTagBuilder(BLTags.Blocks.SILVER_ORES)
+        this.getOrCreateTagBuilder(BLTags.Blocks.SILVER_ORES)
           .add(BLBlocks.SILVER_ORE)
           .add(BLBlocks.DEEPSLATE_SILVER_ORE);
-        getOrCreateTagBuilder(BlockTags.SAPLINGS)
+        this.getOrCreateTagBuilder(BlockTags.SAPLINGS)
           .add(BLBlocks.GRAFTED_SAPLING);
     }
 }

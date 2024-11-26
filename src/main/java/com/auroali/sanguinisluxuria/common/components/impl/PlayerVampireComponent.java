@@ -74,43 +74,43 @@ public class PlayerVampireComponent implements VampireComponent {
 
     @Override
     public boolean isVampire() {
-        return isVampire;
+        return this.isVampire;
     }
 
     @Override
     public void setIsVampire(boolean isVampire) {
-        if (!AllowVampireChangeEvent.EVENT.invoker().onChanged(holder, this, isVampire))
+        if (!AllowVampireChangeEvent.EVENT.invoker().onChanged(this.holder, this, isVampire))
             return;
 
         this.isVampire = isVampire;
         if (!isVampire) {
-            removeModifiers();
-            timeInSun = 0;
-            bloodDrainTimer = 0;
-            isDowned = false;
-            for (VampireAbility a : abilities) {
-                a.onUnVampire(holder, this);
+            this.removeModifiers();
+            this.timeInSun = 0;
+            this.bloodDrainTimer = 0;
+            this.isDowned = false;
+            for (VampireAbility a : this.abilities) {
+                a.onUnVampire(this.holder, this);
             }
         }
-        BLEntityComponents.VAMPIRE_COMPONENT.sync(holder);
+        BLEntityComponents.VAMPIRE_COMPONENT.sync(this.holder);
     }
 
     @Override
     public void drainBloodFrom(LivingEntity entity) {
         BloodComponent blood = BLEntityComponents.BLOOD_COMPONENT.get(entity);
         // if the target doesn't have blood or cannot be drained, we can't fill hunger
-        if (!blood.hasBlood() || !BloodEvents.ALLOW_BLOOD_DRAIN.invoker().allowBloodDrain(holder, entity) || !blood.drainBlood(holder))
+        if (!blood.hasBlood() || !BloodEvents.ALLOW_BLOOD_DRAIN.invoker().allowBloodDrain(this.holder, entity) || !blood.drainBlood(this.holder))
             return;
 
         // damage the vampire and cancel filling up hunger if the target has blood protection
         if (entity.hasStatusEffect(BLStatusEffects.BLOOD_PROTECTION)) {
-            holder.damage(BLDamageSources.blessedWater(entity), BLConfig.INSTANCE.blessedWaterDamage);
+            this.holder.damage(BLDamageSources.blessedWater(entity), BLConfig.INSTANCE.blessedWaterDamage);
             return;
         }
 
         // handle differing amounts of blood depending on the good blood tag and unlocked abilities
         int bloodAmount = 1;
-        if (!VampireHelper.isVampire(entity) && abilities.hasAbility(BLVampireAbilities.MORE_BLOOD))
+        if (!VampireHelper.isVampire(entity) && this.abilities.hasAbility(BLVampireAbilities.MORE_BLOOD))
             bloodAmount = 2;
 
         if (!VampireHelper.isVampire(entity) && entity.getType().isIn(BLTags.Entities.GOOD_BLOOD))
@@ -118,28 +118,28 @@ public class PlayerVampireComponent implements VampireComponent {
 
         // try to fill any held blood-storing items first if possible and allowed. if that fails,
         // add to the player's hunger
-        ((VampireHungerManager) holder.getHungerManager()).sanguinisluxuria$addHunger(bloodAmount, 0.125f);
-        BloodEvents.BLOOD_DRAINED.invoker().onBloodDrained(holder, entity, bloodAmount);
+        ((VampireHungerManager) this.holder.getHungerManager()).sanguinisluxuria$addHunger(bloodAmount, 0.125f);
+        BloodEvents.BLOOD_DRAINED.invoker().onBloodDrained(this.holder, entity, bloodAmount);
 
 
         // reset the downed state
-        setDowned(false);
+        this.setDowned(false);
 
-        holder.getWorld().emitGameEvent(holder, GameEvent.DRINK, holder.getPos());
+        this.holder.getWorld().emitGameEvent(this.holder, GameEvent.DRINK, this.holder.getPos());
 
         // if the potion transfer ability is unlocked, transfer potion effects to the target
-        if (abilities.hasAbility(BLVampireAbilities.TRANSFER_EFFECTS)) {
-            BLVampireAbilities.TRANSFER_EFFECTS.sync(entity, InfectiousAbility.InfectiousData.create(entity, holder.getStatusEffects()));
-            VampireHelper.transferStatusEffects(holder, target);
+        if (this.abilities.hasAbility(BLVampireAbilities.TRANSFER_EFFECTS)) {
+            BLVampireAbilities.TRANSFER_EFFECTS.sync(entity, InfectiousAbility.InfectiousData.create(entity, this.holder.getStatusEffects()));
+            VampireHelper.transferStatusEffects(this.holder, this.target);
         }
 
         // apply any negative effects for toxic blood
         if (entity.getType().isIn(BLTags.Entities.TOXIC_BLOOD))
-            VampireHelper.addToxicBloodEffects(holder);
+            VampireHelper.addToxicBloodEffects(this.holder);
 
         // allow conversion of entities with weakness
         if (!VampireHelper.isVampire(entity) && entity.hasStatusEffect(StatusEffects.WEAKNESS)) {
-            if (holder instanceof ServerPlayerEntity player)
+            if (this.holder instanceof ServerPlayerEntity player)
                 BLAdvancementCriterion.INFECT_ENTITY.trigger(player);
             VampireHelper.incrementBloodSickness(entity);
         }
@@ -147,70 +147,70 @@ public class PlayerVampireComponent implements VampireComponent {
         // villagers have a 50% chance to wake up when having their blood drained
         // it also adds negative reputation to the player
         if (entity.getWorld() instanceof ServerWorld serverWorld && entity instanceof VillagerEntity villager) {
-            serverWorld.handleInteraction(EntityInteraction.VILLAGER_HURT, holder, villager);
-            if (holder.getRandom().nextDouble() > 0.5f)
+            serverWorld.handleInteraction(EntityInteraction.VILLAGER_HURT, this.holder, villager);
+            if (this.holder.getRandom().nextDouble() > 0.5f)
                 entity.wakeUp();
         }
 
         if (entity.getType().isIn(BLTags.Entities.TELEPORTS_ON_DRAIN)) {
-            VampireHelper.teleportRandomly(holder);
+            VampireHelper.teleportRandomly(this.holder);
         }
     }
 
     @Override
     public void readFromNbt(NbtCompound tag) {
-        isVampire = tag.getBoolean("IsVampire");
-        timeInSun = tag.getInt("TimeInSun");
-        skillPoints = tag.getInt("SkillPoints");
-        level = tag.getInt("Level");
-        isDowned = tag.getBoolean("IsDowned");
-        abilities.load(tag);
-        abilities.setShouldSync(true);
-        BLEntityComponents.VAMPIRE_COMPONENT.sync(holder);
+        this.isVampire = tag.getBoolean("IsVampire");
+        this.timeInSun = tag.getInt("TimeInSun");
+        this.skillPoints = tag.getInt("SkillPoints");
+        this.level = tag.getInt("Level");
+        this.isDowned = tag.getBoolean("IsDowned");
+        this.abilities.load(tag);
+        this.abilities.setShouldSync(true);
+        BLEntityComponents.VAMPIRE_COMPONENT.sync(this.holder);
     }
 
     @Override
     public void writeToNbt(NbtCompound tag) {
-        tag.putBoolean("IsVampire", isVampire);
-        tag.putInt("TimeInSun", timeInSun);
-        tag.putInt("SkillPoints", skillPoints);
-        tag.putInt("Level", level);
-        tag.putBoolean("IsDowned", isDowned);
-        abilities.save(tag);
+        tag.putBoolean("IsVampire", this.isVampire);
+        tag.putInt("TimeInSun", this.timeInSun);
+        tag.putInt("SkillPoints", this.skillPoints);
+        tag.putInt("Level", this.level);
+        tag.putBoolean("IsDowned", this.isDowned);
+        this.abilities.save(tag);
     }
 
     @Override
     public void serverTick() {
-        if (!isVampire)
+        if (!this.isVampire)
             return;
 
-        abilities.tick(holder, this);
-        if (abilities.needsSync())
-            requestSync(SYNC_ABILITIES);
+        this.abilities.tick(this.holder, this);
+        if (this.abilities.needsSync())
+            this.requestSync(SYNC_ABILITIES);
 
-        tickSunEffects();
-        tickBloodEffects();
+        this.tickSunEffects();
+        this.tickBloodEffects();
 
-        if (target != null) {
-            tickBloodDrain();
+        if (this.target != null) {
+            this.tickBloodDrain();
         }
 
-        if (needsSync)
-            BLEntityComponents.VAMPIRE_COMPONENT.sync(holder);
+        if (this.needsSync)
+            BLEntityComponents.VAMPIRE_COMPONENT.sync(this.holder);
     }
 
     private void removeModifiers() {
-        AttributeContainer attributes = holder.getAttributes();
+        AttributeContainer attributes = this.holder.getAttributes();
         EntityAttributeInstance speedInstance = attributes.getCustomInstance(EntityAttributes.GENERIC_MOVEMENT_SPEED);
         if (speedInstance != null && speedInstance.hasModifier(SPEED_ATTRIBUTE))
             speedInstance.removeModifier(SPEED_ATTRIBUTE);
     }
 
     private void tickBloodEffects() {
-        BloodComponent blood = BLEntityComponents.BLOOD_COMPONENT.get(holder);
+        BloodComponent blood = BLEntityComponents.BLOOD_COMPONENT.get(this.holder);
 
         if (blood.getBlood() < 6)
-            holder.addStatusEffect(new StatusEffectInstance(
+            this.holder.addStatusEffect(new StatusEffectInstance(
               StatusEffects.WEAKNESS,
               4,
               0,
@@ -218,7 +218,7 @@ public class PlayerVampireComponent implements VampireComponent {
               true
             ));
 
-        EntityAttributeInstance speedInstance = holder.getAttributes().getCustomInstance(EntityAttributes.GENERIC_MOVEMENT_SPEED);
+        EntityAttributeInstance speedInstance = this.holder.getAttributes().getCustomInstance(EntityAttributes.GENERIC_MOVEMENT_SPEED);
         if (speedInstance != null && blood.getBlood() > 4 && !speedInstance.hasModifier(SPEED_ATTRIBUTE)) {
             speedInstance.addPersistentModifier(SPEED_ATTRIBUTE);
         } else if (speedInstance != null && blood.getBlood() <= 4 && speedInstance.hasModifier(SPEED_ATTRIBUTE)) {
@@ -227,16 +227,16 @@ public class PlayerVampireComponent implements VampireComponent {
     }
 
     private void tickSunEffects() {
-        if (!isAffectedByDaylight()) {
-            if (timeInSun > 0) {
-                timeInSun = 0;
-                requestSync(SYNC_SUN_TICKS);
+        if (!this.isAffectedByDaylight()) {
+            if (this.timeInSun > 0) {
+                this.timeInSun = 0;
+                this.requestSync(SYNC_SUN_TICKS);
             }
             return;
         }
 
-        if (timeInSun >= getMaxTimeInSun() / 2)
-            holder.addStatusEffect(new StatusEffectInstance(
+        if (this.timeInSun >= this.getMaxTimeInSun() / 2)
+            this.holder.addStatusEffect(new StatusEffectInstance(
               StatusEffects.WEAKNESS,
               4,
               0,
@@ -245,27 +245,27 @@ public class PlayerVampireComponent implements VampireComponent {
             ));
 
 
-        if (timeInSun < getMaxTimeInSun()) {
-            timeInSun++;
-            requestSync(SYNC_SUN_TICKS);
+        if (this.timeInSun < this.getMaxTimeInSun()) {
+            this.timeInSun++;
+            this.requestSync(SYNC_SUN_TICKS);
             return;
         }
 
-        holder.setOnFireFor(6);
+        this.holder.setOnFireFor(6);
     }
 
     private void tickBloodDrain() {
-        updateTarget();
-        if (target == null) {
-            bloodDrainTimer = 0;
-            requestSync(SYNC_BLOOD_DRAIN);
+        this.updateTarget();
+        if (this.target == null) {
+            this.bloodDrainTimer = 0;
+            this.requestSync(SYNC_BLOOD_DRAIN);
             return;
         }
 
-        targetHasBleeding = target.hasStatusEffect(BLStatusEffects.BLEEDING);
-        bloodDrainTimer++;
+        this.targetHasBleeding = this.target.hasStatusEffect(BLStatusEffects.BLEEDING);
+        this.bloodDrainTimer++;
 
-        target.addStatusEffect(new StatusEffectInstance(
+        this.target.addStatusEffect(new StatusEffectInstance(
           StatusEffects.SLOWNESS,
           2,
           4,
@@ -274,12 +274,12 @@ public class PlayerVampireComponent implements VampireComponent {
           false
         ));
 
-        if (bloodDrainTimer % 4 == 0)
-            holder.getWorld().playSound(
+        if (this.bloodDrainTimer % 4 == 0)
+            this.holder.getWorld().playSound(
               null,
-              holder.getX(),
-              holder.getY(),
-              holder.getZ(),
+              this.holder.getX(),
+              this.holder.getY(),
+              this.holder.getZ(),
               BLSounds.DRAIN_BLOOD,
               SoundCategory.PLAYERS,
               0.5f,
@@ -287,24 +287,24 @@ public class PlayerVampireComponent implements VampireComponent {
             );
 
         // need to implement faster draining with bleeding
-        int timeToDrain = targetHasBleeding ? BloodConstants.BLOOD_DRAIN_TIME_BLEEDING : BloodConstants.BLOOD_DRAIN_TIME;
-        if (bloodDrainTimer >= timeToDrain) {
-            drainBloodFrom(target);
-            bloodDrainTimer = 0;
+        int timeToDrain = this.targetHasBleeding ? BloodConstants.BLOOD_DRAIN_TIME_BLEEDING : BloodConstants.BLOOD_DRAIN_TIME;
+        if (this.bloodDrainTimer >= timeToDrain) {
+            this.drainBloodFrom(this.target);
+            this.bloodDrainTimer = 0;
         }
 
-        requestSync(SYNC_BLOOD_DRAIN);
+        this.requestSync(SYNC_BLOOD_DRAIN);
     }
 
     // from MobEntity
     private boolean isAffectedByDaylight() {
-        if (holder.getWorld().isDay() && !holder.getWorld().isClient) {
-            float f = holder.getBrightnessAtEyes();
-            BlockPos blockPos = BlockPos.ofFloored(holder.getX(), holder.getEyeY(), holder.getZ());
-            boolean bl = holder.isWet() || holder.inPowderSnow || holder.wasInPowderSnow;
+        if (this.holder.getWorld().isDay() && !this.holder.getWorld().isClient) {
+            float f = this.holder.getBrightnessAtEyes();
+            BlockPos blockPos = BlockPos.ofFloored(this.holder.getX(), this.holder.getEyeY(), this.holder.getZ());
+            boolean bl = this.holder.isWet() || this.holder.inPowderSnow || this.holder.wasInPowderSnow;
             return f > 0.5F
               && !bl
-              && holder.getWorld().isSkyVisible(blockPos);
+              && this.holder.getWorld().isSkyVisible(blockPos);
         }
 
         return false;
@@ -312,94 +312,94 @@ public class PlayerVampireComponent implements VampireComponent {
 
     @Override
     public void writeSyncPacket(PacketByteBuf buf, ServerPlayerEntity recipient) {
-        needsSync = false;
-        buf.writeBoolean(isVampire);
-        buf.writeBoolean(isDowned);
+        this.needsSync = false;
+        buf.writeBoolean(this.isVampire);
+        buf.writeBoolean(this.isDowned);
         // sync blood drain info
-        buf.writeBoolean(shouldSync(SYNC_BLOOD_DRAIN));
-        if (shouldSync(SYNC_BLOOD_DRAIN)) {
-            buf.writeVarInt(bloodDrainTimer);
-            buf.writeBoolean(targetHasBleeding);
+        buf.writeBoolean(this.shouldSync(SYNC_BLOOD_DRAIN));
+        if (this.shouldSync(SYNC_BLOOD_DRAIN)) {
+            buf.writeVarInt(this.bloodDrainTimer);
+            buf.writeBoolean(this.targetHasBleeding);
         }
         // sync time in sun
-        buf.writeBoolean(shouldSync(SYNC_SUN_TICKS));
-        if (shouldSync(SYNC_SUN_TICKS))
-            buf.writeVarInt(timeInSun);
+        buf.writeBoolean(this.shouldSync(SYNC_SUN_TICKS));
+        if (this.shouldSync(SYNC_SUN_TICKS))
+            buf.writeVarInt(this.timeInSun);
         // sync abilities
-        buf.writeBoolean(shouldSync(SYNC_ABILITIES));
-        if (shouldSync(SYNC_ABILITIES)) {
-            buf.writeInt(level);
-            buf.writeInt(skillPoints);
-            abilities.writePacket(buf);
-            abilities.setShouldSync(false);
+        buf.writeBoolean(this.shouldSync(SYNC_ABILITIES));
+        if (this.shouldSync(SYNC_ABILITIES)) {
+            buf.writeInt(this.level);
+            buf.writeInt(this.skillPoints);
+            this.abilities.writePacket(buf);
+            this.abilities.setShouldSync(false);
         }
         this.syncType = 0;
     }
 
     @Override
     public void applySyncPacket(PacketByteBuf buf) {
-        isVampire = buf.readBoolean();
-        isDowned = buf.readBoolean();
+        this.isVampire = buf.readBoolean();
+        this.isDowned = buf.readBoolean();
 
         if (buf.readBoolean()) {
-            bloodDrainTimer = buf.readVarInt();
-            targetHasBleeding = buf.readBoolean();
+            this.bloodDrainTimer = buf.readVarInt();
+            this.targetHasBleeding = buf.readBoolean();
         }
 
         if (buf.readBoolean())
-            timeInSun = buf.readVarInt();
+            this.timeInSun = buf.readVarInt();
 
         if (buf.readBoolean()) {
-            level = buf.readInt();
-            skillPoints = buf.readInt();
-            abilities.readPacket(buf);
+            this.level = buf.readInt();
+            this.skillPoints = buf.readInt();
+            this.abilities.readPacket(buf);
         }
     }
 
     @Override
     public void tryStartSuckingBlood() {
-        if (canDrainBlood() && target == null) {
-            updateTarget();
-            if (target == null)
-                tryToFillStorage();
+        if (this.canDrainBlood() && this.target == null) {
+            this.updateTarget();
+            if (this.target == null)
+                this.tryToFillStorage();
         }
     }
 
     private void tryToFillStorage() {
-        BloodComponent blood = BLEntityComponents.BLOOD_COMPONENT.get(holder);
+        BloodComponent blood = BLEntityComponents.BLOOD_COMPONENT.get(this.holder);
         if (blood.getBlood() == 0)
             return;
 
-        if (BloodStorageItem.tryAddBloodToItemInHand(holder, 1))
+        if (BloodStorageItem.tryAddBloodToItemInHand(this.holder, 1))
             blood.drainBlood();
     }
 
     @Override
     public void stopSuckingBlood() {
-        target = null;
-        bloodDrainTimer = 0;
-        requestSync(SYNC_BLOOD_DRAIN);
-        BLEntityComponents.VAMPIRE_COMPONENT.sync(holder);
+        this.target = null;
+        this.bloodDrainTimer = 0;
+        this.requestSync(SYNC_BLOOD_DRAIN);
+        BLEntityComponents.VAMPIRE_COMPONENT.sync(this.holder);
     }
 
     private boolean canDrainBlood() {
-        return !VampireHelper.isMasked(holder);
+        return !VampireHelper.isMasked(this.holder);
     }
 
     @Override
     public int getBloodDrainTimer() {
-        return bloodDrainTimer;
+        return this.bloodDrainTimer;
     }
 
     @Override
     public int getMaxTimeInSun() {
         int maxTime = 40;
-        ItemStack helmet = holder.getEquippedStack(EquipmentSlot.HEAD);
+        ItemStack helmet = this.holder.getEquippedStack(EquipmentSlot.HEAD);
 
         if (helmet.isIn(BLTags.Items.SUN_BLOCKING_HELMETS))
             maxTime *= 4;
 
-        if (abilities.hasAbility(BLVampireAbilities.SUN_PROTECTION))
+        if (this.abilities.hasAbility(BLVampireAbilities.SUN_PROTECTION))
             maxTime += 40;
 
         int level = EnchantmentHelper.getLevel(BLEnchantments.SUN_PROTECTION, helmet);
@@ -410,66 +410,66 @@ public class PlayerVampireComponent implements VampireComponent {
 
     @Override
     public int getTimeInSun() {
-        return timeInSun;
+        return this.timeInSun;
     }
 
     @Override
     public VampireAbilityContainer getAbilties() {
-        return abilities;
+        return this.abilities;
     }
 
     @Override
     public int getSkillPoints() {
-        return skillPoints;
+        return this.skillPoints;
     }
 
     @Override
     public void unlockAbility(VampireAbility ability) {
-        getAbilties().addAbility(ability);
-        skillPoints -= ability.getRequiredSkillPoints();
-        requestSync(SYNC_ABILITIES);
-        BLEntityComponents.VAMPIRE_COMPONENT.sync(holder);
-        if (holder instanceof ServerPlayerEntity entity) {
+        this.getAbilties().addAbility(ability);
+        this.skillPoints -= ability.getRequiredSkillPoints();
+        this.requestSync(SYNC_ABILITIES);
+        BLEntityComponents.VAMPIRE_COMPONENT.sync(this.holder);
+        if (this.holder instanceof ServerPlayerEntity entity) {
             BLAdvancementCriterion.UNLOCK_ABILITY.trigger(entity, ability);
         }
     }
 
     @Override
     public boolean isDown() {
-        return isDowned;
+        return this.isDowned;
     }
 
     @Override
     public void setDowned(boolean down) {
         this.isDowned = down;
-        BLEntityComponents.VAMPIRE_COMPONENT.sync(holder);
+        BLEntityComponents.VAMPIRE_COMPONENT.sync(this.holder);
     }
 
     @Override
     public void setSkillPoints(int i) {
         this.skillPoints = i;
-        requestSync(SYNC_BLOOD_DRAIN);
-        BLEntityComponents.VAMPIRE_COMPONENT.sync(holder);
+        this.requestSync(SYNC_BLOOD_DRAIN);
+        BLEntityComponents.VAMPIRE_COMPONENT.sync(this.holder);
     }
 
     @Override
     public void setLevel(int level) {
         this.skillPoints += BLConfig.INSTANCE.skillPointsPerLevel * Math.max(level - this.level, 0);
         this.level = level;
-        requestSync(SYNC_BLOOD_DRAIN);
-        BLEntityComponents.VAMPIRE_COMPONENT.sync(holder);
+        this.requestSync(SYNC_BLOOD_DRAIN);
+        BLEntityComponents.VAMPIRE_COMPONENT.sync(this.holder);
     }
 
     @Override
     public int getLevel() {
-        return level;
+        return this.level;
     }
 
     private void updateTarget() {
-        HitResult result = getTarget();
-        if (!canDrainBlood() || result.getType() != HitResult.Type.ENTITY) {
-            target = null;
-            bloodDrainTimer = 0;
+        HitResult result = this.getTarget();
+        if (!this.canDrainBlood() || result.getType() != HitResult.Type.ENTITY) {
+            this.target = null;
+            this.bloodDrainTimer = 0;
             return;
         }
 
@@ -480,32 +480,32 @@ public class PlayerVampireComponent implements VampireComponent {
           || !BLEntityComponents.BLOOD_COMPONENT.get(entity).hasBlood()
           || BLEntityComponents.BLOOD_COMPONENT.get(entity).getBlood() == 0
         ) {
-            target = null;
-            bloodDrainTimer = 0;
+            this.target = null;
+            this.bloodDrainTimer = 0;
             return;
         }
 
-        target = entity;
+        this.target = entity;
     }
 
     private HitResult getTarget() {
-        double reachDistance = ReachEntityAttributes.getAttackRange(holder, 3.0);
-        Vec3d start = holder.getEyePos();
-        Vec3d end = start.add(holder.getRotationVector().multiply(reachDistance));
+        double reachDistance = ReachEntityAttributes.getAttackRange(this.holder, 3.0);
+        Vec3d start = this.holder.getEyePos();
+        Vec3d end = start.add(this.holder.getRotationVector().multiply(reachDistance));
 
-        HitResult result = holder.getWorld().raycast(new RaycastContext(
-          start, end, RaycastContext.ShapeType.OUTLINE, RaycastContext.FluidHandling.NONE, holder
+        HitResult result = this.holder.getWorld().raycast(new RaycastContext(
+          start, end, RaycastContext.ShapeType.OUTLINE, RaycastContext.FluidHandling.NONE, this.holder
         ));
 
-        Vec3d vec3d2 = holder.getRotationVec(1.0F);
+        Vec3d vec3d2 = this.holder.getRotationVec(1.0F);
         Vec3d vec3d3 = start.add(vec3d2.x * reachDistance, vec3d2.y * reachDistance, vec3d2.z * reachDistance);
 
-        Box box = holder.getBoundingBox().stretch(vec3d2.multiply(reachDistance)).expand(1.0, 1.0, 1.0);
+        Box box = this.holder.getBoundingBox().stretch(vec3d2.multiply(reachDistance)).expand(1.0, 1.0, 1.0);
 
         double d = reachDistance * reachDistance;
         if (result != null)
             d = result.getPos().squaredDistanceTo(start);
-        EntityHitResult entityHitResult = ProjectileUtil.raycast(holder, start, vec3d3, box, entity -> !entity.isSpectator() && entity.canHit(), d);
+        EntityHitResult entityHitResult = ProjectileUtil.raycast(this.holder, start, vec3d3, box, entity -> !entity.isSpectator() && entity.canHit(), d);
         if (entityHitResult != null) {
             double g = start.squaredDistanceTo(entityHitResult.getPos());
             if (g < d || result == null) {

@@ -49,14 +49,14 @@ public class ItemDisplayingBlockEntityRenderer<T extends BlockEntity & ItemDispl
         Vec3d displayOffset = entity.getDisplayOffset();
 
         matrices.push();
-        random.setSeed(Item.getRawId(displayItem.getItem()) + displayItem.getDamage());
+        this.random.setSeed(Item.getRawId(displayItem.getItem()) + displayItem.getDamage());
         matrices.translate(displayOffset.getX(), displayOffset.getY(), displayOffset.getZ());
         float bobbing = MathHelper.sin((displayTicks + tickDelta) / 10.0F) * 0.1F + 0.1F;
         //matrices.translate(0, bobbing, 0);
         float rotation = (displayTicks + tickDelta) / 20.0f;
         matrices.multiply(RotationAxis.POSITIVE_Y.rotation(rotation));
 
-        BakedModel model = itemRenderer.getModel(displayItem, entity.getWorld(), null, entity.getPos().hashCode());
+        BakedModel model = this.itemRenderer.getModel(displayItem, entity.getWorld(), null, entity.getPos().hashCode());
         boolean hasDepth = model.hasDepth();
 
         float yScale = model.getTransformation().getTransformation(ModelTransformationMode.GROUND).scale.y();
@@ -64,7 +64,7 @@ public class ItemDisplayingBlockEntityRenderer<T extends BlockEntity & ItemDispl
         float xGroundScale = model.getTransformation().ground.scale.x();
         float yGroundScale = model.getTransformation().ground.scale.y();
         float zGroundScale = model.getTransformation().ground.scale.z();
-        int amount = getRenderedAmount(displayItem);
+        int amount = this.getRenderedAmount(displayItem);
         if (!hasDepth) {
             float r = -0.0F * (float) (amount - 1) * 0.5F * xGroundScale;
             float s = -0.0F * (float) (amount - 1) * 0.5F * yGroundScale;
@@ -76,13 +76,13 @@ public class ItemDisplayingBlockEntityRenderer<T extends BlockEntity & ItemDispl
             matrices.push();
             if (i > 0) {
                 if (hasDepth) {
-                    float s = (random.nextFloat() * 2.0F - 1.0F) * 0.15F;
-                    float t = (random.nextFloat() * 2.0F - 1.0F) * 0.15F;
-                    float v = (random.nextFloat() * 2.0F - 1.0F) * 0.15F;
+                    float s = (this.random.nextFloat() * 2.0F - 1.0F) * 0.15F;
+                    float t = (this.random.nextFloat() * 2.0F - 1.0F) * 0.15F;
+                    float v = (this.random.nextFloat() * 2.0F - 1.0F) * 0.15F;
                     matrices.translate(s, t, v);
                 } else {
-                    float s = (random.nextFloat() * 2.0F - 1.0F) * 0.15F * 0.5F;
-                    float t = (random.nextFloat() * 2.0F - 1.0F) * 0.15F * 0.5F;
+                    float s = (this.random.nextFloat() * 2.0F - 1.0F) * 0.15F * 0.5F;
+                    float t = (this.random.nextFloat() * 2.0F - 1.0F) * 0.15F * 0.5F;
                     matrices.translate(s, t, 0.0);
                 }
             }

@@ -70,7 +70,7 @@ public class BloodlustClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        registerBindings();
+        this.registerBindings();
 
         BLModelLayers.register();
 
@@ -185,10 +185,10 @@ public class BloodlustClient implements ClientModInitializer {
             if (SUCK_BLOOD.isPressed()) {
                 if (isLookingAtValidTarget() || !VampireHelper.getItemInHand(client.player, Hand.MAIN_HAND, BloodStorageItem.FILLABLE_ITEM_PREDICATE).isEmpty()) {
                     ClientPlayNetworking.send(new DrainBloodC2S(true));
-                    drainingBlood = true;
+                    this.drainingBlood = true;
                 }
-            } else if (drainingBlood) {
-                drainingBlood = false;
+            } else if (this.drainingBlood) {
+                this.drainingBlood = false;
                 ClientPlayNetworking.send(new DrainBloodC2S(false));
             }
         });

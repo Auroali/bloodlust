@@ -35,8 +35,8 @@ public class EntityVampireComponent<T extends LivingEntity> implements VampireCo
     public EntityVampireComponent(T holder, Predicate<T> vampirePredicate, VampireAbility... abilities) {
         this.holder = holder;
         this.vampirePredicate = vampirePredicate;
-        defaultAbilities = Arrays.stream(abilities).toList();
-        defaultAbilities.forEach(this.abilities::addAbility);
+        this.defaultAbilities = Arrays.stream(abilities).toList();
+        this.defaultAbilities.forEach(this.abilities::addAbility);
     }
 
     public EntityVampireComponent(T holder, VampireAbility... abilities) {
@@ -45,7 +45,7 @@ public class EntityVampireComponent<T extends LivingEntity> implements VampireCo
 
     @Override
     public boolean isVampire() {
-        return vampirePredicate.test(holder);
+        return this.vampirePredicate.test(this.holder);
     }
 
     @Override
@@ -56,77 +56,77 @@ public class EntityVampireComponent<T extends LivingEntity> implements VampireCo
     @Override
     public void drainBloodFrom(LivingEntity entity) {
         BloodComponent blood = BLEntityComponents.BLOOD_COMPONENT.get(entity);
-        BloodComponent holderBlood = BLEntityComponents.BLOOD_COMPONENT.get(holder);
-        if (!blood.hasBlood() || !BloodEvents.ALLOW_BLOOD_DRAIN.invoker().allowBloodDrain(holder, entity) || !blood.drainBlood(holder))
+        BloodComponent holderBlood = BLEntityComponents.BLOOD_COMPONENT.get(this.holder);
+        if (!blood.hasBlood() || !BloodEvents.ALLOW_BLOOD_DRAIN.invoker().allowBloodDrain(this.holder, entity) || !blood.drainBlood(this.holder))
             return;
 
         // damage the vampire and cancel filling up hunger if the target has blood protection
         if (entity.hasStatusEffect(BLStatusEffects.BLOOD_PROTECTION)) {
-            holder.damage(BLDamageSources.blessedWater(entity), BLConfig.INSTANCE.blessedWaterDamage);
+            this.holder.damage(BLDamageSources.blessedWater(entity), BLConfig.INSTANCE.blessedWaterDamage);
             return;
         }
 
         // handle differing amounts of blood depending on the good blood tag and unlocked abilities
         int bloodAmount = 1;
-        if (!VampireHelper.isVampire(entity) && abilities.hasAbility(BLVampireAbilities.MORE_BLOOD))
+        if (!VampireHelper.isVampire(entity) && this.abilities.hasAbility(BLVampireAbilities.MORE_BLOOD))
             bloodAmount = 2;
 
         if (!VampireHelper.isVampire(entity) && entity.getType().isIn(BLTags.Entities.GOOD_BLOOD))
             bloodAmount *= 2;
 
         holderBlood.addBlood(bloodAmount);
-        BloodEvents.BLOOD_DRAINED.invoker().onBloodDrained(holder, entity, bloodAmount);
+        BloodEvents.BLOOD_DRAINED.invoker().onBloodDrained(this.holder, entity, bloodAmount);
 
-        setDowned(false);
-        holder.getWorld().emitGameEvent(holder, GameEvent.DRINK, holder.getPos());
+        this.setDowned(false);
+        this.holder.getWorld().emitGameEvent(this.holder, GameEvent.DRINK, this.holder.getPos());
 
         // if the potion transfer ability is unlocked, transfer potion effects to the target
-        if (abilities.hasAbility(BLVampireAbilities.TRANSFER_EFFECTS)) {
-            BLVampireAbilities.TRANSFER_EFFECTS.sync(entity, InfectiousAbility.InfectiousData.create(entity, holder.getStatusEffects()));
-            transferPotionEffectsTo(entity);
+        if (this.abilities.hasAbility(BLVampireAbilities.TRANSFER_EFFECTS)) {
+            BLVampireAbilities.TRANSFER_EFFECTS.sync(entity, InfectiousAbility.InfectiousData.create(entity, this.holder.getStatusEffects()));
+            this.transferPotionEffectsTo(entity);
         }
 
         // apply any negative effects for toxic blood
         if (entity.getType().isIn(BLTags.Entities.TOXIC_BLOOD))
-            addToxicBloodEffects();
+            this.addToxicBloodEffects();
 
         // allow conversion of entities with weakness
         if (!VampireHelper.isVampire(entity) && entity.hasStatusEffect(StatusEffects.WEAKNESS)) {
-            if (holder instanceof ServerPlayerEntity player)
+            if (this.holder instanceof ServerPlayerEntity player)
                 BLAdvancementCriterion.INFECT_ENTITY.trigger(player);
-            addBloodSickness(entity);
+            this.addBloodSickness(entity);
         }
 
         // villagers have a 50% chance to wake up when having their blood drained
         // it also adds negative reputation to the player
         if (entity.getWorld() instanceof ServerWorld serverWorld && entity instanceof VillagerEntity villager) {
-            serverWorld.handleInteraction(EntityInteraction.VILLAGER_HURT, holder, villager);
-            if (holder.getRandom().nextDouble() > 0.5f)
+            serverWorld.handleInteraction(EntityInteraction.VILLAGER_HURT, this.holder, villager);
+            if (this.holder.getRandom().nextDouble() > 0.5f)
                 entity.wakeUp();
         }
 
         if (entity.getType().isIn(BLTags.Entities.TELEPORTS_ON_DRAIN)) {
-            VampireHelper.teleportRandomly(holder);
+            VampireHelper.teleportRandomly(this.holder);
         }
     }
 
     private void addToxicBloodEffects() {
-        holder.addStatusEffect(new StatusEffectInstance(StatusEffects.HUNGER, 300, 3));
-        holder.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 100, 0));
-        if (holder.getRandom().nextDouble() > 0.75)
-            holder.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, 100, 0));
+        this.holder.addStatusEffect(new StatusEffectInstance(StatusEffects.HUNGER, 300, 3));
+        this.holder.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 100, 0));
+        if (this.holder.getRandom().nextDouble() > 0.75)
+            this.holder.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, 100, 0));
     }
 
     private void transferPotionEffectsTo(LivingEntity entity) {
-        for (StatusEffectInstance instance : holder.getStatusEffects()) {
+        for (StatusEffectInstance instance : this.holder.getStatusEffects()) {
             entity.addStatusEffect(instance);
         }
 
-        if (holder instanceof ServerPlayerEntity player) {
+        if (this.holder instanceof ServerPlayerEntity player) {
             BLAdvancementCriterion.TRANSFER_EFFECTS.trigger(player, player.getStatusEffects().size());
         }
 
-        holder.clearStatusEffects();
+        this.holder.clearStatusEffects();
     }
 
     private void addBloodSickness(LivingEntity target) {
@@ -164,7 +164,7 @@ public class EntityVampireComponent<T extends LivingEntity> implements VampireCo
 
     @Override
     public VampireAbilityContainer getAbilties() {
-        return abilities;
+        return this.abilities;
     }
 
     @Override
@@ -189,36 +189,36 @@ public class EntityVampireComponent<T extends LivingEntity> implements VampireCo
 
     @Override
     public void unlockAbility(VampireAbility ability) {
-        abilities.addAbility(ability);
+        this.abilities.addAbility(ability);
     }
 
     @Override
     public boolean isDown() {
-        return downed;
+        return this.downed;
     }
 
     @Override
     public void setDowned(boolean down) {
         this.downed = down;
-        BLEntityComponents.VAMPIRE_COMPONENT.sync(holder);
+        BLEntityComponents.VAMPIRE_COMPONENT.sync(this.holder);
     }
 
     @Override
     public void serverTick() {
-        abilities.tick(holder, this);
+        this.abilities.tick(this.holder, this);
     }
 
     @Override
     public void readFromNbt(NbtCompound tag) {
-        downed = tag.getBoolean("Downed");
-        abilities.load(tag);
+        this.downed = tag.getBoolean("Downed");
+        this.abilities.load(tag);
         // ensure that all default abilities are present
-        defaultAbilities.forEach(abilities::addAbility);
+        this.defaultAbilities.forEach(this.abilities::addAbility);
     }
 
     @Override
     public void writeToNbt(NbtCompound tag) {
-        tag.putBoolean("Downed", downed);
-        abilities.save(tag);
+        tag.putBoolean("Downed", this.downed);
+        this.abilities.save(tag);
     }
 }

@@ -21,75 +21,70 @@ public class BLItemTagsProvider extends FabricTagProvider<Item> {
 
     @Override
     protected void configure(RegistryWrapper.WrapperLookup arg) {
-        getOrCreateTagBuilder(BLTags.Items.FACE_TRINKETS)
+        this.getOrCreateTagBuilder(BLTags.Items.FACE_TRINKETS)
           .add(BLItems.MASK_1)
           .add(BLItems.MASK_2)
           .add(BLItems.MASK_3);
-        getOrCreateTagBuilder(BLTags.Items.NECKLACE_TRINKETS)
+        this.getOrCreateTagBuilder(BLTags.Items.NECKLACE_TRINKETS)
           .add(BLItems.PENDANT_OF_PIERCING);
-//        getOrCreateTagBuilder(BLTags.Items.VAMPIRE_EDIBLE)
-//                .add(Items.GOLDEN_APPLE)
-//                .add(Items.ENCHANTED_GOLDEN_APPLE)
-//                .add(Items.HONEY_BOTTLE)
-//                .add(Items.SUSPICIOUS_STEW);
-        getOrCreateTagBuilder(BLTags.Items.SUN_BLOCKING_HELMETS)
+        this.getOrCreateTagBuilder(BLTags.Items.SUN_BLOCKING_HELMETS)
           .add(Items.LEATHER_HELMET)
           .add(Items.CARVED_PUMPKIN);
-        getOrCreateTagBuilder(BLTags.Items.VAMPIRE_MASKS)
+        this.getOrCreateTagBuilder(BLTags.Items.VAMPIRE_MASKS)
           .add(BLItems.MASK_1)
           .add(BLItems.MASK_2)
           .add(BLItems.MASK_3);
-        getOrCreateTagBuilder(BLTags.Items.SILVER_INGOTS)
+        this.getOrCreateTagBuilder(BLTags.Items.SILVER_INGOTS)
           .add(BLItems.SILVER_INGOT);
-        getOrCreateTagBuilder(ItemTags.PICKAXES)
+        this.getOrCreateTagBuilder(ItemTags.PICKAXES)
           .add(BLItems.SILVER_PICKAXE);
-        getOrCreateTagBuilder(ItemTags.AXES)
+        this.getOrCreateTagBuilder(ItemTags.AXES)
           .add(BLItems.SILVER_AXE);
-        getOrCreateTagBuilder(ItemTags.SWORDS)
+        this.getOrCreateTagBuilder(ItemTags.SWORDS)
           .add(BLItems.SILVER_SWORD);
-        getOrCreateTagBuilder(ItemTags.HOES)
+        this.getOrCreateTagBuilder(ItemTags.HOES)
           .add(BLItems.SILVER_HOE);
-        getOrCreateTagBuilder(ItemTags.SHOVELS)
+        this.getOrCreateTagBuilder(ItemTags.SHOVELS)
           .add(BLItems.SILVER_SHOVEL);
-        getOrCreateTagBuilder(ConventionalItemTags.ORES)
+        this.getOrCreateTagBuilder(ConventionalItemTags.ORES)
           .add(BLBlocks.SILVER_ORE.asItem())
           .add(BLBlocks.DEEPSLATE_SILVER_ORE.asItem());
-        getOrCreateTagBuilder(BLTags.Items.DECAYED_LOGS)
+        this.getOrCreateTagBuilder(BLTags.Items.DECAYED_LOGS)
           .add(BLBlocks.DECAYED_WOOD.asItem())
           .add(BLBlocks.DECAYED_LOG.asItem())
           .add(BLBlocks.STRIPPED_DECAYED_LOG.asItem())
           .add(BLBlocks.STRIPPED_DECAYED_WOOD.asItem())
           .add(BLBlocks.HUNGRY_DECAYED_LOG.asItem())
           .add(BLBlocks.STRIPPED_HUNGRY_DECAYED_LOG.asItem());
-        getOrCreateTagBuilder(ItemTags.LOGS)
+        this.getOrCreateTagBuilder(ItemTags.LOGS)
           .add(BLBlocks.DECAYED_WOOD.asItem())
           .add(BLBlocks.DECAYED_LOG.asItem())
           .add(BLBlocks.STRIPPED_DECAYED_LOG.asItem())
           .add(BLBlocks.STRIPPED_DECAYED_WOOD.asItem())
           .add(BLBlocks.HUNGRY_DECAYED_LOG.asItem())
           .add(BLBlocks.STRIPPED_HUNGRY_DECAYED_LOG.asItem());
-        getOrCreateTagBuilder(ItemTags.LOGS_THAT_BURN)
+        this.getOrCreateTagBuilder(ItemTags.LOGS_THAT_BURN)
           .add(BLBlocks.DECAYED_WOOD.asItem())
           .add(BLBlocks.DECAYED_LOG.asItem())
           .add(BLBlocks.STRIPPED_DECAYED_LOG.asItem())
           .add(BLBlocks.STRIPPED_DECAYED_WOOD.asItem())
           .add(BLBlocks.HUNGRY_DECAYED_LOG.asItem())
           .add(BLBlocks.STRIPPED_HUNGRY_DECAYED_LOG.asItem());
-        getOrCreateTagBuilder(BLTags.Items.HUNGRY_DECAYED_LOGS)
+        this.getOrCreateTagBuilder(BLTags.Items.HUNGRY_DECAYED_LOGS)
           .add(BLBlocks.HUNGRY_DECAYED_LOG.asItem())
           .add(BLBlocks.STRIPPED_HUNGRY_DECAYED_LOG.asItem());
-        getOrCreateTagBuilder(ItemTags.WOODEN_PRESSURE_PLATES)
+        this.getOrCreateTagBuilder(ItemTags.WOODEN_PRESSURE_PLATES)
           .add(BLBlocks.DECAYED_PRESSURE_PLATE.asItem());
-        getOrCreateTagBuilder(BLTags.Items.SILVER_BLOCKS)
+        this.getOrCreateTagBuilder(BLTags.Items.SILVER_BLOCKS)
           .add(BLBlocks.SILVER_BLOCK.asItem());
-        getOrCreateTagBuilder(BLTags.Items.RAW_SILVER_BLOCKS)
+        this.getOrCreateTagBuilder(BLTags.Items.RAW_SILVER_BLOCKS)
           .add(BLBlocks.RAW_SILVER_BLOCK.asItem());
-        getOrCreateTagBuilder(BLTags.Items.SILVER_ORES)
+        this.getOrCreateTagBuilder(BLTags.Items.SILVER_ORES)
           .add(BLBlocks.SILVER_ORE.asItem())
           .add(BLBlocks.DEEPSLATE_SILVER_ORE.asItem());
-        getOrCreateTagBuilder(ConventionalItemTags.INGOTS)
+        this.getOrCreateTagBuilder(ConventionalItemTags.INGOTS)
           .add(BLItems.SILVER_INGOT);
-        getOrCreateTagBuilder(ItemTags.SAPLINGS)
+        this.getOrCreateTagBuilder(ItemTags.SAPLINGS)
           .add(BLBlocks.GRAFTED_SAPLING.asItem());
     }
 }

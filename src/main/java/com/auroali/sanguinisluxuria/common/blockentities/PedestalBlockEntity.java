@@ -23,9 +23,9 @@ public class PedestalBlockEntity extends BlockEntity implements Clearable, ItemD
 
     public PedestalBlockEntity(BlockPos pos, BlockState state) {
         super(BLBlockEntities.PEDESTAL, pos, state);
-        inv.addListener(inv -> {
-            if (world != null && !world.isClient)
-                world.updateListeners(pos, state, state, Block.NOTIFY_LISTENERS);
+        this.inv.addListener(inv -> {
+            if (this.world != null && !this.world.isClient)
+                this.world.updateListeners(pos, state, state, Block.NOTIFY_LISTENERS);
         });
     }
 
@@ -34,28 +34,28 @@ public class PedestalBlockEntity extends BlockEntity implements Clearable, ItemD
     }
 
     public ItemStack getItem() {
-        return inv.getStack(0);
+        return this.inv.getStack(0);
     }
 
     public void setItem(ItemStack stack) {
-        inv.setStack(0, stack);
-        if (world != null) {
-            BlockState state = world.getBlockState(pos);
-            world.updateListeners(pos, state, state, Block.NOTIFY_LISTENERS);
+        this.inv.setStack(0, stack);
+        if (this.world != null) {
+            BlockState state = this.world.getBlockState(this.pos);
+            this.world.updateListeners(this.pos, state, state, Block.NOTIFY_LISTENERS);
         }
-        markDirty();
+        this.markDirty();
     }
 
     @Override
     public void readNbt(NbtCompound nbt) {
         super.readNbt(nbt);
-        inv.setStack(0, ItemStack.fromNbt(nbt.getCompound("Item")));
+        this.inv.setStack(0, ItemStack.fromNbt(nbt.getCompound("Item")));
     }
 
     @Override
     protected void writeNbt(NbtCompound nbt) {
         super.writeNbt(nbt);
-        nbt.put("Item", inv.getStack(0).writeNbt(new NbtCompound()));
+        nbt.put("Item", this.inv.getStack(0).writeNbt(new NbtCompound()));
     }
 
     @Nullable
@@ -67,17 +67,17 @@ public class PedestalBlockEntity extends BlockEntity implements Clearable, ItemD
     @Override
     public NbtCompound toInitialChunkDataNbt() {
         NbtCompound data = new NbtCompound();
-        data.put("Item", inv.getStack(0).writeNbt(new NbtCompound()));
+        data.put("Item", this.inv.getStack(0).writeNbt(new NbtCompound()));
         return data;
     }
 
     public Inventory getInventory() {
-        return inv;
+        return this.inv;
     }
 
     @Override
     public void clear() {
-        inv.clear();
+        this.inv.clear();
     }
 
     @Override

@@ -16,8 +16,8 @@ public record BindAbilityC2S(VampireAbility ability, int slot) implements Fabric
 
     @Override
     public void write(PacketByteBuf buf) {
-        buf.writeRegistryValue(BLRegistries.VAMPIRE_ABILITIES, ability);
-        buf.writeVarInt(slot);
+        buf.writeRegistryValue(BLRegistries.VAMPIRE_ABILITIES, this.ability);
+        buf.writeVarInt(this.slot);
     }
 
     @Override

@@ -109,12 +109,12 @@ public class BloodSplatterBlock extends Block {
 
     public BlockState getConnectionForDirection(WorldAccess world, BlockState state, BlockPos pos, Direction direction) {
         BlockState otherState = world.getBlockState(pos);
-        if (connectsToBlock(otherState) || connectsToBlock(world.getBlockState(pos.down())))
+        if (this.connectsToBlock(otherState) || this.connectsToBlock(world.getBlockState(pos.down())))
             return state.with(DIRECTION_TO_WIRE_CONNECTION_PROPERTY.get(direction), WireConnection.SIDE);
         if (!otherState.isSideSolidFullSquare(world, pos, direction.getOpposite()))
             return state.with(DIRECTION_TO_WIRE_CONNECTION_PROPERTY.get(direction), WireConnection.NONE);
         otherState = world.getBlockState(pos.up());
-        if (connectsToBlock(otherState))
+        if (this.connectsToBlock(otherState))
             return state.with(DIRECTION_TO_WIRE_CONNECTION_PROPERTY.get(direction), WireConnection.UP);
         return state.with(DIRECTION_TO_WIRE_CONNECTION_PROPERTY.get(direction), WireConnection.NONE);
     }
@@ -156,7 +156,7 @@ public class BloodSplatterBlock extends Block {
             return newState;
 
         if (neighborPos.equals(pos.offset(direction)) || neighborPos.equals(pos.up().offset(direction)) || neighborPos.equals(pos.down().offset(direction))) {
-            newState = getConnectionForDirection(world, newState, neighborPos, direction);
+            newState = this.getConnectionForDirection(world, newState, neighborPos, direction);
         }
         return newState;
     }
@@ -202,12 +202,12 @@ public class BloodSplatterBlock extends Block {
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
         BlockState state = this.getDefaultState().with(PERSISTENT, true);
-        return getConnectionState(ctx.getWorld(), state, ctx.getBlockPos());
+        return this.getConnectionState(ctx.getWorld(), state, ctx.getBlockPos());
     }
 
     public BlockState getConnectionState(WorldAccess world, BlockState state, BlockPos pos) {
         for (Direction direction : Direction.Type.HORIZONTAL) {
-            state = getConnectionForDirection(world, state, pos.offset(direction), direction);
+            state = this.getConnectionForDirection(world, state, pos.offset(direction), direction);
         }
         return state;
     }

@@ -21,6 +21,6 @@ public abstract class IronGolemEntityMixin extends GolemEntity implements Angera
 
     @Inject(method = "initGoals", at = @At("HEAD"))
     public void sanguinisluxuria$makeIronGolemsAngryAtPlayers(CallbackInfo ci) {
-        targetSelector.add(3, new ActiveTargetGoal<>(this, PlayerEntity.class, 10, true, false, e -> VampireHelper.isVampire(e) && !VampireHelper.isMasked(e)));
+        this.targetSelector.add(3, new ActiveTargetGoal<>(this, PlayerEntity.class, 10, true, false, e -> VampireHelper.isVampire(e) && !VampireHelper.isMasked(e)));
     }
 }

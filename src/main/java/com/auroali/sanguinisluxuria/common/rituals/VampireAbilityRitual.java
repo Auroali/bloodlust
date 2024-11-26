@@ -14,20 +14,10 @@ import net.minecraft.inventory.Inventory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class VampireAbilityRitual implements Ritual {
+public record VampireAbilityRitual(VampireAbility ability) implements Ritual {
     public static final Codec<VampireAbilityRitual> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-      BLRegistries.VAMPIRE_ABILITIES.getCodec().fieldOf("ability").forGetter(VampireAbilityRitual::getAbility)
+      BLRegistries.VAMPIRE_ABILITIES.getCodec().fieldOf("ability").forGetter(VampireAbilityRitual::ability)
     ).apply(instance, VampireAbilityRitual::new));
-
-    public final VampireAbility ability;
-
-    public VampireAbilityRitual(VampireAbility ability) {
-        this.ability = ability;
-    }
-
-    public VampireAbility getAbility() {
-        return this.ability;
-    }
 
 
     @Override

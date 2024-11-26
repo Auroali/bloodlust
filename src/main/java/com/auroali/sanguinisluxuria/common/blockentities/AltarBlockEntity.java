@@ -33,7 +33,7 @@ public class AltarBlockEntity extends BlockEntity implements Inventory, ItemDisp
     @Override
     protected void writeNbt(NbtCompound nbt) {
         super.writeNbt(nbt);
-        nbt.put("StoredItem", storedItem.writeNbt(new NbtCompound()));
+        nbt.put("StoredItem", this.storedItem.writeNbt(new NbtCompound()));
         Inventories.writeNbt(nbt, this.recipeItems);
     }
 
@@ -51,17 +51,17 @@ public class AltarBlockEntity extends BlockEntity implements Inventory, ItemDisp
 
     @Override
     public boolean isEmpty() {
-        return storedItem.isEmpty();
+        return this.storedItem.isEmpty();
     }
 
     @Override
     public ItemStack getStack(int slot) {
-        return slot == 0 ? storedItem : ItemStack.EMPTY;
+        return slot == 0 ? this.storedItem : ItemStack.EMPTY;
     }
 
     @Override
     public ItemStack removeStack(int slot, int amount) {
-        return slot == 0 ? storedItem.split(amount) : ItemStack.EMPTY;
+        return slot == 0 ? this.storedItem.split(amount) : ItemStack.EMPTY;
     }
 
     @Override
@@ -92,12 +92,12 @@ public class AltarBlockEntity extends BlockEntity implements Inventory, ItemDisp
 
     @Override
     public ItemStack getDisplayItem() {
-        return storedItem;
+        return this.storedItem;
     }
 
     @Override
     public int getDisplayTicks() {
-        return ticks;
+        return this.ticks;
     }
 
     @Override

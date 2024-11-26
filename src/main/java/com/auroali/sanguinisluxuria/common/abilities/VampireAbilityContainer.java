@@ -28,60 +28,60 @@ public class VampireAbilityContainer implements Iterable<VampireAbility> {
     private boolean shouldSync = true;
 
     public VampireAbilityContainer() {
-        abilities = new ObjectOpenHashSet<>();
-        cooldowns = new Object2ObjectOpenHashMap<>();
+        this.abilities = new ObjectOpenHashSet<>();
+        this.cooldowns = new Object2ObjectOpenHashMap<>();
     }
 
     @SuppressWarnings("unchecked")
     public void tick(LivingEntity entity, VampireComponent vampire) {
         BloodComponent blood = BLEntityComponents.BLOOD_COMPONENT.get(entity);
-        tickers.object2ObjectEntrySet().fastForEach(p -> p.getValue().tick(p.getKey(), entity.getWorld(), entity, vampire, this, blood));
-        cooldowns.entrySet().removeIf(e -> {
-            setShouldSync(true);
+        this.tickers.object2ObjectEntrySet().fastForEach(p -> p.getValue().tick(p.getKey(), entity.getWorld(), entity, vampire, this, blood));
+        this.cooldowns.entrySet().removeIf(e -> {
+            this.setShouldSync(true);
             return e.getKey().canTickCooldown(entity, vampire) && e.getValue().ticks-- == 0;
         });
     }
 
     public void addAbility(VampireAbility ability) {
-        setShouldSync(true);
+        this.setShouldSync(true);
         this.abilities.add(ability);
         VampireAbility.AbilityTicker<?> ticker = ability.createTicker();
         if (ticker != null)
-            tickers.put(ability, ticker);
+            this.tickers.put(ability, ticker);
     }
 
     public void removeAbility(VampireAbility ability) {
-        setShouldSync(true);
-        for (int i = 0; i < abilityBindings.length; i++) {
-            if (abilityBindings[i] == ability)
-                abilityBindings[i] = null;
+        this.setShouldSync(true);
+        for (int i = 0; i < this.abilityBindings.length; i++) {
+            if (this.abilityBindings[i] == ability)
+                this.abilityBindings[i] = null;
         }
-        cooldowns.remove(ability);
+        this.cooldowns.remove(ability);
         this.abilities.remove(ability);
-        tickers.remove(ability);
+        this.tickers.remove(ability);
     }
 
     public VampireAbility getBoundAbility(int slot) {
-        if (slot < 0 || abilityBindings.length <= slot)
+        if (slot < 0 || this.abilityBindings.length <= slot)
             return null;
-        setShouldSync(true);
-        return abilityBindings[slot];
+        this.setShouldSync(true);
+        return this.abilityBindings[slot];
     }
 
     public void setBoundAbility(VampireAbility ability, int slot) {
-        if (!hasAbility(ability) || slot < 0 || abilityBindings.length <= slot)
+        if (!this.hasAbility(ability) || slot < 0 || this.abilityBindings.length <= slot)
             return;
-        for (int i = 0; i < abilityBindings.length; i++) {
-            if (abilityBindings[i] == ability)
-                abilityBindings[i] = null;
+        for (int i = 0; i < this.abilityBindings.length; i++) {
+            if (this.abilityBindings[i] == ability)
+                this.abilityBindings[i] = null;
         }
-        setShouldSync(true);
-        abilityBindings[slot] = ability;
+        this.setShouldSync(true);
+        this.abilityBindings[slot] = ability;
     }
 
     public int getAbilityBinding(VampireAbility ability) {
-        for (int i = 0; i < abilityBindings.length; i++) {
-            if (abilityBindings[i] == ability)
+        for (int i = 0; i < this.abilityBindings.length; i++) {
+            if (this.abilityBindings[i] == ability)
                 return i;
         }
         return -1;
@@ -89,29 +89,29 @@ public class VampireAbilityContainer implements Iterable<VampireAbility> {
 
 
     public void setCooldown(VampireAbility ability, int cooldown) {
-        if (!hasAbility(ability))
+        if (!this.hasAbility(ability))
             return;
 
-        setShouldSync(true);
-        cooldowns.put(ability, new AbilityCooldown(cooldown));
+        this.setShouldSync(true);
+        this.cooldowns.put(ability, new AbilityCooldown(cooldown));
     }
 
     public int getCooldown(VampireAbility ability) {
-        AbilityCooldown cooldown = cooldowns.get(ability);
+        AbilityCooldown cooldown = this.cooldowns.get(ability);
         if (cooldown == null)
             return 0;
         return cooldown.ticks;
     }
 
     public int getMaxCooldown(VampireAbility ability) {
-        AbilityCooldown cooldown = cooldowns.get(ability);
+        AbilityCooldown cooldown = this.cooldowns.get(ability);
         if (cooldown == null)
             return 0;
         return cooldown.maxTicks;
     }
 
     public boolean isOnCooldown(VampireAbility ability) {
-        return getCooldown(ability) > 0;
+        return this.getCooldown(ability) > 0;
     }
 
     public boolean hasAbility(VampireAbility ability) {
@@ -132,7 +132,7 @@ public class VampireAbilityContainer implements Iterable<VampireAbility> {
         NbtList abilityTag = new NbtList();
         NbtList abilitySlotsTag = new NbtList();
         NbtList cooldownsTag = new NbtList();
-        for (VampireAbility ability : abilities) {
+        for (VampireAbility ability : this.abilities) {
             Identifier id = BLRegistries.VAMPIRE_ABILITIES.getId(ability);
             if (id == null) {
                 Bloodlust.LOGGER.warn("Could not find id for an ability!");
@@ -140,7 +140,7 @@ public class VampireAbilityContainer implements Iterable<VampireAbility> {
             }
             abilityTag.add(NbtString.of(id.toString()));
         }
-        for (VampireAbility ability : abilityBindings) {
+        for (VampireAbility ability : this.abilityBindings) {
             if (ability == null) {
                 abilitySlotsTag.add(NbtString.of("empty"));
                 continue;
@@ -153,7 +153,7 @@ public class VampireAbilityContainer implements Iterable<VampireAbility> {
             abilitySlotsTag.add(NbtString.of(id.toString()));
         }
 
-        cooldowns.forEach((ability, cooldown) -> {
+        this.cooldowns.forEach((ability, cooldown) -> {
             Identifier id = BLRegistries.VAMPIRE_ABILITIES.getId(ability);
             if (id == null) {
                 Bloodlust.LOGGER.warn("Could not find id for an ability!");
@@ -172,7 +172,7 @@ public class VampireAbilityContainer implements Iterable<VampireAbility> {
     }
 
     public void load(NbtCompound compound) {
-        abilities.clear();
+        this.abilities.clear();
         NbtList abilityTag = compound.getList("VampireAbilities", NbtElement.STRING_TYPE);
         NbtList abilitySlotsTag = compound.getList("BoundAbilities", NbtElement.STRING_TYPE);
         NbtList cooldownsTag = compound.getList("Cooldowns", NbtElement.COMPOUND_TYPE);
@@ -191,12 +191,12 @@ public class VampireAbilityContainer implements Iterable<VampireAbility> {
                   return;
               }
 
-              abilities.add(ability);
+              this.abilities.add(ability);
               VampireAbility.AbilityTicker<?> ticker = ability.createTicker();
               if (ticker != null)
-                  tickers.put(ability, ticker);
+                  this.tickers.put(ability, ticker);
           });
-        for (int i = 0; i < Math.min(abilitySlotsTag.size(), abilityBindings.length); i++) {
+        for (int i = 0; i < Math.min(abilitySlotsTag.size(), this.abilityBindings.length); i++) {
             String idStr = abilitySlotsTag.getString(i);
             if (idStr.equals("empty"))
                 continue;
@@ -213,9 +213,9 @@ public class VampireAbilityContainer implements Iterable<VampireAbility> {
                 continue;
             }
 
-            abilityBindings[i] = ability;
+            this.abilityBindings[i] = ability;
         }
-        cooldowns.clear();
+        this.cooldowns.clear();
         for (int i = 0; i < cooldownsTag.size(); i++) {
             NbtCompound cooldown = cooldownsTag.getCompound(i);
             Identifier id = Identifier.tryParse(cooldown.getString("Ability"));
@@ -233,36 +233,36 @@ public class VampireAbilityContainer implements Iterable<VampireAbility> {
                 continue;
             }
 
-            cooldowns.put(ability, new AbilityCooldown(ticks, maxTicks));
+            this.cooldowns.put(ability, new AbilityCooldown(ticks, maxTicks));
         }
-        setShouldSync(true);
+        this.setShouldSync(true);
     }
 
     public void writePacket(PacketByteBuf buf) {
         // write unlocked abilities
-        buf.writeInt(abilities.size());
-        for (VampireAbility ability : abilities) {
+        buf.writeInt(this.abilities.size());
+        for (VampireAbility ability : this.abilities) {
             buf.writeRegistryValue(BLRegistries.VAMPIRE_ABILITIES, ability);
         }
 
         // write bound abilities
         int abilities = 0;
-        for (VampireAbility a : abilityBindings) {
+        for (VampireAbility a : this.abilityBindings) {
             if (a != null)
                 abilities++;
         }
         buf.writeVarInt(abilities);
-        for (int i = 0; i < abilityBindings.length; i++) {
-            if (abilityBindings[i] == null)
+        for (int i = 0; i < this.abilityBindings.length; i++) {
+            if (this.abilityBindings[i] == null)
                 continue;
 
             buf.writeVarInt(i);
-            buf.writeRegistryValue(BLRegistries.VAMPIRE_ABILITIES, abilityBindings[i]);
+            buf.writeRegistryValue(BLRegistries.VAMPIRE_ABILITIES, this.abilityBindings[i]);
         }
 
         // write cooldowns
-        buf.writeVarInt(cooldowns.size());
-        cooldowns.forEach((ability, cooldown) -> {
+        buf.writeVarInt(this.cooldowns.size());
+        this.cooldowns.forEach((ability, cooldown) -> {
             buf.writeRegistryValue(BLRegistries.VAMPIRE_ABILITIES, ability);
             buf.writeVarInt(cooldown.ticks);
             buf.writeVarInt(cooldown.maxTicks);
@@ -271,7 +271,7 @@ public class VampireAbilityContainer implements Iterable<VampireAbility> {
 
     public void readPacket(PacketByteBuf buf) {
         // read unlocked abilities
-        abilities.clear();
+        this.abilities.clear();
         int size = buf.readInt();
         for (int i = 0; i < size; i++) {
             VampireAbility ability = buf.readRegistryValue(BLRegistries.VAMPIRE_ABILITIES);
@@ -280,12 +280,12 @@ public class VampireAbilityContainer implements Iterable<VampireAbility> {
                 continue;
             }
 
-            abilities.add(ability);
+            this.abilities.add(ability);
         }
 
         // read bound abilities
         size = buf.readVarInt();
-        Arrays.fill(abilityBindings, null);
+        Arrays.fill(this.abilityBindings, null);
         for (int i = 0; i < size; i++) {
             int slot = buf.readVarInt();
             VampireAbility ability = buf.readRegistryValue(BLRegistries.VAMPIRE_ABILITIES);
@@ -294,12 +294,12 @@ public class VampireAbilityContainer implements Iterable<VampireAbility> {
                 continue;
             }
 
-            abilityBindings[slot] = ability;
+            this.abilityBindings[slot] = ability;
         }
 
         // read cooldowns
         size = buf.readVarInt();
-        cooldowns.clear();
+        this.cooldowns.clear();
         for (int i = 0; i < size; i++) {
             VampireAbility ability = buf.readRegistryValue(BLRegistries.VAMPIRE_ABILITIES);
             int ticks = buf.readVarInt();
@@ -308,12 +308,12 @@ public class VampireAbilityContainer implements Iterable<VampireAbility> {
                 Bloodlust.LOGGER.warn("Could not read ability from packet!");
                 continue;
             }
-            cooldowns.put(ability, new AbilityCooldown(ticks, maxTicks));
+            this.cooldowns.put(ability, new AbilityCooldown(ticks, maxTicks));
         }
     }
 
     public boolean needsSync() {
-        return shouldSync;
+        return this.shouldSync;
     }
 
     public void setShouldSync(boolean shouldSync) {
@@ -323,13 +323,13 @@ public class VampireAbilityContainer implements Iterable<VampireAbility> {
     @NotNull
     @Override
     public Iterator<VampireAbility> iterator() {
-        return abilities.iterator();
+        return this.abilities.iterator();
     }
 
     public void clearBoundAbility(VampireAbility ability) {
-        int binding = getAbilityBinding(ability);
+        int binding = this.getAbilityBinding(ability);
         if (binding != -1)
-            setBoundAbility(null, binding);
+            this.setBoundAbility(null, binding);
     }
 
     private static class AbilityCooldown {

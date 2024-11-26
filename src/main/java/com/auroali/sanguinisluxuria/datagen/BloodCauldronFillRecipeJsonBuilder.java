@@ -59,7 +59,7 @@ public class BloodCauldronFillRecipeJsonBuilder extends RecipeJsonBuilder implem
 
     @Override
     public Item getOutputItem() {
-        return output;
+        return this.output;
     }
 
     public void validate(Identifier id) {
@@ -75,7 +75,7 @@ public class BloodCauldronFillRecipeJsonBuilder extends RecipeJsonBuilder implem
 
     @Override
     public void offerTo(Consumer<RecipeJsonProvider> exporter, Identifier recipeId) {
-        validate(recipeId);
+        this.validate(recipeId);
         this.advancementBuilder
           .parent(ROOT)
           .criterion("has_the_recipe", RecipeUnlockedCriterion.create(recipeId))
@@ -114,8 +114,8 @@ public class BloodCauldronFillRecipeJsonBuilder extends RecipeJsonBuilder implem
 
         @Override
         public void serialize(JsonObject json) {
-            json.addProperty("category", category.asString());
-            json.add("input", ingredient.toJson());
+            json.addProperty("category", this.category.asString());
+            json.add("input", this.ingredient.toJson());
 
             if (!this.group.isEmpty()) {
                 json.addProperty("group", this.group);
@@ -131,7 +131,7 @@ public class BloodCauldronFillRecipeJsonBuilder extends RecipeJsonBuilder implem
 
         @Override
         public Identifier getRecipeId() {
-            return id;
+            return this.id;
         }
 
         @Override
@@ -148,7 +148,7 @@ public class BloodCauldronFillRecipeJsonBuilder extends RecipeJsonBuilder implem
         @Nullable
         @Override
         public Identifier getAdvancementId() {
-            return advancementId;
+            return this.advancementId;
         }
     }
 }

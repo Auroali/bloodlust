@@ -33,7 +33,7 @@ public interface SyncableVampireAbility<T> {
         PacketByteBuf buf = PacketByteBufs.create();
         buf.writeVarInt(entity.getId());
         buf.writeRegistryValue(BLRegistries.VAMPIRE_ABILITIES, (VampireAbility) this);
-        writePacket(buf, entity.getWorld(), data);
+        this.writePacket(buf, entity.getWorld(), data);
         PlayerLookup.tracking(entity).forEach(p ->
           ServerPlayNetworking.send(p, BLResources.ABILITY_SYNC_CHANNEL, buf)
         );
@@ -42,8 +42,8 @@ public interface SyncableVampireAbility<T> {
     }
 
     default void handlePacket(LivingEntity entity, PacketByteBuf buf, Consumer<Runnable> executor) {
-        T data = readPacket(buf, entity.getWorld());
-        executor.accept(() -> handle(entity, data));
+        T data = this.readPacket(buf, entity.getWorld());
+        executor.accept(() -> this.handle(entity, data));
     }
 
     void handle(LivingEntity entity, T data);

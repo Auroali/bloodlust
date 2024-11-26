@@ -28,10 +28,10 @@ public class PlayerBloodComponent implements BloodComponent {
 
     @Override
     public int getBlood() {
-        if (holder.getWorld().isClient) {
-            return blood;
+        if (this.holder.getWorld().isClient) {
+            return this.blood;
         }
-        return holder.getHungerManager().getFoodLevel();
+        return this.holder.getHungerManager().getFoodLevel();
     }
 
     @Override
@@ -42,11 +42,11 @@ public class PlayerBloodComponent implements BloodComponent {
     @Override
     public int addBlood(int amount) {
         // ultrakill??????
-        int newBlood = Math.min(getMaxBlood(), amount + getBlood());
-        int bloodAdded = newBlood - getBlood();
-        holder.getHungerManager().setFoodLevel(newBlood);
-        if (VampireHelper.isVampire(holder) && bloodAdded > 0) {
-            VampireComponent vampire = BLEntityComponents.VAMPIRE_COMPONENT.get(holder);
+        int newBlood = Math.min(this.getMaxBlood(), amount + this.getBlood());
+        int bloodAdded = newBlood - this.getBlood();
+        this.holder.getHungerManager().setFoodLevel(newBlood);
+        if (VampireHelper.isVampire(this.holder) && bloodAdded > 0) {
+            VampireComponent vampire = BLEntityComponents.VAMPIRE_COMPONENT.get(this.holder);
             vampire.setDowned(false);
         }
         return bloodAdded;
@@ -54,14 +54,14 @@ public class PlayerBloodComponent implements BloodComponent {
 
     @Override
     public void setBlood(int amount) {
-        holder.getHungerManager().setFoodLevel(amount);
+        this.holder.getHungerManager().setFoodLevel(amount);
     }
 
     @Override
     public boolean drainBlood(LivingEntity entity) {
-        int currentBlood = getBlood();
+        int currentBlood = this.getBlood();
         if (currentBlood > 0) {
-            holder.getHungerManager().setFoodLevel(currentBlood - 1);
+            this.holder.getHungerManager().setFoodLevel(currentBlood - 1);
             return true;
         }
         return false;
@@ -69,17 +69,17 @@ public class PlayerBloodComponent implements BloodComponent {
 
     @Override
     public void writeSyncPacket(PacketByteBuf buf, ServerPlayerEntity recipient) {
-        buf.writeVarInt(getBlood());
+        buf.writeVarInt(this.getBlood());
     }
 
     @Override
     public void applySyncPacket(PacketByteBuf buf) {
-        blood = buf.readVarInt();
+        this.blood = buf.readVarInt();
     }
 
     @Override
     public boolean drainBlood() {
-        return drainBlood(null);
+        return this.drainBlood(null);
     }
 
     @Override

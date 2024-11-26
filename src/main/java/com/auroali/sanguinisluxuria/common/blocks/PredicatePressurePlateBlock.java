@@ -16,7 +16,7 @@ import java.util.function.Predicate;
 public class PredicatePressurePlateBlock extends AbstractPressurePlateBlock {
     public static final BooleanProperty POWERED = Properties.POWERED;
     private final PressurePlateBlock.ActivationRule type;
-    Predicate<? super Entity> entityPredicate;
+    protected final Predicate<? super Entity> entityPredicate;
 
     public PredicatePressurePlateBlock(PressurePlateBlock.ActivationRule type, Predicate<? super Entity> entityPredicate, Settings settings, BlockSetType blockSetType) {
         super(settings, blockSetType);
@@ -41,7 +41,7 @@ public class PredicatePressurePlateBlock extends AbstractPressurePlateBlock {
             case EVERYTHING -> Entity.class;
             case MOBS -> LivingEntity.class;
         };
-        return getEntityCount(world, BOX.offset(pos), entityClass, entityPredicate) > 0 ? 15 : 0;
+        return getEntityCount(world, BOX.offset(pos), entityClass, this.entityPredicate) > 0 ? 15 : 0;
     }
 
     protected static int getEntityCount(World world, Box box, Class<? extends Entity> entityClass, Predicate<? super Entity> predicate) {

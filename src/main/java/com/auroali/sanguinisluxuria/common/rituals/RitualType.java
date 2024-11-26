@@ -6,11 +6,6 @@ public interface RitualType<T extends Ritual> {
     Codec<T> getCodec();
 
     static <T extends Ritual> RitualType<T> fromCodec(Codec<T> codec) {
-        return new RitualType<T>() {
-            @Override
-            public Codec<T> getCodec() {
-                return codec;
-            }
-        };
+        return () -> codec;
     }
 }

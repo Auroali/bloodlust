@@ -48,8 +48,8 @@ public class DrinkableBloodStorageItem extends BloodStorageItem {
 
             if (!(user instanceof PlayerEntity entity && entity.isCreative()))
                 setStoredBlood(stack, getStoredBlood(stack) - bloodToAdd);
-            if (getStoredBlood(stack) == 0 && emptyItem != null)
-                return new ItemStack(emptyItem, stack.getCount());
+            if (getStoredBlood(stack) == 0 && this.emptyItem != null)
+                return new ItemStack(this.emptyItem, stack.getCount());
         }
 
 

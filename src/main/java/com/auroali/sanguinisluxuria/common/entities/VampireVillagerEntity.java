@@ -43,24 +43,24 @@ public class VampireVillagerEntity extends HostileEntity {
     @Override
     public void tick() {
         super.tick();
-        if (bloodDrainTimer > 0)
-            bloodDrainTimer--;
+        if (this.bloodDrainTimer > 0)
+            this.bloodDrainTimer--;
 
         BloodComponent blood = BLEntityComponents.BLOOD_COMPONENT.get(this);
         VampireComponent vampire = BLEntityComponents.VAMPIRE_COMPONENT.get(this);
-        if (canHealWithBlood()) {
-            setHealth(getHealth() + 1);
-            bloodDrainTimer = BloodConstants.BLOOD_DRAIN_TIME * 2;
+        if (this.canHealWithBlood()) {
+            this.setHealth(this.getHealth() + 1);
+            this.bloodDrainTimer = BloodConstants.BLOOD_DRAIN_TIME * 2;
         }
 
-        if (getWorld().isClient && vampire.isDown()) {
-            Box box = getBoundingBox();
+        if (this.getWorld().isClient && vampire.isDown()) {
+            Box box = this.getBoundingBox();
             int max = 3;
             for (int i = 0; i < max; i++) {
-                double x = box.minX + random.nextDouble() * box.getXLength();
-                double y = box.minY + random.nextDouble() * box.getYLength();
-                double z = box.minZ + random.nextDouble() * box.getZLength();
-                getWorld().addParticle(
+                double x = box.minX + this.random.nextDouble() * box.getXLength();
+                double y = box.minY + this.random.nextDouble() * box.getYLength();
+                double z = box.minZ + this.random.nextDouble() * box.getZLength();
+                this.getWorld().addParticle(
                   DustParticleEffect.DEFAULT,
                   x,
                   y,
@@ -77,7 +77,7 @@ public class VampireVillagerEntity extends HostileEntity {
         BloodComponent blood = BLEntityComponents.BLOOD_COMPONENT.get(this);
         // only heal when healing wouldnt completely drain blood, health is less than max health, and blood could be drained
         // also prioritize draining blood when targeting an entity and health is above 50%
-        return blood.getBlood() > 1 && getHealth() < getMaxHealth() && (this.getTarget() == null || blood.getBlood() >= blood.getMaxBlood() || this.getHealth() / this.getMaxHealth() < 0.5f) && blood.drainBlood();
+        return blood.getBlood() > 1 && this.getHealth() < this.getMaxHealth() && (this.getTarget() == null || blood.getBlood() >= blood.getMaxBlood() || this.getHealth() / this.getMaxHealth() < 0.5f) && blood.drainBlood();
     }
 
     @Override
@@ -111,10 +111,10 @@ public class VampireVillagerEntity extends HostileEntity {
     public boolean tryAttack(Entity target) {
         BloodComponent blood = BLEntityComponents.BLOOD_COMPONENT.get(this);
         VampireComponent vampire = BLEntityComponents.VAMPIRE_COMPONENT.get(this);
-        if (target instanceof LivingEntity entity && target.getType().isIn(BLTags.Entities.HAS_BLOOD) && bloodDrainTimer == 0 && blood.getBlood() < blood.getMaxBlood()) {
+        if (target instanceof LivingEntity entity && target.getType().isIn(BLTags.Entities.HAS_BLOOD) && this.bloodDrainTimer == 0 && blood.getBlood() < blood.getMaxBlood()) {
             vampire.drainBloodFrom(entity);
-            playSound(BLSounds.DRAIN_BLOOD, 1.0f, 1.0f);
-            bloodDrainTimer = BloodConstants.BLOOD_DRAIN_TIME * 2;
+            this.playSound(BLSounds.DRAIN_BLOOD, 1.0f, 1.0f);
+            this.bloodDrainTimer = BloodConstants.BLOOD_DRAIN_TIME * 2;
             this.onAttacking(target);
             return true;
         }
@@ -140,12 +140,12 @@ public class VampireVillagerEntity extends HostileEntity {
     @Override
     public void writeCustomDataToNbt(NbtCompound nbt) {
         super.writeCustomDataToNbt(nbt);
-        nbt.putInt("BloodDrainTimer", bloodDrainTimer);
+        nbt.putInt("BloodDrainTimer", this.bloodDrainTimer);
     }
 
     @Override
     public void readCustomDataFromNbt(NbtCompound nbt) {
         super.readCustomDataFromNbt(nbt);
-        bloodDrainTimer = nbt.getInt("BloodDrainTimer");
+        this.bloodDrainTimer = nbt.getInt("BloodDrainTimer");
     }
 }

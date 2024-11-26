@@ -88,7 +88,7 @@ public class GraftedSaplingBlock extends PlantBlock implements Fertilizable {
     @Override
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
         if (world.isNight() && world.isSkyVisible(pos) && random.nextInt(7) == 0) {
-            tryGrow(world, state, pos, random);
+            this.tryGrow(world, state, pos, random);
         }
     }
 

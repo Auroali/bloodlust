@@ -19,7 +19,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class BLConfig {
-    public static BLConfig INSTANCE = new BLConfig();
+    public static final BLConfig INSTANCE = new BLConfig();
 
     private static final Path CONFIG_FILE = FabricLoader.getInstance().getConfigDir().resolve("sanguinisluxuria.json");
     private static final Gson GSON = new Gson()
@@ -104,16 +104,16 @@ public class BLConfig {
         JsonObject root = new JsonObject();
         ConfigSerializer.create(root)
           .category("gameplay")
-          .writeValue("vampireDamageMultiplier", vampireDamageMultiplier, JsonObject::addProperty)
-          .writeValue("vampireExhaustionMultiplier", vampireExhaustionMultiplier, JsonObject::addProperty)
-          .writeValue("blessedWaterDamage", blessedWaterDamage, JsonObject::addProperty)
+          .writeValue("vampireDamageMultiplier", this.vampireDamageMultiplier, JsonObject::addProperty)
+          .writeValue("vampireExhaustionMultiplier", this.vampireExhaustionMultiplier, JsonObject::addProperty)
+          .writeValue("blessedWaterDamage", this.blessedWaterDamage, JsonObject::addProperty)
           .up()
           .category("abilities")
-          .writeValue("skillPointsPerLevel", skillPointsPerLevel, JsonObject::addProperty)
-          .writeValue("blinkPiercingExhaustion", piercingExhaustion, JsonObject::addProperty)
+          .writeValue("skillPointsPerLevel", this.skillPointsPerLevel, JsonObject::addProperty)
+          .writeValue("blinkPiercingExhaustion", this.piercingExhaustion, JsonObject::addProperty)
           .up()
           .category("worldgen")
-          .writeValue("generateSilverOre", generateSilverOre, JsonObject::addProperty)
+          .writeValue("generateSilverOre", this.generateSilverOre, JsonObject::addProperty)
           .up();
 
 
@@ -126,7 +126,7 @@ public class BLConfig {
 
     public void load() {
         if (!Files.exists(CONFIG_FILE)) {
-            save();
+            this.save();
             return;
         }
         JsonObject root;
@@ -139,16 +139,16 @@ public class BLConfig {
 
         ConfigSerializer.create(root)
           .category("gameplay")
-          .readValue("vampireDamageMultiplier", v -> vampireDamageMultiplier = v, vampireDamageMultiplier, JsonElement::getAsFloat)
-          .readValue("vampireExhaustionMultiplier", v -> vampireExhaustionMultiplier = v, vampireExhaustionMultiplier, JsonElement::getAsFloat)
-          .readValue("blessedWaterDamage", v -> blessedWaterDamage = v, blessedWaterDamage, JsonElement::getAsFloat)
+          .readValue("vampireDamageMultiplier", v -> this.vampireDamageMultiplier = v, this.vampireDamageMultiplier, JsonElement::getAsFloat)
+          .readValue("vampireExhaustionMultiplier", v -> this.vampireExhaustionMultiplier = v, this.vampireExhaustionMultiplier, JsonElement::getAsFloat)
+          .readValue("blessedWaterDamage", v -> this.blessedWaterDamage = v, this.blessedWaterDamage, JsonElement::getAsFloat)
           .up()
           .category("abilities")
-          .readValue("skillPointsPerLevel", v -> skillPointsPerLevel = v, skillPointsPerLevel, JsonElement::getAsInt)
-          .readValue("blinkPiercingExhaustion", v -> piercingExhaustion = v, piercingExhaustion, JsonElement::getAsFloat)
+          .readValue("skillPointsPerLevel", v -> this.skillPointsPerLevel = v, this.skillPointsPerLevel, JsonElement::getAsInt)
+          .readValue("blinkPiercingExhaustion", v -> this.piercingExhaustion = v, this.piercingExhaustion, JsonElement::getAsFloat)
           .up()
           .category("worldgen")
-          .readValue("generateSilverOre", v -> generateSilverOre = v, generateSilverOre, JsonElement::getAsBoolean)
+          .readValue("generateSilverOre", v -> this.generateSilverOre = v, this.generateSilverOre, JsonElement::getAsBoolean)
           .up()
           .saveIfNeeded(this::save);
     }
