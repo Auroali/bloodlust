@@ -30,11 +30,13 @@ import java.util.List;
 
 public class AltarEmiRecipe implements EmiRecipe {
     final AltarRecipe recipe;
+    final EmiIngredient catalyst;
     final List<EmiIngredient> inputs;
     final List<EmiStack> outputs;
 
     public AltarEmiRecipe(AltarRecipe recipe, MinecraftClient client) {
         this.recipe = recipe;
+        this.catalyst = EmiIngredient.of(recipe.getCatalyst());
         DefaultedList<EmiIngredient> stacks = DefaultedList.ofSize(8, EmiStack.EMPTY);
         for (int i = 0; i < recipe.getIngredients().size(); i++) {
             stacks.set(i, EmiIngredient.of(recipe.getIngredients().get(i)));
@@ -117,13 +119,17 @@ public class AltarEmiRecipe implements EmiRecipe {
             int y = 40 + (int) (32 * Math.sin((i * 2 * MathHelper.TAU / inputs.size())));
             widgets.addSlot(inputs.get(i), x, y);
         }
-        widgets.addDrawable(30, 52, 16, 16, (drawContext, mouseX, mouseY, delta) -> {
+
+        widgets.addSlot(this.catalyst, 32, 30)
+          .drawBack(false);
+
+        widgets.addDrawable(30, 58, 16, 16, (drawContext, mouseX, mouseY, delta) -> {
             MatrixStack stack = drawContext.getMatrices();
             MinecraftClient client = MinecraftClient.getInstance();
             BlockState state = BLBlocks.ALTAR.getDefaultState().with(AltarBlock.ACTIVE, true);
             BlockRenderManager blockRenderer = client.getBlockRenderManager();
             stack.push();
-            stack.translate(0, 0, 150);
+            stack.translate(0, 0, 140);
             stack.multiplyPositionMatrix(new Matrix4f().scaling(1.0f, -1.0f, 1.0f));
             stack.scale(16, 16, 16);
             stack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(35));

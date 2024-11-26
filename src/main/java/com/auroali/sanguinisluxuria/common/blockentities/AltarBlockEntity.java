@@ -19,10 +19,16 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.inventory.Inventories;
+import net.minecraft.inventory.Inventory;
+import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
+import net.minecraft.network.listener.ClientPlayPacketListener;
+import net.minecraft.network.packet.Packet;
+import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.particle.DustParticleEffect;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.Identifier;
@@ -30,18 +36,33 @@ import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class AltarBlockEntity extends BlockEntity {
-    DefaultedList<ItemStack> stacks = DefaultedList.of();
+    final SimpleInventory internalInventory = new SimpleInventory(ItemStack.EMPTY);
+    DefaultedList<ItemStack> recipeItems = DefaultedList.of();
     AltarRecipe recipe = null;
     Identifier recipeId = null;
     int ticksProcessing = 0;
+    public int ticks;
 
     public AltarBlockEntity(BlockPos pos, BlockState state) {
         super(BLBlockEntities.SKILL_UPGRADER, pos, state);
+        this.internalInventory.addListener(inv -> {
+            if (world != null && !world.isClient) {
+                this.recipe = null;
+                this.recipeId = null;
+                for (ItemStack stack : this.recipeItems) {
+                    ItemEntity item = new ItemEntity(world, pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5, stack);
+                    world.spawnEntity(item);
+                }
+                this.recipeItems.clear();
+                world.updateListeners(pos, state, state, Block.NOTIFY_LISTENERS);
+            }
+        });
     }
 
     public void checkAndStartRecipe(World world, LivingEntity entity) {
@@ -66,7 +87,7 @@ public class AltarBlockEntity extends BlockEntity {
         AltarRecipe recipe = world.getRecipeManager().values().stream()
           .filter(r -> r.getType().equals(BLRecipeTypes.ALTAR_RECIPE))
           .map(AltarRecipe.class::cast)
-          .filter(p -> p.matches(vampire.getLevel(), collectedStacks))
+          .filter(p -> p.matches(vampire.getLevel(), this.internalInventory.getStack(0), collectedStacks))
           .findFirst().orElse(null);
 
         if (recipe == null)
@@ -83,7 +104,7 @@ public class AltarBlockEntity extends BlockEntity {
         PlayerLookup.tracking(this)
           .forEach(p -> ServerPlayNetworking.send(p, new AltarRecipeStartS2C(pos, pedestals.stream().map(BlockEntity::getPos).toList())));
         this.recipe = recipe;
-        this.stacks = collectedStacks;
+        this.recipeItems = collectedStacks;
         this.ticksProcessing = 0;
         markDirty();
 
@@ -91,7 +112,12 @@ public class AltarBlockEntity extends BlockEntity {
         world.setBlockState(pos, state.with(AltarBlock.ACTIVE, true));
     }
 
+    public ItemStack getCatalyst() {
+        return this.internalInventory.getStack(0);
+    }
+
     public static void vfxTick(World world, BlockPos pos, BlockState state, AltarBlockEntity entity) {
+        entity.ticks++;
         if (!state.get(AltarBlock.ACTIVE)) {
             return;
         }
@@ -120,9 +146,9 @@ public class AltarBlockEntity extends BlockEntity {
                 return;
             }
 
-            AltarInventory inv = new AltarInventory(entity.stacks.size());
-            for (int i = 0; i < entity.stacks.size(); i++) {
-                inv.setStack(i, entity.stacks.get(i));
+            AltarInventory inv = new AltarInventory(entity.recipeItems.size());
+            for (int i = 0; i < entity.recipeItems.size(); i++) {
+                inv.setStack(i, entity.recipeItems.get(i));
             }
 
             DefaultedList<ItemStack> outputs = DefaultedList.of();
@@ -135,8 +161,10 @@ public class AltarBlockEntity extends BlockEntity {
             }
 
             entity.recipe = null;
-            entity.stacks.clear();
+            entity.recipeItems.clear();
             entity.ticksProcessing = 0;
+            entity.internalInventory
+              .removeStack(0, 1);
             entity.markDirty();
             world.setBlockState(pos, state.with(AltarBlock.ACTIVE, false));
         }
@@ -154,12 +182,15 @@ public class AltarBlockEntity extends BlockEntity {
 
             this.recipeId = recipeId;
             this.ticksProcessing = nbt.getInt("ProcessingTicks");
-            NbtList inv = nbt.getList("Items", NbtElement.COMPOUND_TYPE);
+            NbtList inv = nbt.getList("RecipeItems", NbtElement.COMPOUND_TYPE);
             inv.stream()
               .map(NbtCompound.class::cast)
               .map(ItemStack::fromNbt)
-              .forEach(stacks::add);
+              .forEach(recipeItems::add);
+
         }
+        // todo: this isnt updating properly when recipes are completed
+        Inventories.readNbt(nbt, this.internalInventory.stacks);
     }
 
     private void validateRecipe() {
@@ -171,7 +202,7 @@ public class AltarBlockEntity extends BlockEntity {
     }
 
     void resetRecipeState() {
-        stacks.clear();
+        recipeItems.clear();
         ticksProcessing = 0;
         recipeId = null;
         markDirty();
@@ -183,9 +214,35 @@ public class AltarBlockEntity extends BlockEntity {
         if (recipe != null) {
             nbt.putString("Recipe", recipe.getId().toString());
             NbtList inv = new NbtList();
-            stacks.forEach(i -> inv.add(i.writeNbt(new NbtCompound())));
-            nbt.put("Items", inv);
+            recipeItems.forEach(i -> inv.add(i.writeNbt(new NbtCompound())));
+            nbt.put("RecipeItems", inv);
             nbt.putInt("ProcessingTicks", ticksProcessing);
         }
+        Inventories.writeNbt(nbt, this.internalInventory.stacks);
+    }
+
+    @Nullable
+    @Override
+    public Packet<ClientPlayPacketListener> toUpdatePacket() {
+        return BlockEntityUpdateS2CPacket.create(this);
+    }
+
+    @Override
+    public NbtCompound toInitialChunkDataNbt() {
+        NbtCompound data = new NbtCompound();
+        Inventories.writeNbt(data, this.internalInventory.stacks, true);
+        return data;
+    }
+
+    public void setCatalyst(ItemStack stack) {
+        this.internalInventory.setStack(0, stack);
+    }
+
+    public Inventory getInventory() {
+        return this.internalInventory;
+    }
+
+    public DefaultedList<ItemStack> getRecipeItems() {
+        return this.recipeItems;
     }
 }

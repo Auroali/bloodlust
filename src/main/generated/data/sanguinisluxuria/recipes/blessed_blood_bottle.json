@@ -1,10 +1,10 @@
 {
   "type": "sanguinisluxuria:altar_recipe",
+  "catalyst": {
+    "item": "sanguinisluxuria:twisted_blood_bottle"
+  },
   "category": "misc",
   "input": [
-    {
-      "item": "sanguinisluxuria:twisted_blood_bottle"
-    },
     {
       "item": "minecraft:golden_apple"
     },

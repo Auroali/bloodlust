@@ -2,10 +2,10 @@ package com.auroali.sanguinisluxuria;
 
 import com.auroali.sanguinisluxuria.client.BLHud;
 import com.auroali.sanguinisluxuria.client.particles.DrippingBloodParticle;
+import com.auroali.sanguinisluxuria.client.render.blocks.AltarBlockRenderer;
 import com.auroali.sanguinisluxuria.client.render.blocks.PedestalBlockRenderer;
 import com.auroali.sanguinisluxuria.client.render.entities.VampireMerchantRenderer;
 import com.auroali.sanguinisluxuria.client.render.entities.VampireVillagerRenderer;
-import com.auroali.sanguinisluxuria.client.screen.VampireAbilitiesScreen;
 import com.auroali.sanguinisluxuria.common.abilities.SyncableVampireAbility;
 import com.auroali.sanguinisluxuria.common.abilities.VampireAbility;
 import com.auroali.sanguinisluxuria.common.items.BloodStorageItem;
@@ -50,12 +50,6 @@ public class BloodlustClient implements ClientModInitializer {
       "key.sanguinisluxuria.bite",
       InputUtil.Type.KEYSYM,
       GLFW.GLFW_KEY_R,
-      "category.sanguinisluxuria.sanguinisluxuria"
-    );
-    public static KeyBinding OPEN_ABILITIES = new KeyBinding(
-      "key.sanguinisluxuria.open_abilities",
-      InputUtil.Type.KEYSYM,
-      GLFW.GLFW_KEY_Y,
       "category.sanguinisluxuria.sanguinisluxuria"
     );
     public static KeyBinding ABILITY_1 = new KeyBinding(
@@ -104,6 +98,7 @@ public class BloodlustClient implements ClientModInitializer {
         EntityRendererRegistry.register(BLEntities.VAMPIRE_MERCHANT, VampireMerchantRenderer::new);
 
         BlockEntityRendererFactories.register(BLBlockEntities.PEDESTAL, ctx -> new PedestalBlockRenderer(ctx.getItemRenderer()));
+        BlockEntityRendererFactories.register(BLBlockEntities.SKILL_UPGRADER, ctx -> new AltarBlockRenderer(ctx.getItemRenderer()));
 
         HudRenderCallback.EVENT.register(BLHud::render);
 
@@ -178,14 +173,10 @@ public class BloodlustClient implements ClientModInitializer {
 
     public void registerBindings() {
         SUCK_BLOOD = KeyBindingHelper.registerKeyBinding(SUCK_BLOOD);
-        OPEN_ABILITIES = KeyBindingHelper.registerKeyBinding(OPEN_ABILITIES);
         ABILITY_1 = KeyBindingHelper.registerKeyBinding(ABILITY_1);
         ABILITY_2 = KeyBindingHelper.registerKeyBinding(ABILITY_2);
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            while (OPEN_ABILITIES.wasPressed() && VampireHelper.isVampire(client.player)) {
-                client.setScreen(new VampireAbilitiesScreen());
-            }
             while (ABILITY_1.wasPressed()) {
                 ClientPlayNetworking.send(new ActivateAbilityC2S(0));
             }

@@ -24,15 +24,17 @@ public class AltarRecipe implements Recipe<AltarInventory> {
     private final ItemStack output;
     private final int minLevel;
     private final int maxLevel;
+    private final Ingredient catalyst;
     private final DefaultedList<Ingredient> ingredients;
     private final int ticksToProcess;
 
-    public AltarRecipe(Identifier id, ItemStack output, String group, int minLevel, int maxLevel, int ticksToProcess, DefaultedList<Ingredient> ingredientList) {
+    public AltarRecipe(Identifier id, ItemStack output, String group, int minLevel, int maxLevel, int ticksToProcess, Ingredient catalyst, DefaultedList<Ingredient> ingredientList) {
         this.id = id;
         this.output = output;
         this.group = group;
         this.minLevel = minLevel;
         this.maxLevel = maxLevel;
+        this.catalyst = catalyst;
         this.ingredients = ingredientList;
         this.ticksToProcess = ticksToProcess;
     }
@@ -84,9 +86,13 @@ public class AltarRecipe implements Recipe<AltarInventory> {
         return this.group;
     }
 
-    public boolean matches(int level, Collection<ItemStack> input) {
+    public boolean matches(int level, ItemStack catalyst, Collection<ItemStack> input) {
         if (level < minLevel || level > maxLevel || input.size() != ingredients.size())
             return false;
+
+        if (!this.catalyst.test(catalyst))
+            return false;
+
         List<ItemStack> stacks = new ArrayList<>(input);
         boolean matches = false;
         for (Ingredient i : ingredients) {
@@ -117,6 +123,10 @@ public class AltarRecipe implements Recipe<AltarInventory> {
         return maxLevel;
     }
 
+    public Ingredient getCatalyst() {
+        return this.catalyst;
+    }
+
     public static class Serializer implements RecipeSerializer<AltarRecipe> {
 
         @Override
@@ -128,6 +138,7 @@ public class AltarRecipe implements Recipe<AltarInventory> {
             if (json.has("maxLevel"))
                 maxLevel = json.get("maxLevel").getAsInt();
 
+            Ingredient catalyst = Ingredient.fromJson(json.get("catalyst"));
             DefaultedList<Ingredient> ingredients = getIngredients(JsonHelper.getArray(json, "input"));
             if (ingredients.isEmpty())
                 throw new JsonParseException("No ingredients for recipe");
@@ -136,7 +147,7 @@ public class AltarRecipe implements Recipe<AltarInventory> {
                 throw new JsonParseException("There must be at most 8 inputs the the recipe");
 
             ItemStack itemStack = ShapedRecipe.outputFromJson(JsonHelper.getObject(json, "result"));
-            return new AltarRecipe(id, itemStack, string, minLevel, maxLevel, ticksToProcess, ingredients);
+            return new AltarRecipe(id, itemStack, string, minLevel, maxLevel, ticksToProcess, catalyst, ingredients);
         }
 
         private static DefaultedList<Ingredient> getIngredients(JsonArray json) {
@@ -157,13 +168,14 @@ public class AltarRecipe implements Recipe<AltarInventory> {
             int minLevel = packetByteBuf.readVarInt();
             int maxLevel = packetByteBuf.readVarInt();
             int ticksToProcess = packetByteBuf.readVarInt();
+            Ingredient catalyst = Ingredient.fromPacket(packetByteBuf);
             int i = packetByteBuf.readVarInt();
             DefaultedList<Ingredient> defaultedList = DefaultedList.ofSize(i, Ingredient.EMPTY);
 
             defaultedList.replaceAll(ignored -> Ingredient.fromPacket(packetByteBuf));
 
             ItemStack itemStack = packetByteBuf.readItemStack();
-            return new AltarRecipe(identifier, itemStack, string, minLevel, maxLevel, ticksToProcess, defaultedList);
+            return new AltarRecipe(identifier, itemStack, string, minLevel, maxLevel, ticksToProcess, catalyst, defaultedList);
         }
 
         public void write(PacketByteBuf packetByteBuf, AltarRecipe altarRecipe) {
@@ -171,6 +183,7 @@ public class AltarRecipe implements Recipe<AltarInventory> {
             packetByteBuf.writeVarInt(altarRecipe.minLevel);
             packetByteBuf.writeVarInt(altarRecipe.maxLevel);
             packetByteBuf.writeVarInt(altarRecipe.ticksToProcess);
+            altarRecipe.catalyst.write(packetByteBuf);
             packetByteBuf.writeVarInt(altarRecipe.ingredients.size());
 
             for (Ingredient ingredient : altarRecipe.ingredients) {

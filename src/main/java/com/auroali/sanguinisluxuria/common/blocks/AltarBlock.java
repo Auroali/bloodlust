@@ -7,10 +7,12 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.function.BooleanBiFunction;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
@@ -47,7 +49,18 @@ public class AltarBlock extends BlockWithEntity {
         if (altar == null)
             return ActionResult.FAIL;
 
-        altar.checkAndStartRecipe(world, player);
+        if (player.isSneaking()) {
+            altar.checkAndStartRecipe(world, player);
+            return ActionResult.success(world.isClient);
+        }
+
+        ItemStack stack = player.getStackInHand(hand);
+        ItemStack catalyst = altar.getCatalyst();
+
+        altar.setCatalyst(stack);
+        player.setStackInHand(hand, catalyst);
+
+        //altar.checkAndStartRecipe(world, player);
 
         return ActionResult.success(world.isClient);
     }
@@ -69,6 +82,20 @@ public class AltarBlock extends BlockWithEntity {
         if (world.isClient)
             return checkType(type, BLBlockEntities.SKILL_UPGRADER, AltarBlockEntity::vfxTick);
         return checkType(type, BLBlockEntities.SKILL_UPGRADER, AltarBlockEntity::tick);
+    }
+
+    @Override
+    public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
+        if (!state.isOf(newState.getBlock())) {
+            BlockEntity blockEntity = world.getBlockEntity(pos);
+            if (blockEntity instanceof AltarBlockEntity e) {
+                ItemScatterer.spawn(world, pos, e.getInventory());
+                ItemScatterer.spawn(world, pos, e.getRecipeItems());
+                world.updateComparators(pos, this);
+            }
+
+            super.onStateReplaced(state, world, pos, newState, moved);
+        }
     }
 
     @Override

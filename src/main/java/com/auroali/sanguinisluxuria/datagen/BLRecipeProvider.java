@@ -1,10 +1,8 @@
 package com.auroali.sanguinisluxuria.datagen;
 
 import com.auroali.sanguinisluxuria.BLResources;
-import com.auroali.sanguinisluxuria.common.BloodConstants;
 import com.auroali.sanguinisluxuria.common.advancements.BecomeVampireCriterion;
 import com.auroali.sanguinisluxuria.common.advancements.UnlockAbilityCriterion;
-import com.auroali.sanguinisluxuria.common.items.BloodStorageItem;
 import com.auroali.sanguinisluxuria.common.registry.*;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
@@ -35,16 +33,13 @@ public class BLRecipeProvider extends FabricRecipeProvider {
         SingleItemRecipeJsonBuilder.createStonecutting(Ingredient.fromTag(BLTags.Items.DECAYED_LOGS), RecipeCategory.TOOLS, BLItems.MASK_3)
           .criterion("has_log", conditionsFromTag(ItemTags.LOGS))
           .offerTo(exporter);
-        AltarRecipeJsonBuilder.create(RecipeCategory.BREWING, BLItems.TWISTED_BLOOD)
-          .input(BloodStorageItem.setStoredBlood(new ItemStack(BLItems.BLOOD_BOTTLE), BloodConstants.BLOOD_PER_BOTTLE))
+        AltarRecipeJsonBuilder.create(RecipeCategory.BREWING, BLItems.TWISTED_BLOOD, BLItems.BLOOD_BOTTLE)
           .input(Items.NETHER_WART)
           .input(Items.FERMENTED_SPIDER_EYE)
           .input(BLItems.BLOOD_PETAL)
           .criterion("is_vampire", BecomeVampireCriterion.Conditions.create())
           .offerTo(exporter);
-        AltarRecipeJsonBuilder.create(RecipeCategory.TOOLS, BLItems.BLOOD_BAG)
-          .input(BLItems.TWISTED_BLOOD)
-          .input(Items.GLASS_BOTTLE)
+        AltarRecipeJsonBuilder.create(RecipeCategory.TOOLS, BLItems.BLOOD_BAG, Items.GLASS_BOTTLE)
           .input(Items.GLASS)
           .input(Items.GLASS)
           .criterion("has_twisted_blood", conditionsFromItem(BLItems.TWISTED_BLOOD))
@@ -65,16 +60,14 @@ public class BLRecipeProvider extends FabricRecipeProvider {
           .input('l', BLTags.Items.DECAYED_LOGS)
           .criterion("has_blackstone", conditionsFromItem(Items.BLACKSTONE))
           .offerTo(exporter);
-        AltarRecipeJsonBuilder.create(RecipeCategory.BREWING, BLItems.BLESSED_BLOOD)
-          .input(BLItems.TWISTED_BLOOD)
+        AltarRecipeJsonBuilder.create(RecipeCategory.BREWING, BLItems.BLESSED_BLOOD, BLItems.TWISTED_BLOOD)
           .input(Items.GOLDEN_APPLE)
           .input(Items.SUNFLOWER)
           .input(PotionUtil.setPotion(new ItemStack(Items.POTION), BLStatusEffects.BLESSED_WATER_POTION))
           .criterion("drink_twisted_blood", ConsumeItemCriterion.Conditions.item(BLItems.TWISTED_BLOOD))
           .offerTo(exporter);
-        AltarRecipeJsonBuilder.create(RecipeCategory.TOOLS, BLItems.PENDANT_OF_PIERCING)
+        AltarRecipeJsonBuilder.create(RecipeCategory.TOOLS, BLItems.PENDANT_OF_PIERCING, Items.ARROW)
           .input(BLItems.TWISTED_BLOOD)
-          .input(Items.ARROW)
           .input(Items.GOLD_INGOT)
           .input(Items.STRING)
           .criterion("unlock_abilities", UnlockAbilityCriterion.Conditions.create(BLVampireAbilities.TELEPORT))

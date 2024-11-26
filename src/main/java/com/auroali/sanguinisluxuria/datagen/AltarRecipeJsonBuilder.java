@@ -35,22 +35,32 @@ public class AltarRecipeJsonBuilder extends RecipeJsonBuilder implements Craftin
     private int minLevel = 0;
     private int maxLevel = Integer.MAX_VALUE;
     private int ticksToProcess = 300;
+    private final Ingredient catalyst;
     private final List<Ingredient> ingredients = new ArrayList<>();
     private final Advancement.Builder advancementBuilder = Advancement.Builder.create();
     private final RecipeCategory category;
 
-    AltarRecipeJsonBuilder(RecipeCategory category, Item output, int outputCount) {
+    AltarRecipeJsonBuilder(RecipeCategory category, Item output, int outputCount, Ingredient catalyst) {
         this.output = output;
         this.outputCount = outputCount;
         this.category = category;
+        this.catalyst = catalyst;
     }
 
-    public static AltarRecipeJsonBuilder create(RecipeCategory category, ItemConvertible output) {
-        return new AltarRecipeJsonBuilder(category, output.asItem(), 1);
+    public static AltarRecipeJsonBuilder create(RecipeCategory category, ItemConvertible output, Ingredient catalyst) {
+        return new AltarRecipeJsonBuilder(category, output.asItem(), 1, catalyst);
     }
 
-    public static AltarRecipeJsonBuilder create(RecipeCategory category, ItemConvertible output, int count) {
-        return new AltarRecipeJsonBuilder(category, output.asItem(), count);
+    public static AltarRecipeJsonBuilder create(RecipeCategory category, ItemConvertible output, int count, Ingredient catalyst) {
+        return new AltarRecipeJsonBuilder(category, output.asItem(), count, catalyst);
+    }
+
+    public static AltarRecipeJsonBuilder create(RecipeCategory category, ItemConvertible output, Item catalyst) {
+        return new AltarRecipeJsonBuilder(category, output.asItem(), 1, Ingredient.ofItems(catalyst));
+    }
+
+    public static AltarRecipeJsonBuilder create(RecipeCategory category, ItemConvertible output, int count, Item catalyst) {
+        return new AltarRecipeJsonBuilder(category, output.asItem(), count, Ingredient.ofItems(catalyst));
     }
 
     public AltarRecipeJsonBuilder input(ItemConvertible item) {
@@ -143,6 +153,7 @@ public class AltarRecipeJsonBuilder extends RecipeJsonBuilder implements Craftin
         final int minLevel;
         final int maxLevel;
         final int ticksToProcess;
+        private final Ingredient catalyst;
         public final List<Ingredient> ingredients;
         private final Advancement.Builder advancementBuilder;
         private final Identifier id;
@@ -154,6 +165,7 @@ public class AltarRecipeJsonBuilder extends RecipeJsonBuilder implements Craftin
             this.output = builder.output;
             this.advancementBuilder = builder.advancementBuilder;
             this.group = builder.group == null ? "" : builder.group;
+            this.catalyst = builder.catalyst;
             this.ingredients = builder.ingredients;
             this.maxLevel = builder.maxLevel;
             this.minLevel = builder.minLevel;
@@ -171,6 +183,7 @@ public class AltarRecipeJsonBuilder extends RecipeJsonBuilder implements Craftin
                 ingredientsJson.add(i.toJson());
             }
             json.add("input", ingredientsJson);
+            json.add("catalyst", catalyst.toJson());
 
             json.addProperty("minLevel", minLevel);
             if (maxLevel != Integer.MAX_VALUE)

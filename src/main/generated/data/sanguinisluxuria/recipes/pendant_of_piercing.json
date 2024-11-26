@@ -1,12 +1,12 @@
 {
   "type": "sanguinisluxuria:altar_recipe",
+  "catalyst": {
+    "item": "minecraft:arrow"
+  },
   "category": "equipment",
   "input": [
     {
       "item": "sanguinisluxuria:twisted_blood_bottle"
-    },
-    {
-      "item": "minecraft:arrow"
     },
     {
       "item": "minecraft:gold_ingot"

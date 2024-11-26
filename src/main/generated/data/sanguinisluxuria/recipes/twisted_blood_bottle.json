@@ -1,17 +1,10 @@
 {
   "type": "sanguinisluxuria:altar_recipe",
+  "catalyst": {
+    "item": "sanguinisluxuria:blood_bottle"
+  },
   "category": "misc",
   "input": [
-    {
-      "fabric:type": "fabric:nbt",
-      "base": {
-        "item": "sanguinisluxuria:blood_bottle"
-      },
-      "nbt": {
-        "StoredBlood": 2
-      },
-      "strict": false
-    },
     {
       "item": "minecraft:nether_wart"
     },

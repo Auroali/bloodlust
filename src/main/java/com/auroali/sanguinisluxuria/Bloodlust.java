@@ -2,6 +2,7 @@ package com.auroali.sanguinisluxuria;
 
 import com.auroali.sanguinisluxuria.common.abilities.VampireAbility;
 import com.auroali.sanguinisluxuria.common.abilities.VampireAbilityContainer;
+import com.auroali.sanguinisluxuria.common.blockentities.AltarBlockEntity;
 import com.auroali.sanguinisluxuria.common.blockentities.PedestalBlockEntity;
 import com.auroali.sanguinisluxuria.common.commands.BloodlustCommand;
 import com.auroali.sanguinisluxuria.common.commands.arguments.VampireAbilityArgument;
@@ -108,6 +109,8 @@ public class Bloodlust implements ModInitializer {
 
         ItemStorage.SIDED.registerForBlockEntities((blockEntity, context) -> {
             if (blockEntity instanceof PedestalBlockEntity e)
+                return InventoryStorage.of(e.getInventory(), null);
+            if (blockEntity instanceof AltarBlockEntity e)
                 return InventoryStorage.of(e.getInventory(), null);
             return null;
         }, BLBlockEntities.PEDESTAL);

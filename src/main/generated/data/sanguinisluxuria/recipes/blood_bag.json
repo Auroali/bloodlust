@@ -1,13 +1,10 @@
 {
   "type": "sanguinisluxuria:altar_recipe",
+  "catalyst": {
+    "item": "minecraft:glass_bottle"
+  },
   "category": "equipment",
   "input": [
-    {
-      "item": "sanguinisluxuria:twisted_blood_bottle"
-    },
-    {
-      "item": "minecraft:glass_bottle"
-    },
     {
       "item": "minecraft:glass"
     },

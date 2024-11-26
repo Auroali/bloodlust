@@ -1,4 +1,4 @@
-// 1.20.1	2024-10-26T13:29:21.225589155	Sanguinis Luxuria/Tags for minecraft:item
+// 1.20.1	2024-11-25T20:21:13.228981686	Sanguinis Luxuria/Tags for minecraft:item
 b730ffc8e63f32a3da32d2cac45fbc4df71ba54e data/c/tags/items/raw_silver_blocks.json
 7246aec037ac6c03902a5efb15c2e213af5d8f3d data/minecraft/tags/items/hoes.json
 6d684fce31ed676aeaa54e1c92a9fa648b6f16e7 data/minecraft/tags/items/shovels.json
@@ -12,11 +12,11 @@ cbc32d4bc22046141999636336671badf0644782 data/minecraft/tags/items/logs.json
 629f75843c82691375ef6b0fe17524c2599abffc data/sanguinisluxuria/tags/items/vampire_masks.json
 cbc32d4bc22046141999636336671badf0644782 data/sanguinisluxuria/tags/items/decayed_logs.json
 e907755d879be948ac26842fab1558331a2743eb data/minecraft/tags/items/wooden_pressure_plates.json
-facafd2526c364a82c85495552558d6c38405d42 data/c/tags/items/ingots.json
 d1beb62c086c9735402c190ae0f606116164b9e5 data/c/tags/items/silver_ores.json
+facafd2526c364a82c85495552558d6c38405d42 data/c/tags/items/ingots.json
 69e797885d92007ca6205470e9993c9f3d8ad1e2 data/minecraft/tags/items/pickaxes.json
 d28260a9ba94faa24303cd8825b3ebd4ec8d7ee2 data/minecraft/tags/items/swords.json
 cbc32d4bc22046141999636336671badf0644782 data/minecraft/tags/items/logs_that_burn.json
 fc585cef69e32bab8e1d4ec5c04bf5afe54dbbde data/sanguinisluxuria/tags/items/hungry_decayed_logs.json
 629f75843c82691375ef6b0fe17524c2599abffc data/trinkets/tags/items/head/face.json
-145394fa5265be8766e5f0506ac3c8c96a5f208e data/trinkets/tags/items/chest/necklace.json
+fcd09471443af72b75108b0b6219910720e6e660 data/trinkets/tags/items/chest/necklace.json

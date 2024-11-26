@@ -3,7 +3,6 @@ package com.auroali.sanguinisluxuria.client;
 import com.auroali.sanguinisluxuria.BLResources;
 import com.auroali.sanguinisluxuria.BloodlustClient;
 import com.auroali.sanguinisluxuria.VampireHelper;
-import com.auroali.sanguinisluxuria.client.screen.VampireAbilitiesScreen;
 import com.auroali.sanguinisluxuria.common.BloodConstants;
 import com.auroali.sanguinisluxuria.common.abilities.VampireAbility;
 import com.auroali.sanguinisluxuria.common.abilities.VampireAbilityContainer;
@@ -87,7 +86,7 @@ public class BLHud {
                 continue;
 
             ItemStack stack = getOrCreateIcon(i, ability);
-            Text text = VampireAbilitiesScreen.getTextForSlot(i);
+            Text text = getTextForSlot(i);
             float offset = (16 - client.textRenderer.getWidth(text)) / 2.0f;
 
             context.drawTextWithShadow(client.textRenderer, text, (int) (x + offset), height - client.textRenderer.fontHeight, -1);
@@ -99,6 +98,14 @@ public class BLHud {
             }
             x += 22;
         }
+    }
+
+    public static Text getTextForSlot(int slot) {
+        return switch (slot) {
+            case 0 -> Text.keybind(BloodlustClient.ABILITY_1.getTranslationKey());
+            case 1 -> Text.keybind(BloodlustClient.ABILITY_2.getTranslationKey());
+            default -> null;
+        };
     }
 
     public static ItemStack getOrCreateIcon(int slot, VampireAbility ability) {
