@@ -127,6 +127,7 @@ public class BLResources {
     public static final Identifier ITEM_RITUAL_TYPE = id("item_ritual");
     public static final Identifier ABILITY_RITUAL_TYPE = id("ability");
     public static final Identifier ABILITY_RESET_RITUAL_TYPE = id("reset_abilities");
+    public static final Identifier ALTAR_BEAT_PARTICLE = id("altar_beat");
 
     public static Identifier id(String path) {
         return new Identifier(Bloodlust.MODID, path);

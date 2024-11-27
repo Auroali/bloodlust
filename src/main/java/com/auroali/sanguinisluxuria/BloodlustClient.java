@@ -1,6 +1,7 @@
 package com.auroali.sanguinisluxuria;
 
 import com.auroali.sanguinisluxuria.client.BLHud;
+import com.auroali.sanguinisluxuria.client.particles.AltarBeatParticle;
 import com.auroali.sanguinisluxuria.client.particles.DrippingBloodParticle;
 import com.auroali.sanguinisluxuria.client.render.blocks.ItemDisplayingBlockEntityRenderer;
 import com.auroali.sanguinisluxuria.client.render.entities.VampireMerchantRenderer;
@@ -123,6 +124,7 @@ public class BloodlustClient implements ClientModInitializer {
             particle.setSprite(sprite);
             return particle;
         });
+        ParticleFactoryRegistry.getInstance().register(BLParticles.ALTAR_BEAT, AltarBeatParticle.Factory::new);
 
         ClientPlayNetworking.registerGlobalReceiver(BLResources.ABILITY_SYNC_CHANNEL, (client, handler, buf, responseSender) -> {
             int id = buf.readVarInt();

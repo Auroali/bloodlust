@@ -1,13 +1,19 @@
 package com.auroali.sanguinisluxuria.common.blockentities;
 
+import com.auroali.sanguinisluxuria.BloodlustClient;
+import com.auroali.sanguinisluxuria.common.blocks.AltarBlock;
 import com.auroali.sanguinisluxuria.common.registry.BLBlockEntities;
+import com.auroali.sanguinisluxuria.common.registry.BLParticles;
+import com.auroali.sanguinisluxuria.common.registry.BLSounds;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
@@ -39,9 +45,18 @@ public class AltarBlockEntity extends BlockEntity implements Inventory, ItemDisp
 
     public static void tickClient(World world, BlockPos pos, BlockState state, AltarBlockEntity altar) {
         altar.ticks++;
+        if (!state.get(AltarBlock.ACTIVE))
+            return;
+
+        BloodlustClient.isAltarActive = true;
+        if (altar.ticks % 20 == 0) {
+            world.playSound(MinecraftClient.getInstance().player, pos, BLSounds.ALTAR_BEATS, SoundCategory.BLOCKS);
+            world.addParticle(BLParticles.ALTAR_BEAT, pos.getX() + 0.5, pos.getY() + 0.05f, pos.getZ() + 0.5, 0, 0, 0);
+        }
     }
 
     public static void tick(World world, BlockPos pos, BlockState state, AltarBlockEntity altar) {
+
     }
 
     @Override
