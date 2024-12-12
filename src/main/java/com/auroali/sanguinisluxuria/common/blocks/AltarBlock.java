@@ -7,6 +7,7 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.util.ActionResult;
@@ -47,6 +48,17 @@ public class AltarBlock extends BlockWithEntity {
         AltarBlockEntity altar = world.getBlockEntity(pos) instanceof AltarBlockEntity e ? e : null;
         if (altar == null)
             return ActionResult.FAIL;
+
+        if (player.isSneaking()) {
+            if (!world.isClient)
+                altar.startRitual(world, player, pos, state);
+            return ActionResult.success(world.isClient);
+        }
+
+        ItemStack stack = player.getStackInHand(hand);
+        ItemStack altarStack = altar.getStack(0);
+        player.setStackInHand(hand, altarStack);
+        altar.setStack(0, stack);
 
         return ActionResult.success(world.isClient);
     }

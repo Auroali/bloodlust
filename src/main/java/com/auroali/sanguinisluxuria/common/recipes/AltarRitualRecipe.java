@@ -11,14 +11,14 @@ import com.mojang.serialization.JsonOps;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraft.recipe.Ingredient;
-import net.minecraft.recipe.Recipe;
-import net.minecraft.recipe.RecipeSerializer;
-import net.minecraft.recipe.RecipeType;
+import net.minecraft.recipe.*;
 import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AltarRitualRecipe implements Recipe<Inventory> {
     protected final Identifier id;
@@ -31,6 +31,18 @@ public class AltarRitualRecipe implements Recipe<Inventory> {
         this.ritual = ritual;
         this.catalyst = catalyst;
         this.inputs = inputs;
+    }
+
+    public boolean matches(ItemStack catalyst, List<ItemStack> stacks) {
+        if (!this.catalyst.test(catalyst))
+            return false;
+
+        if (stacks.size() != this.inputs.size())
+            return false;
+
+        RecipeMatcher matcher = new RecipeMatcher();
+        stacks.forEach(stack -> matcher.addInput(stack, 1));
+        return matcher.match(this, null);
     }
 
     @Override
@@ -48,7 +60,15 @@ public class AltarRitualRecipe implements Recipe<Inventory> {
 
     @Override
     public boolean matches(Inventory inventory, World world) {
-        return false;
+        if (inventory.size() <= 0)
+            return false;
+
+        ItemStack catalyst = inventory.getStack(0);
+        List<ItemStack> stacks = new ArrayList<>(inventory.size());
+        for (int i = 1; i < inventory.size(); i++) {
+            stacks.add(inventory.getStack(i));
+        }
+        return this.matches(catalyst, stacks);
     }
 
     @Override
