@@ -13,6 +13,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.util.math.MathHelper;
 
 public class EntityBloodComponent implements InitializableBloodComponent, ServerTickingComponent {
     private final LivingEntity holder;
@@ -33,7 +34,13 @@ public class EntityBloodComponent implements InitializableBloodComponent, Server
             BLEntityComponents.BLOOD_COMPONENT.sync(this.holder);
             return;
         }
-        this.maxBlood = (int) Math.ceil(this.holder.getMaxHealth());
+
+        // if an entity isn't in the good blood tag, half the max amount of blood
+        float maxBloodFromHealth = this.holder.getMaxHealth();
+        if (!this.holder.getType().isIn(BLTags.Entities.GOOD_BLOOD))
+            maxBloodFromHealth = MathHelper.clamp(maxBloodFromHealth / 2.f, 1.f, Float.MAX_VALUE);
+
+        this.maxBlood = (int) Math.ceil(maxBloodFromHealth);
         if (this.currentBlood == -1)
             this.currentBlood = this.maxBlood;
         this.currentBlood = Math.min(this.currentBlood, this.maxBlood);
