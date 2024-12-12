@@ -1,10 +1,10 @@
 package com.auroali.sanguinisluxuria.client.particles;
 
+import com.auroali.sanguinisluxuria.common.particles.DelayedParticleEffect;
 import net.minecraft.client.particle.*;
 import net.minecraft.client.render.Camera;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.world.ClientWorld;
-import net.minecraft.particle.DefaultParticleType;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.Nullable;
@@ -93,7 +93,7 @@ public class AltarBeatParticle extends SpriteBillboardParticle {
         return ParticleTextureSheet.PARTICLE_SHEET_TRANSLUCENT;
     }
 
-    public static class Factory implements ParticleFactory<DefaultParticleType> {
+    public static class Factory implements ParticleFactory<DelayedParticleEffect> {
         final SpriteProvider sprites;
 
         public Factory(SpriteProvider sprites) {
@@ -102,8 +102,8 @@ public class AltarBeatParticle extends SpriteBillboardParticle {
 
         @Nullable
         @Override
-        public Particle createParticle(DefaultParticleType parameters, ClientWorld world, double x, double y, double z, double velocityX, double velocityY, double velocityZ) {
-            AltarBeatParticle particle = new AltarBeatParticle(world, x, y, z, 2);
+        public Particle createParticle(DelayedParticleEffect parameters, ClientWorld world, double x, double y, double z, double velocityX, double velocityY, double velocityZ) {
+            AltarBeatParticle particle = new AltarBeatParticle(world, x, y, z, parameters.getDelay());
             particle.setVelocity(velocityX, velocityY, velocityZ);
             particle.setSprite(this.sprites);
             particle.scale = 1.2f;

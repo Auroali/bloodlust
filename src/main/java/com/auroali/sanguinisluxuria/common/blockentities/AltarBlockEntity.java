@@ -2,6 +2,7 @@ package com.auroali.sanguinisluxuria.common.blockentities;
 
 import com.auroali.sanguinisluxuria.BloodlustClient;
 import com.auroali.sanguinisluxuria.common.blocks.AltarBlock;
+import com.auroali.sanguinisluxuria.common.particles.DelayedParticleEffect;
 import com.auroali.sanguinisluxuria.common.registry.BLBlockEntities;
 import com.auroali.sanguinisluxuria.common.registry.BLParticles;
 import com.auroali.sanguinisluxuria.common.registry.BLSounds;
@@ -51,7 +52,7 @@ public class AltarBlockEntity extends BlockEntity implements Inventory, ItemDisp
         BloodlustClient.isAltarActive = true;
         if (altar.ticks % 20 == 0) {
             world.playSound(MinecraftClient.getInstance().player, pos, BLSounds.ALTAR_BEATS, SoundCategory.BLOCKS);
-            world.addParticle(BLParticles.ALTAR_BEAT, pos.getX() + 0.5, pos.getY() + 0.05f, pos.getZ() + 0.5, 0, 0, 0);
+            world.addParticle(new DelayedParticleEffect(BLParticles.ALTAR_BEAT, 2), pos.getX() + 0.5, pos.getY() + 0.05f, pos.getZ() + 0.5, 0, 0, 0);
         }
     }
 
