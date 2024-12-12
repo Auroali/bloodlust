@@ -12,14 +12,19 @@ import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
 public class AltarBeatParticle extends SpriteBillboardParticle {
-    protected AltarBeatParticle(ClientWorld clientWorld, double d, double e, double f) {
+    int delay;
+
+    protected AltarBeatParticle(ClientWorld clientWorld, double d, double e, double f, int delay) {
         super(clientWorld, d, e, f);
         this.gravityStrength = 0;
         this.collidesWithWorld = false;
+        this.delay = delay;
     }
 
     @Override
     public void buildGeometry(VertexConsumer vertexConsumer, Camera camera, float tickDelta) {
+        if (this.delay > 0)
+            return;
         Vec3d cameraPos = camera.getPos();
         float x = (float) (MathHelper.lerp(tickDelta, this.prevPosX, this.x) - cameraPos.getX());
         float y = (float) (MathHelper.lerp(tickDelta, this.prevPosY, this.y) - cameraPos.getY());
@@ -67,11 +72,15 @@ public class AltarBeatParticle extends SpriteBillboardParticle {
 
     @Override
     public float getSize(float tickDelta) {
-        return this.scale * MathHelper.clamp((this.age + tickDelta) / (this.maxAge * 0.55f), 0.0f, 1.0f);
+        return this.scale * MathHelper.clamp((this.age + tickDelta) / (this.maxAge * 0.25f), 0.0f, 1.0f);
     }
 
     @Override
     public void tick() {
+        if (this.delay > 0) {
+            this.delay--;
+            return;
+        }
         super.tick();
         float toRemove = 1.f / this.maxAge;
         if (this.alpha >= toRemove)
@@ -94,11 +103,11 @@ public class AltarBeatParticle extends SpriteBillboardParticle {
         @Nullable
         @Override
         public Particle createParticle(DefaultParticleType parameters, ClientWorld world, double x, double y, double z, double velocityX, double velocityY, double velocityZ) {
-            AltarBeatParticle particle = new AltarBeatParticle(world, x, y, z);
+            AltarBeatParticle particle = new AltarBeatParticle(world, x, y, z, 2);
             particle.setVelocity(velocityX, velocityY, velocityZ);
             particle.setSprite(this.sprites);
             particle.scale = 1.2f;
-            particle.maxAge = 14;
+            particle.maxAge = 11;
             return particle;
         }
     }
