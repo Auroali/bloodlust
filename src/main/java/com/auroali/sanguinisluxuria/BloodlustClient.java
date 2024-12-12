@@ -45,19 +45,19 @@ import org.lwjgl.glfw.GLFW;
 
 public class BloodlustClient implements ClientModInitializer {
     public static KeyBinding SUCK_BLOOD = new KeyBinding(
-      "key.sanguinisluxuria.bite",
+      "key.sanguinisluxuria.drain_blood",
       InputUtil.Type.KEYSYM,
       GLFW.GLFW_KEY_R,
       "category.sanguinisluxuria.sanguinisluxuria"
     );
     public static KeyBinding ACTIVATE_BITE = new KeyBinding(
-      "key.sanguinisluxuria.ability_1",
+      "key.sanguinisluxuria.activate_bite",
       InputUtil.Type.KEYSYM,
       GLFW.GLFW_KEY_X,
       "category.sanguinisluxuria.sanguinisluxuria"
     );
     public static KeyBinding ACTIVATE_BLINK = new KeyBinding(
-      "key.sanguinisluxuria.ability_2",
+      "key.sanguinisluxuria.activate_blink",
       InputUtil.Type.KEYSYM,
       GLFW.GLFW_KEY_Z,
       "category.sanguinisluxuria.sanguinisluxuria"

@@ -1,7 +1,6 @@
 package com.auroali.sanguinisluxuria.datagen;
 
 import com.auroali.sanguinisluxuria.BLResources;
-import com.auroali.sanguinisluxuria.BloodlustClient;
 import com.auroali.sanguinisluxuria.common.abilities.VampireAbility;
 import com.auroali.sanguinisluxuria.common.registry.*;
 import com.auroali.sanguinisluxuria.common.rituals.RitualType;
@@ -138,9 +137,9 @@ public class BLLangProvider extends FabricLanguageProvider {
     }
 
     private static void keybindings(TranslationBuilder translationBuilder) {
-        translationBuilder.add(BloodlustClient.SUCK_BLOOD.getTranslationKey(), "Drain Blood");
-        translationBuilder.add(BloodlustClient.ACTIVATE_BITE.getTranslationKey(), "Bite");
-        translationBuilder.add(BloodlustClient.ACTIVATE_BLINK.getTranslationKey(), "Blink");
+        translationBuilder.add("key.sanguinisluxuria.drain_blood", "Drain Blood");
+        translationBuilder.add("key.sanguinisluxuria.activate_bite", "Bite");
+        translationBuilder.add("key.sanguinisluxuria.activate_blink", "Blink");
         translationBuilder.add("category.sanguinisluxuria.sanguinisluxuria", "Sanguinis Luxuria");
     }
 
