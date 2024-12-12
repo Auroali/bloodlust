@@ -9,10 +9,8 @@ import com.auroali.sanguinisluxuria.client.render.entities.VampireVillagerRender
 import com.auroali.sanguinisluxuria.common.abilities.SyncableVampireAbility;
 import com.auroali.sanguinisluxuria.common.abilities.VampireAbility;
 import com.auroali.sanguinisluxuria.common.items.BloodStorageItem;
-import com.auroali.sanguinisluxuria.common.network.ActivateAbilityC2S;
-import com.auroali.sanguinisluxuria.common.network.AltarRecipeStartS2C;
-import com.auroali.sanguinisluxuria.common.network.DrainBloodC2S;
-import com.auroali.sanguinisluxuria.common.network.HungryDecayedLogVFXS2C;
+import com.auroali.sanguinisluxuria.common.network.*;
+import com.auroali.sanguinisluxuria.common.particles.DelayedParticleEffect;
 import com.auroali.sanguinisluxuria.common.registry.*;
 import dev.emi.trinkets.api.client.TrinketRendererRegistry;
 import net.fabricmc.api.ClientModInitializer;
@@ -52,13 +50,13 @@ public class BloodlustClient implements ClientModInitializer {
       GLFW.GLFW_KEY_R,
       "category.sanguinisluxuria.sanguinisluxuria"
     );
-    public static KeyBinding ABILITY_1 = new KeyBinding(
+    public static KeyBinding ACTIVATE_BITE = new KeyBinding(
       "key.sanguinisluxuria.ability_1",
       InputUtil.Type.KEYSYM,
       GLFW.GLFW_KEY_Z,
       "category.sanguinisluxuria.sanguinisluxuria"
     );
-    public static KeyBinding ABILITY_2 = new KeyBinding(
+    public static KeyBinding ACTIVATE_BLINK = new KeyBinding(
       "key.sanguinisluxuria.ability_2",
       InputUtil.Type.KEYSYM,
       GLFW.GLFW_KEY_X,
@@ -156,6 +154,11 @@ public class BloodlustClient implements ClientModInitializer {
             }
         });
 
+        ClientPlayNetworking.registerGlobalReceiver(SpawnAltarBeatParticleS2C.ID, (packet, player, responseSender) -> {
+            BlockPos pos = packet.pos();
+            player.getWorld().addParticle(new DelayedParticleEffect(BLParticles.ALTAR_BEAT, 2), pos.getX() + 0.5, pos.getY() + 0.05f, pos.getZ() + 0.5, 0, 0, 0);
+        });
+
         ClientPlayNetworking.registerGlobalReceiver(HungryDecayedLogVFXS2C.ID, (packet, player, responseSender) -> {
             Entity entity = player.getWorld().getEntityById(packet.entityId());
             if (entity == null || entity.getBoundingBox() == null)
@@ -174,15 +177,15 @@ public class BloodlustClient implements ClientModInitializer {
 
     public void registerBindings() {
         SUCK_BLOOD = KeyBindingHelper.registerKeyBinding(SUCK_BLOOD);
-        ABILITY_1 = KeyBindingHelper.registerKeyBinding(ABILITY_1);
-        ABILITY_2 = KeyBindingHelper.registerKeyBinding(ABILITY_2);
+        ACTIVATE_BITE = KeyBindingHelper.registerKeyBinding(ACTIVATE_BITE);
+        ACTIVATE_BLINK = KeyBindingHelper.registerKeyBinding(ACTIVATE_BLINK);
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            while (ABILITY_1.wasPressed()) {
-                ClientPlayNetworking.send(new ActivateAbilityC2S(0));
+            while (ACTIVATE_BITE.wasPressed()) {
+                ClientPlayNetworking.send(new ActivateAbilityC2S(BLVampireAbilities.BITE));
             }
-            while (ABILITY_2.wasPressed()) {
-                ClientPlayNetworking.send(new ActivateAbilityC2S(1));
+            while (ACTIVATE_BLINK.wasPressed()) {
+                ClientPlayNetworking.send(new ActivateAbilityC2S(BLVampireAbilities.TELEPORT));
             }
             if (SUCK_BLOOD.isPressed()) {
                 if (isLookingAtValidTarget() || !VampireHelper.getItemInHand(client.player, Hand.MAIN_HAND, BloodStorageItem.FILLABLE_ITEM_PREDICATE).isEmpty()) {

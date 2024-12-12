@@ -1,6 +1,5 @@
 package com.auroali.sanguinisluxuria;
 
-import com.auroali.sanguinisluxuria.common.abilities.VampireAbility;
 import com.auroali.sanguinisluxuria.common.abilities.VampireAbilityContainer;
 import com.auroali.sanguinisluxuria.common.blockentities.AltarBlockEntity;
 import com.auroali.sanguinisluxuria.common.blockentities.PedestalBlockEntity;
@@ -11,7 +10,6 @@ import com.auroali.sanguinisluxuria.common.components.BloodComponent;
 import com.auroali.sanguinisluxuria.common.components.VampireComponent;
 import com.auroali.sanguinisluxuria.common.items.BloodStorageItem;
 import com.auroali.sanguinisluxuria.common.network.ActivateAbilityC2S;
-import com.auroali.sanguinisluxuria.common.network.BindAbilityC2S;
 import com.auroali.sanguinisluxuria.common.network.DrainBloodC2S;
 import com.auroali.sanguinisluxuria.common.registry.*;
 import com.auroali.sanguinisluxuria.config.BLConfig;
@@ -167,23 +165,8 @@ public class Bloodlust implements ModInitializer {
                 return;
             VampireComponent vampire = BLEntityComponents.VAMPIRE_COMPONENT.get(player);
             VampireAbilityContainer container = vampire.getAbilties();
-            VampireAbility ability = container.getBoundAbility(packet.abilitySlot());
-            if (ability != null)
-                ability.activate(player, vampire);
-        });
-        ServerPlayNetworking.registerGlobalReceiver(BindAbilityC2S.ID, (packet, player, responseSender) -> {
-            if (packet.ability() == null || !VampireHelper.isVampire(player))
-                return;
-            VampireComponent vampire = BLEntityComponents.VAMPIRE_COMPONENT.get(player);
-            VampireAbilityContainer container = vampire.getAbilties();
-            VampireAbility ability = packet.ability();
-            if (container.hasAbility(ability)) {
-                if (packet.slot() == -1)
-                    container.clearBoundAbility(ability);
-                else
-                    container.setBoundAbility(ability, packet.slot());
-                BLEntityComponents.VAMPIRE_COMPONENT.sync(player);
-            }
+            if (container.hasAbility(packet.ability()))
+                packet.ability().activate(player, vampire);
         });
         ServerPlayNetworking.registerGlobalReceiver(DrainBloodC2S.ID, (packet, player, responseSender) -> {
             if (!VampireHelper.isVampire(player))

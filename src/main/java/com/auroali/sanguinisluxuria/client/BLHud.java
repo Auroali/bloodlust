@@ -100,8 +100,8 @@ public class BLHud {
 
     public static Text getTextForSlot(int slot) {
         return switch (slot) {
-            case 0 -> Text.keybind(BloodlustClient.ABILITY_1.getTranslationKey());
-            case 1 -> Text.keybind(BloodlustClient.ABILITY_2.getTranslationKey());
+            case 0 -> Text.keybind(BloodlustClient.ACTIVATE_BITE.getTranslationKey());
+            case 1 -> Text.keybind(BloodlustClient.ACTIVATE_BLINK.getTranslationKey());
             default -> null;
         };
     }

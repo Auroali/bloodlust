@@ -31,20 +31,10 @@ public class BLResources {
     public static final Identifier VAMPIRE_ABILITY_REGISTRY_ID = id("vampire_ability");
     public static final Identifier VAMPIRE_HEALTH_1_ID = id("health_1");
     public static final Identifier VAMPIRE_ABILITY_ARGUMENT_ID = id("ability_argument");
-    public static final Identifier VAMPIRE_HEALTH_2_ID = id("health_2");
-    public static final Identifier VAMPIRE_STRENGTH_1_ID = id("strength_1");
-    public static final Identifier ABILITIES_SCREEN = id("textures/gui/abilities.png");
-    public static final Identifier ABILITIES_BG = id("textures/gui/abilities_bg.png");
     public static final Identifier TELEPORT_ID = id("teleport");
-    public static final Identifier TELEPORT_COOLDOWN_1_ID = id("teleport_cooldown_1");
-    public static final Identifier TELEPORT_COOLDOWN_2_ID = id("teleport_cooldown_2");
-    public static final Identifier TELEPORT_RANGE_1_ID = id("teleport_range_1");
-    public static final Identifier TELEPORT_RANGE_2_ID = id("teleport_range_2");
     public static final Identifier TELEPORT_RANGE_TAG_ID = id("teleport_range_increase");
-    public static final Identifier VAMPIRE_STRENGTH_2_ID = id("vampire_strength_2");
     public static final Identifier BECOME_VAMPIRE_CRITERION_ID = id("become_vampire");
     public static final Identifier ALTAR_ID = id("altar");
-    public static final Identifier MORE_BLOOD_ID = id("more_blood");
     public static final Identifier ALTAR_RECIPE_ID = id("ritual");
     public static final Identifier TWISTED_BLOOD_ID = id("twisted_blood_bottle");
     public static final Identifier PEDESTAL_ID = id("pedestal");
@@ -52,10 +42,8 @@ public class BLResources {
     public static final Identifier BITE_ID = id("bite");
     public static final Identifier SUN_PROTECTION_ID = id("sun_protection");
     public static final Identifier BLOOD_DRAIN_ID = id("blood_drain");
-    public static final Identifier DAMAGE_REDUCTION_ID = id("damage_reduction");
     public static final Identifier ALTAR_BEATS_SOUND = id("altar_beats");
     public static final Identifier BLOOD_STILL = id("blood");
-    public static final Identifier BLOOD_FLOWING = id("blood_flowing");
     public static final Identifier BLOOD_STILL_TEXTURE = id("block/blood_still");
     public static final Identifier BLOOD_FLOWING_TEXTURE = id("block/blood_flowing");
     public static final Identifier BLOOD_CAULDRON_ID = id("blood_cauldron");
@@ -75,7 +63,6 @@ public class BLResources {
     public static final Identifier PENDANT_OF_PIERCING = id("pendant_of_piercing");
     public static final Identifier UNBECOME_VAMPIRE_CRITERION_ID = id("unbecome_vampire");
     public static final Identifier BLESSED_WATER_TWO_ID = id("strong_blessed_water");
-    public static final Identifier DOWNED_RESISTANCE_ID = id("downed_resistance");
     public static final Identifier SERRATED_ID = id("serrated");
     public static final Identifier VAMPIRE_MERCHANT = id("vampire_merchant");
     public static final Identifier BLOOD_PETAL_ID = id("blood_petal");
@@ -98,8 +85,6 @@ public class BLResources {
     public static final Identifier VAMPIRES_WEAK_TO_ID = id("vampires_weak_to");
     public static final Identifier ACTIVATE_ABILITY_C2S = id("activate_ability");
     public static final Identifier DRAIN_BLOOD_C2S = id("drain_blood");
-    public static final Identifier UNLOCK_ABILITY_C2S = id("unlock_ability");
-    public static final Identifier BIND_ABILITY_C2S = id("bind_ability");
     public static final Identifier ALTAR_RECIPE_START_S2C = id("altar_recipe_start");
     public static final Identifier BLOOD_CAULDRON_FILL_ID = id("blood_cauldron_fill");
     public static final Identifier BLINK_COOLDOWN_ID = id("blink_cooldown");
@@ -128,6 +113,7 @@ public class BLResources {
     public static final Identifier ABILITY_RITUAL_TYPE = id("ability");
     public static final Identifier ABILITY_RESET_RITUAL_TYPE = id("reset_abilities");
     public static final Identifier ALTAR_BEAT_PARTICLE = id("altar_beat");
+    public static final Identifier SPAWN_ALTAR_BEAT_PARTICLE_S2C = id("spawn_altar_beat_particle_s2c");
 
     public static Identifier id(String path) {
         return new Identifier(Bloodlust.MODID, path);

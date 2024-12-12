@@ -5,9 +5,8 @@ import com.auroali.sanguinisluxuria.BloodlustClient;
 import com.auroali.sanguinisluxuria.VampireHelper;
 import com.auroali.sanguinisluxuria.common.blocks.AltarBlock;
 import com.auroali.sanguinisluxuria.common.network.AltarRecipeStartS2C;
-import com.auroali.sanguinisluxuria.common.particles.DelayedParticleEffect;
+import com.auroali.sanguinisluxuria.common.network.SpawnAltarBeatParticleS2C;
 import com.auroali.sanguinisluxuria.common.registry.BLBlockEntities;
-import com.auroali.sanguinisluxuria.common.registry.BLParticles;
 import com.auroali.sanguinisluxuria.common.registry.BLRecipeTypes;
 import com.auroali.sanguinisluxuria.common.registry.BLSounds;
 import com.auroali.sanguinisluxuria.common.rituals.Ritual;
@@ -15,7 +14,6 @@ import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -94,11 +92,6 @@ public class AltarBlockEntity extends BlockEntity implements Inventory, ItemDisp
             return;
 
         BloodlustClient.isAltarActive = true;
-        if (altar.ticks % 20 == 0) {
-            // todo: this crashes on the dedicated server
-            world.playSound(MinecraftClient.getInstance().player, pos, BLSounds.ALTAR_BEATS, SoundCategory.BLOCKS);
-            world.addParticle(new DelayedParticleEffect(BLParticles.ALTAR_BEAT, 2), pos.getX() + 0.5, pos.getY() + 0.05f, pos.getZ() + 0.5, 0, 0, 0);
-        }
     }
 
     public static void tick(World world, BlockPos pos, BlockState state, AltarBlockEntity altar) {
@@ -112,6 +105,14 @@ public class AltarBlockEntity extends BlockEntity implements Inventory, ItemDisp
             altar.setInitiator(null);
             altar.markDirty();
             return;
+        }
+
+        if (world.getTime() % 20 == 0) {
+            // todo: this crashes on the dedicated server
+            world.playSound(null, pos, BLSounds.ALTAR_BEATS, SoundCategory.BLOCKS);
+            SpawnAltarBeatParticleS2C packet = new SpawnAltarBeatParticleS2C(altar.pos);
+            PlayerLookup.tracking(altar)
+              .forEach(player -> ServerPlayNetworking.send(player, packet));
         }
 
         if (altar.ticksProcessing < 300) {

@@ -77,11 +77,6 @@ public class VampireTeleportAbility extends VampireAbility implements SyncableVa
     }
 
     @Override
-    public boolean canTickCooldown(LivingEntity entity, VampireComponent vampireComponent) {
-        return entity.isOnGround();
-    }
-
-    @Override
     public void writePacket(PacketByteBuf buf, World world, TeleportData data) {
         buf.writeDouble(data.from.x);
         buf.writeDouble(data.from.y);
