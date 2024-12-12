@@ -5,7 +5,6 @@ import com.auroali.sanguinisluxuria.common.components.BLEntityComponents;
 import com.auroali.sanguinisluxuria.common.components.BloodComponent;
 import com.auroali.sanguinisluxuria.common.components.VampireComponent;
 import com.auroali.sanguinisluxuria.common.registry.BLEntityAttributes;
-import com.auroali.sanguinisluxuria.common.registry.BLVampireAbilities;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Share;
@@ -16,8 +15,6 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.registry.tag.DamageTypeTags;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
@@ -57,9 +54,9 @@ public abstract class LivingEntityMixin extends Entity {
             blessedDamageMod += (float) entity.getAttributeValue(BLEntityAttributes.BLESSED_DAMAGE);
         }
         if (VampireHelper.isVampire(this)) {
-            VampireComponent vampire = BLEntityComponents.VAMPIRE_COMPONENT.get(this);
-            if (!VampireComponent.isEffectiveAgainstVampires(source.get()) && vampire.getAbilties().hasAbility(BLVampireAbilities.DAMAGE_REDUCTION))
-                amount *= 0.85f;
+//            VampireComponent vampire = BLEntityComponents.VAMPIRE_COMPONENT.get(this);
+//            if (!VampireComponent.isEffectiveAgainstVampires(source.get()) && vampire.getAbilties().hasAbility(BLVampireAbilities.DAMAGE_REDUCTION))
+//                amount *= 0.85f;
             return blessedDamageMod + VampireComponent.calculateDamage(amount, source.get());
         }
         return blessedDamageMod + amount;
@@ -93,10 +90,6 @@ public abstract class LivingEntityMixin extends Entity {
         instance.setHealth(Math.min(instance.getMaxHealth(), (float) blood.getBlood()));
         vampire.setDowned(true);
         blood.setBlood(0);
-        if (vampire.getAbilties().hasAbility(BLVampireAbilities.DOWNED_RESISTANCE) && !vampire.getAbilties().isOnCooldown(BLVampireAbilities.DOWNED_RESISTANCE)) {
-            instance.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 200, 4));
-            vampire.getAbilties().setCooldown(BLVampireAbilities.DOWNED_RESISTANCE, 6000);
-        }
         return true;
     }
 

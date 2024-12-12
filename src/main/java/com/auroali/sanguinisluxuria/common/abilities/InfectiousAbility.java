@@ -2,7 +2,6 @@ package com.auroali.sanguinisluxuria.common.abilities;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.math.Box;
@@ -14,13 +13,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-import java.util.function.Supplier;
 
 public class InfectiousAbility extends VampireAbility implements SyncableVampireAbility<InfectiousAbility.InfectiousData> {
-    public InfectiousAbility(Supplier<ItemStack> icon, VampireAbility parent) {
-        super(icon, parent);
-    }
-
     @Override
     public void writePacket(PacketByteBuf buf, World world, InfectiousData data) {
         buf.writeVarInt(data.target.getId());

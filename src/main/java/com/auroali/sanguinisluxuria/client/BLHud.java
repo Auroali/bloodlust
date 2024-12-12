@@ -23,8 +23,6 @@ import net.minecraft.text.Text;
 import net.minecraft.util.hit.EntityHitResult;
 
 public class BLHud {
-    private static final AbilityIconHolder[] CACHED_ICONS = new AbilityIconHolder[3];
-
     public static void render(DrawContext context, float deltaTick) {
         MinecraftClient client = MinecraftClient.getInstance();
         if (client.player == null)
@@ -109,13 +107,6 @@ public class BLHud {
     }
 
     public static ItemStack getOrCreateIcon(int slot, VampireAbility ability) {
-        if (CACHED_ICONS[slot] != null && CACHED_ICONS[slot].ability == ability)
-            return CACHED_ICONS[slot].icon;
-
-        CACHED_ICONS[slot] = new AbilityIconHolder(ability, ability.getIcon());
-        return CACHED_ICONS[slot].icon;
-    }
-
-    public record AbilityIconHolder(VampireAbility ability, ItemStack icon) {
+        return ItemStack.EMPTY;
     }
 }

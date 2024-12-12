@@ -110,8 +110,6 @@ public class PlayerVampireComponent implements VampireComponent {
 
         // handle differing amounts of blood depending on the good blood tag and unlocked abilities
         int bloodAmount = 1;
-        if (!VampireHelper.isVampire(entity) && this.abilities.hasAbility(BLVampireAbilities.MORE_BLOOD))
-            bloodAmount = 2;
 
         if (!VampireHelper.isVampire(entity) && entity.getType().isIn(BLTags.Entities.GOOD_BLOOD))
             bloodAmount *= 2;
@@ -128,8 +126,8 @@ public class PlayerVampireComponent implements VampireComponent {
         this.holder.getWorld().emitGameEvent(this.holder, GameEvent.DRINK, this.holder.getPos());
 
         // if the potion transfer ability is unlocked, transfer potion effects to the target
-        if (this.abilities.hasAbility(BLVampireAbilities.TRANSFER_EFFECTS)) {
-            BLVampireAbilities.TRANSFER_EFFECTS.sync(entity, InfectiousAbility.InfectiousData.create(entity, this.holder.getStatusEffects()));
+        if (this.abilities.hasAbility(BLVampireAbilities.INFECTIOUS)) {
+            BLVampireAbilities.INFECTIOUS.sync(entity, InfectiousAbility.InfectiousData.create(entity, this.holder.getStatusEffects()));
             VampireHelper.transferStatusEffects(this.holder, this.target);
         }
 
@@ -399,9 +397,6 @@ public class PlayerVampireComponent implements VampireComponent {
         if (helmet.isIn(BLTags.Items.SUN_BLOCKING_HELMETS))
             maxTime *= 4;
 
-        if (this.abilities.hasAbility(BLVampireAbilities.SUN_PROTECTION))
-            maxTime += 40;
-
         int level = EnchantmentHelper.getLevel(BLEnchantments.SUN_PROTECTION, helmet);
         maxTime += level * 20;
 
@@ -426,9 +421,7 @@ public class PlayerVampireComponent implements VampireComponent {
     @Override
     public void unlockAbility(VampireAbility ability) {
         this.getAbilties().addAbility(ability);
-        this.skillPoints -= ability.getRequiredSkillPoints();
         this.requestSync(SYNC_ABILITIES);
-        BLEntityComponents.VAMPIRE_COMPONENT.sync(this.holder);
         if (this.holder instanceof ServerPlayerEntity entity) {
             BLAdvancementCriterion.UNLOCK_ABILITY.trigger(entity, ability);
         }

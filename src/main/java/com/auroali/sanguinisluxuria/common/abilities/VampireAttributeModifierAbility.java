@@ -18,8 +18,7 @@ import java.util.function.Supplier;
 public class VampireAttributeModifierAbility extends VampireAbility {
     private final Map<EntityAttribute, VampireAttributeModifier> modifiers;
 
-    protected VampireAttributeModifierAbility(Supplier<ItemStack> icon, VampireAbility parent, Map<EntityAttribute, VampireAttributeModifier> modifiers) {
-        super(icon, parent);
+    protected VampireAttributeModifierAbility(Map<EntityAttribute, VampireAttributeModifier> modifiers) {
         this.modifiers = modifiers;
     }
 
@@ -93,7 +92,7 @@ public class VampireAttributeModifierAbility extends VampireAbility {
         }
 
         public VampireAttributeModifierAbility build() {
-            return new VampireAttributeModifierAbility(this.icon, this.parent, this.modifiers);
+            return new VampireAttributeModifierAbility(this.modifiers);
         }
     }
 

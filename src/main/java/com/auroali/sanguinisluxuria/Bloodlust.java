@@ -13,7 +13,6 @@ import com.auroali.sanguinisluxuria.common.items.BloodStorageItem;
 import com.auroali.sanguinisluxuria.common.network.ActivateAbilityC2S;
 import com.auroali.sanguinisluxuria.common.network.BindAbilityC2S;
 import com.auroali.sanguinisluxuria.common.network.DrainBloodC2S;
-import com.auroali.sanguinisluxuria.common.network.UnlockAbilityC2S;
 import com.auroali.sanguinisluxuria.common.registry.*;
 import com.auroali.sanguinisluxuria.config.BLConfig;
 import net.fabricmc.api.ModInitializer;
@@ -184,21 +183,6 @@ public class Bloodlust implements ModInitializer {
                 else
                     container.setBoundAbility(ability, packet.slot());
                 BLEntityComponents.VAMPIRE_COMPONENT.sync(player);
-            }
-        });
-        ServerPlayNetworking.registerGlobalReceiver(UnlockAbilityC2S.ID, (packet, player, responseSender) -> {
-            if (packet.ability() == null || !VampireHelper.isVampire(player))
-                return;
-            VampireComponent vampire = BLEntityComponents.VAMPIRE_COMPONENT.get(player);
-            VampireAbilityContainer container = vampire.getAbilties();
-            VampireAbility ability = packet.ability();
-
-            if (!container.hasAbility(ability)
-              && vampire.getSkillPoints() >= ability.getRequiredSkillPoints()
-              && container.hasAbility(ability.getParent())
-              && !VampireHelper.hasIncompatibleAbility(container, ability)
-            ) {
-                vampire.unlockAbility(ability);
             }
         });
         ServerPlayNetworking.registerGlobalReceiver(DrainBloodC2S.ID, (packet, player, responseSender) -> {

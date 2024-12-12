@@ -1,10 +1,7 @@
 package com.auroali.sanguinisluxuria;
 
 import com.auroali.sanguinisluxuria.common.BloodConstants;
-import com.auroali.sanguinisluxuria.common.abilities.VampireAbility;
-import com.auroali.sanguinisluxuria.common.abilities.VampireAbilityContainer;
 import com.auroali.sanguinisluxuria.common.components.BLEntityComponents;
-import com.auroali.sanguinisluxuria.common.components.VampireComponent;
 import com.auroali.sanguinisluxuria.common.registry.BLAdvancementCriterion;
 import com.auroali.sanguinisluxuria.common.registry.BLStatusEffects;
 import com.auroali.sanguinisluxuria.common.registry.BLTags;
@@ -61,38 +58,6 @@ public class VampireHelper {
      */
     public static boolean canBeConvertedToVampire(LivingEntity entity) {
         return BLEntityComponents.VAMPIRE_COMPONENT.isProvidedBy(entity) && !BLEntityComponents.VAMPIRE_COMPONENT.get(entity).isVampire();
-    }
-
-    /**
-     * Checks if an entity has an ability unlocked that is incompatible with the provided ability
-     *
-     * @param entity  the entity to check
-     * @param ability the ability to check for incompatibilities with
-     * @return if the entity has an incompatible ability unlocked
-     */
-    public static boolean hasIncompatibleAbility(LivingEntity entity, VampireAbility ability) {
-        if (!isVampire(entity))
-            return false;
-
-        VampireComponent component = BLEntityComponents.VAMPIRE_COMPONENT.get(entity);
-
-        return hasIncompatibleAbility(component.getAbilties(), ability);
-    }
-
-    /**
-     * Checks if an ability container has an ability unlocked that is incompatible with the provided ability
-     *
-     * @param container the ability container to check
-     * @param ability   the ability to check for incompatibilities with
-     * @return if the ability container has an incompatible ability unlocked
-     */
-    public static boolean hasIncompatibleAbility(VampireAbilityContainer container, VampireAbility ability) {
-        for (VampireAbility other : container) {
-            if (ability.incompatibleWith(other)) {
-                return true;
-            }
-        }
-        return false;
     }
 
     /**

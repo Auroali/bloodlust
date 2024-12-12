@@ -68,8 +68,6 @@ public class EntityVampireComponent<T extends LivingEntity> implements VampireCo
 
         // handle differing amounts of blood depending on the good blood tag and unlocked abilities
         int bloodAmount = 1;
-        if (!VampireHelper.isVampire(entity) && this.abilities.hasAbility(BLVampireAbilities.MORE_BLOOD))
-            bloodAmount = 2;
 
         if (!VampireHelper.isVampire(entity) && entity.getType().isIn(BLTags.Entities.GOOD_BLOOD))
             bloodAmount *= 2;
@@ -81,8 +79,8 @@ public class EntityVampireComponent<T extends LivingEntity> implements VampireCo
         this.holder.getWorld().emitGameEvent(this.holder, GameEvent.DRINK, this.holder.getPos());
 
         // if the potion transfer ability is unlocked, transfer potion effects to the target
-        if (this.abilities.hasAbility(BLVampireAbilities.TRANSFER_EFFECTS)) {
-            BLVampireAbilities.TRANSFER_EFFECTS.sync(entity, InfectiousAbility.InfectiousData.create(entity, this.holder.getStatusEffects()));
+        if (this.abilities.hasAbility(BLVampireAbilities.INFECTIOUS)) {
+            BLVampireAbilities.INFECTIOUS.sync(entity, InfectiousAbility.InfectiousData.create(entity, this.holder.getStatusEffects()));
             this.transferPotionEffectsTo(entity);
         }
 

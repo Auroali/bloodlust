@@ -76,50 +76,14 @@ public class BLLangProvider extends FabricLanguageProvider {
     }
 
     private static void abilities(TranslationBuilder translationBuilder) {
-        generateAbilityKey(translationBuilder, BLVampireAbilities.HEALTH_1, "Increased Health");
-        generateAbilityDescKey(translationBuilder, BLVampireAbilities.HEALTH_1, "Increases your maximum health");
-
-        generateAbilityKey(translationBuilder, BLVampireAbilities.HEALTH_2, "Increased Health");
-        generateAbilityDescKey(translationBuilder, BLVampireAbilities.HEALTH_2, "Increases your maximum health");
-
-        generateAbilityKey(translationBuilder, BLVampireAbilities.VAMPIRE_STRENGTH_1, "Increased Strength");
-        generateAbilityDescKey(translationBuilder, BLVampireAbilities.VAMPIRE_STRENGTH_1, "Increases your base damage");
-
-        generateAbilityKey(translationBuilder, BLVampireAbilities.VAMPIRE_STRENGTH_2, "Increased Strength");
-        generateAbilityDescKey(translationBuilder, BLVampireAbilities.VAMPIRE_STRENGTH_2, "Increases your base damage");
-
         generateAbilityKey(translationBuilder, BLVampireAbilities.TELEPORT, "Blink");
         generateAbilityDescKey(translationBuilder, BLVampireAbilities.TELEPORT, "Moves you forward a short distance");
 
-        generateAbilityKey(translationBuilder, BLVampireAbilities.TELEPORT_COOLDOWN_1, "Decreased Blink Cooldown");
-        generateAbilityDescKey(translationBuilder, BLVampireAbilities.TELEPORT_COOLDOWN_1, "Reduces the cooldown for blink");
-
-        generateAbilityKey(translationBuilder, BLVampireAbilities.TELEPORT_COOLDOWN_2, "Decreased Blink Cooldown");
-        generateAbilityDescKey(translationBuilder, BLVampireAbilities.TELEPORT_COOLDOWN_2, "Reduces the cooldown for blink");
-
-        generateAbilityKey(translationBuilder, BLVampireAbilities.TELEPORT_RANGE_1, "Increased Blink Range");
-        generateAbilityDescKey(translationBuilder, BLVampireAbilities.TELEPORT_RANGE_1, "Increases the range of blink");
-
-        generateAbilityKey(translationBuilder, BLVampireAbilities.TELEPORT_RANGE_2, "Increased Blink Range");
-        generateAbilityDescKey(translationBuilder, BLVampireAbilities.TELEPORT_RANGE_2, "Increases the range of blink");
-
-        generateAbilityKey(translationBuilder, BLVampireAbilities.MORE_BLOOD, "Blood Efficiency");
-        generateAbilityDescKey(translationBuilder, BLVampireAbilities.MORE_BLOOD, "Increases the amount of blood gained");
-
-        generateAbilityKey(translationBuilder, BLVampireAbilities.TRANSFER_EFFECTS, "Infectious");
-        generateAbilityDescKey(translationBuilder, BLVampireAbilities.TRANSFER_EFFECTS, "Allows transferring potion effects");
+        generateAbilityKey(translationBuilder, BLVampireAbilities.INFECTIOUS, "Infectious");
+        generateAbilityDescKey(translationBuilder, BLVampireAbilities.INFECTIOUS, "Allows transferring potion effects");
 
         generateAbilityKey(translationBuilder, BLVampireAbilities.BITE, "Bite");
         generateAbilityDescKey(translationBuilder, BLVampireAbilities.BITE, "Deals damage and inflicts bleeding");
-
-        generateAbilityKey(translationBuilder, BLVampireAbilities.SUN_PROTECTION, "Sun Resistance");
-        generateAbilityDescKey(translationBuilder, BLVampireAbilities.SUN_PROTECTION, "Increases the amount of time you can spend in the sun");
-
-        generateAbilityKey(translationBuilder, BLVampireAbilities.DAMAGE_REDUCTION, "Resistance");
-        generateAbilityDescKey(translationBuilder, BLVampireAbilities.DAMAGE_REDUCTION, "Reduces damage taken from most sources");
-
-        generateAbilityKey(translationBuilder, BLVampireAbilities.DOWNED_RESISTANCE, "Death Protection");
-        generateAbilityDescKey(translationBuilder, BLVampireAbilities.DOWNED_RESISTANCE, "Blocks most damage after being downed");
     }
 
     private static void potions(TranslationBuilder translationBuilder) {

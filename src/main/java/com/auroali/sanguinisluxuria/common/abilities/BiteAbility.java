@@ -10,7 +10,6 @@ import com.jamieswhiteshirt.reachentityattributes.ReachEntityAttributes;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.projectile.ProjectileUtil;
-import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
@@ -20,18 +19,7 @@ import net.minecraft.util.math.random.Random;
 import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
 
-import java.util.function.Supplier;
-
 public class BiteAbility extends VampireAbility implements SyncableVampireAbility<LivingEntity> {
-    public BiteAbility(Supplier<ItemStack> icon, VampireAbility parent) {
-        super(icon, parent);
-    }
-
-    @Override
-    public boolean isKeybindable() {
-        return true;
-    }
-
     @Override
     public void activate(LivingEntity entity, VampireComponent component) {
         if (component.getAbilties().isOnCooldown(this) || VampireHelper.isMasked(entity))
@@ -48,8 +36,8 @@ public class BiteAbility extends VampireAbility implements SyncableVampireAbilit
         target.damage(BLDamageSources.bite(entity), 3);
         target.addStatusEffect(new StatusEffectInstance(BLStatusEffects.BLEEDING, 100, 0));
         this.sync(entity, target);
-        if (component.getAbilties().hasAbility(BLVampireAbilities.TRANSFER_EFFECTS)) {
-            BLVampireAbilities.TRANSFER_EFFECTS.sync(entity, InfectiousAbility.InfectiousData.create(target, entity.getStatusEffects()));
+        if (component.getAbilties().hasAbility(BLVampireAbilities.INFECTIOUS)) {
+            BLVampireAbilities.INFECTIOUS.sync(entity, InfectiousAbility.InfectiousData.create(target, entity.getStatusEffects()));
             VampireHelper.transferStatusEffects(entity, target);
         }
         component.getAbilties().setCooldown(this, 220);

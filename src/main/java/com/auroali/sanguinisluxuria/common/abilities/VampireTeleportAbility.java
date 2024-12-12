@@ -8,7 +8,6 @@ import com.auroali.sanguinisluxuria.config.BLConfig;
 import dev.emi.trinkets.api.TrinketsApi;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.particle.DustParticleEffect;
 import net.minecraft.sound.SoundCategory;
@@ -22,18 +21,7 @@ import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 
-import java.util.function.Supplier;
-
 public class VampireTeleportAbility extends VampireAbility implements SyncableVampireAbility<VampireTeleportAbility.TeleportData> {
-    public VampireTeleportAbility(Supplier<ItemStack> icon, VampireAbility parent) {
-        super(icon, parent);
-    }
-
-    @Override
-    public boolean isKeybindable() {
-        return true;
-    }
-
     @Override
     public void activate(LivingEntity entity, VampireComponent component) {
         if (component.getAbilties().isOnCooldown(this))
