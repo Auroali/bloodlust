@@ -11,8 +11,11 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.inventory.Inventory;
+import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+
+import java.util.List;
 
 public record VampireAbilityRitual(VampireAbility ability) implements Ritual {
     public static final Codec<VampireAbilityRitual> CODEC = RecordCodecBuilder.create(instance -> instance.group(
@@ -31,6 +34,11 @@ public record VampireAbilityRitual(VampireAbility ability) implements Ritual {
             return;
 
         vampire.unlockAbility(this.ability);
+    }
+
+    @Override
+    public void appendTooltips(List<Text> tooltips) {
+        tooltips.add(Text.translatable(this.ability.getTranslationKey()));
     }
 
     @Override

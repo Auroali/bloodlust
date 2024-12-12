@@ -3,8 +3,10 @@ package com.auroali.sanguinisluxuria.compat.emi;
 import com.auroali.sanguinisluxuria.common.blocks.AltarBlock;
 import com.auroali.sanguinisluxuria.common.recipes.AltarRitualRecipe;
 import com.auroali.sanguinisluxuria.common.registry.BLBlocks;
+import com.auroali.sanguinisluxuria.common.registry.BLRegistries;
 import com.auroali.sanguinisluxuria.common.rituals.ItemRitual;
 import com.auroali.sanguinisluxuria.common.rituals.Ritual;
+import com.google.common.collect.Lists;
 import dev.emi.emi.api.recipe.EmiRecipe;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.stack.EmiIngredient;
@@ -18,7 +20,9 @@ import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.block.BlockRenderManager;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Util;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RotationAxis;
@@ -33,6 +37,7 @@ public class AltarEmiRecipe implements EmiRecipe {
     final Ritual ritual;
     final List<EmiIngredient> inputs;
     final EmiStack output;
+    final String ritualTranslationKey;
 
     public AltarEmiRecipe(AltarRitualRecipe recipe, MinecraftClient client) {
         this.recipe = recipe;
@@ -46,6 +51,7 @@ public class AltarEmiRecipe implements EmiRecipe {
         this.output = this.ritual instanceof ItemRitual itemRitual
           ? EmiStack.of(itemRitual.stack())
           : EmiStack.EMPTY;
+        this.ritualTranslationKey = Util.createTranslationKey("altar_ritual", BLRegistries.RITUAL_TYPES.getId(this.ritual.getType()));
     }
 
 //    // https://github.com/emilyploszaj/emi/blob/2ac200302c2e7d551c5e7076ae03f32e4b26933b/xplat/src/main/java/dev/emi/emi/recipe/EmiShapedRecipe.java
@@ -141,9 +147,21 @@ public class AltarEmiRecipe implements EmiRecipe {
         });
         widgets.addFillingArrow(84, 40, 15000)
           .tooltip(List.of(TooltipComponent.of(Text.translatable("emi.cooking.time", 15).asOrderedText())));
-        widgets.addSlot(this.output, 111, 36)
-          .large(true)
-          .backgroundTexture(EmiCompat.TEXTURES, 0, 32)
-          .recipeContext(this);
+
+        // if there is no output item, create texture slot with a tooltip
+        if (!this.output.isEmpty()) {
+            widgets.addSlot(this.output, 111, 36)
+              .large(true)
+              .backgroundTexture(EmiCompat.TEXTURES, 0, 32)
+              .recipeContext(this);
+        }
+        if (this.output.isEmpty()) {
+            List<Text> tooltips = Lists.newArrayList(
+              Text.translatable(this.ritualTranslationKey).formatted(Formatting.GOLD)
+            );
+            this.ritual.appendTooltips(tooltips);
+            widgets.addTexture(EmiCompat.TEXTURES, 111, 36, 26, 26, 0, 32)
+              .tooltipText(tooltips);
+        }
     }
 }

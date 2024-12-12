@@ -51,6 +51,7 @@ public class AltarBlockEntity extends BlockEntity implements Inventory, ItemDisp
 
         BloodlustClient.isAltarActive = true;
         if (altar.ticks % 20 == 0) {
+            // todo: this crashes on the dedicated server
             world.playSound(MinecraftClient.getInstance().player, pos, BLSounds.ALTAR_BEATS, SoundCategory.BLOCKS);
             world.addParticle(new DelayedParticleEffect(BLParticles.ALTAR_BEAT, 2), pos.getX() + 0.5, pos.getY() + 0.05f, pos.getZ() + 0.5, 0, 0, 0);
         }

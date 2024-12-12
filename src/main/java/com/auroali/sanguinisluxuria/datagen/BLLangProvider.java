@@ -3,6 +3,7 @@ package com.auroali.sanguinisluxuria.datagen;
 import com.auroali.sanguinisluxuria.BLResources;
 import com.auroali.sanguinisluxuria.common.abilities.VampireAbility;
 import com.auroali.sanguinisluxuria.common.registry.*;
+import com.auroali.sanguinisluxuria.common.rituals.RitualType;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import net.minecraft.enchantment.Enchantment;
@@ -14,6 +15,7 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionUtil;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.tag.TagKey;
+import net.minecraft.util.Util;
 
 import java.util.function.BiConsumer;
 
@@ -40,9 +42,10 @@ public class BLLangProvider extends FabricLanguageProvider {
         attributes(translationBuilder);
         potions(translationBuilder);
         abilities(translationBuilder);
-        this.deathMessages(translationBuilder);
+        deathMessages(translationBuilder);
         advancements(translationBuilder);
-        this.emiTranslations(translationBuilder);
+        emiTranslations(translationBuilder);
+        rituals(translationBuilder);
     }
 
     private void generateTagTranslation(TranslationBuilder builder, TagKey<?> key, String translation) {
@@ -50,7 +53,7 @@ public class BLLangProvider extends FabricLanguageProvider {
         builder.add(transKey, translation);
     }
 
-    private void emiTranslations(TranslationBuilder builder) {
+    private static void emiTranslations(TranslationBuilder builder) {
         builder.add("emi.category.sanguinisluxuria.altar", "Altar");
         builder.add("emi.category.sanguinisluxuria.blood_cauldron", "Cauldron Infusing");
     }
@@ -61,7 +64,7 @@ public class BLLangProvider extends FabricLanguageProvider {
         this.generateTagTranslation(builder, BLTags.Items.VAMPIRES_GET_HUNGER_FROM, "Vampire Food");
     }
 
-    private void deathMessages(TranslationBuilder translationBuilder) {
+    private static void deathMessages(TranslationBuilder translationBuilder) {
         BiConsumer<RegistryKey<DamageType>, String> death = (key, name) -> translationBuilder.add("death.attack.%s.%s".formatted(key.getValue().getNamespace(), key.getValue().getPath()), name);
         BiConsumer<RegistryKey<DamageType>, String> deathItem = (key, name) -> translationBuilder.add("death.attack.%s.%s.item".formatted(key.getValue().getNamespace(), key.getValue().getPath()), name);
         BiConsumer<RegistryKey<DamageType>, String> deathPlayer = (key, name) -> translationBuilder.add("death.attack.%s.%s.player".formatted(key.getValue().getNamespace(), key.getValue().getPath()), name);
@@ -84,6 +87,17 @@ public class BLLangProvider extends FabricLanguageProvider {
 
         generateAbilityKey(translationBuilder, BLVampireAbilities.BITE, "Bite");
         generateAbilityDescKey(translationBuilder, BLVampireAbilities.BITE, "Deals damage and inflicts bleeding");
+    }
+
+    public static void rituals(TranslationBuilder builder) {
+        // todo: make better names
+        generateRitualKey(builder, BLRitualTypes.ABILITY_RITUAL_TYPE, "Ability Ritual");
+        generateRitualKey(builder, BLRitualTypes.ABILITY_RESET_RITUAL_TYPE, "Clean Slate Ritual");
+        generateRitualKey(builder, BLRitualTypes.ITEM_RITUAL_TYPE, "Item Ritual");
+    }
+
+    private static void generateRitualKey(TranslationBuilder builder, RitualType<?> type, String entry) {
+        builder.add(Util.createTranslationKey("altar_ritual", BLRegistries.RITUAL_TYPES.getId(type)), entry);
     }
 
     private static void potions(TranslationBuilder translationBuilder) {
