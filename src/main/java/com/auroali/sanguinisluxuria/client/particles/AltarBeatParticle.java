@@ -106,8 +106,8 @@ public class AltarBeatParticle extends SpriteBillboardParticle {
             AltarBeatParticle particle = new AltarBeatParticle(world, x, y, z, parameters.getDelay());
             particle.setVelocity(velocityX, velocityY, velocityZ);
             particle.setSprite(this.sprites);
-            particle.scale = 1.2f;
-            particle.maxAge = 11;
+            particle.scale = 1.85f;
+            particle.maxAge = 14;
             return particle;
         }
     }
