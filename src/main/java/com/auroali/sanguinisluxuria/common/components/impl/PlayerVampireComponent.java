@@ -126,6 +126,17 @@ public class PlayerVampireComponent implements VampireComponent {
         this.tickSunEffects();
         this.tickBloodEffects();
 
+        if (this.isDowned) {
+            this.holder.addStatusEffect(new StatusEffectInstance(
+              StatusEffects.WEAKNESS,
+              4,
+              3,
+              true,
+              false,
+              false
+            ));
+        }
+
         if (this.target != null) {
             this.tickBloodDrain();
         }

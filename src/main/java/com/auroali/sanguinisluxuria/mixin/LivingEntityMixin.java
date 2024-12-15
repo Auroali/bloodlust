@@ -28,13 +28,16 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity {
     @Shadow
-    protected abstract boolean tryUseTotem(DamageSource source);
-
-    @Shadow
     public abstract boolean isUndead();
 
     @Shadow
     public abstract boolean damage(DamageSource source, float amount);
+
+    @Shadow
+    public abstract boolean tryAttack(Entity target);
+
+    @Shadow
+    public abstract void remove(RemovalReason reason);
 
     public LivingEntityMixin(EntityType<?> type, World world) {
         super(type, world);
@@ -105,5 +108,15 @@ public abstract class LivingEntityMixin extends Entity {
           .add(BLEntityAttributes.BLESSED_DAMAGE)
           .add(BLEntityAttributes.BLINK_RANGE, 8)
           .add(BLEntityAttributes.BLINK_COOLDOWN, 250);
+    }
+
+    @Inject(method = "canTarget(Lnet/minecraft/entity/LivingEntity;)Z", at = @At("HEAD"), cancellable = true)
+    public void sanguinisluxuria$modifyTargetTest(LivingEntity target, CallbackInfoReturnable<Boolean> cir) {
+        if (!VampireHelper.isVampire(target))
+            return;
+
+        VampireComponent vampire = BLEntityComponents.VAMPIRE_COMPONENT.get(target);
+        if (vampire.isDown())
+            cir.setReturnValue(false);
     }
 }
