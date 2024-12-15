@@ -28,7 +28,7 @@ public class BLConfig {
       .create();
 
     public float vampireDamageMultiplier = 1.5f;
-    public float vampireExhaustionMultiplier = 0.15f;
+    public float vampireExhaustionMultiplier = 0.45f;
     public float blessedWaterDamage = 5f;
     public int skillPointsPerLevel = 1;
     public float piercingExhaustion = 2.5f;
@@ -49,7 +49,7 @@ public class BLConfig {
               ).option(Option.<Float>createBuilder()
                 .name(Text.translatable("sanguinisluxuria.config.option.vampire_exhaustion_multiplier"))
                 .description(OptionDescription.of(Text.translatable("sanguinisluxuria.config.option.vampire_exhaustion_multiplier.desc")))
-                .binding(0.15f, () -> this.vampireExhaustionMultiplier, f -> this.vampireExhaustionMultiplier = f)
+                .binding(0.45f, () -> this.vampireExhaustionMultiplier, f -> this.vampireExhaustionMultiplier = f)
                 .controller(FloatFieldControllerBuilder::create)
                 .build()
               ).option(Option.<Float>createBuilder()
