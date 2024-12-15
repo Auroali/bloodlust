@@ -9,6 +9,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Share;
 import com.llamalad7.mixinextras.sugar.ref.LocalBooleanRef;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.HungerManager;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -49,7 +50,8 @@ public class HungerManagerMixin implements VampireHungerManager {
         if (this.sanguinisluxuria$hmTrackedPlayer == null)
             return exhaustion;
 
-        if (VampireHelper.isVampire(this.sanguinisluxuria$hmTrackedPlayer))
+        // if the player is a vampire and does not have hunger, reduce exhaustion
+        if (VampireHelper.isVampire(this.sanguinisluxuria$hmTrackedPlayer) && !this.sanguinisluxuria$hmTrackedPlayer.hasStatusEffect(StatusEffects.HUNGER))
             return exhaustion * BLConfig.INSTANCE.vampireExhaustionMultiplier;
 
         return exhaustion;
