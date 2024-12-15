@@ -140,24 +140,6 @@ public class ConvertibleVampireComponent<U extends LivingEntity, T extends Livin
     }
 
     @Override
-    public int getSkillPoints() {
-        return 0;
-    }
-
-    @Override
-    public void setSkillPoints(int points) {
-    }
-
-    @Override
-    public void setLevel(int level) {
-    }
-
-    @Override
-    public int getLevel() {
-        return 0;
-    }
-
-    @Override
     public void unlockAbility(VampireAbility ability) {
     }
 

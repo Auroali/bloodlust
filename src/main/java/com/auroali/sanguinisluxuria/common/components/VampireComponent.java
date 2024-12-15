@@ -1,18 +1,28 @@
 package com.auroali.sanguinisluxuria.common.components;
 
+import com.auroali.sanguinisluxuria.VampireHelper;
+import com.auroali.sanguinisluxuria.common.VampireHungerManager;
+import com.auroali.sanguinisluxuria.common.abilities.InfectiousAbility;
 import com.auroali.sanguinisluxuria.common.abilities.VampireAbility;
 import com.auroali.sanguinisluxuria.common.abilities.VampireAbilityContainer;
-import com.auroali.sanguinisluxuria.common.registry.BLEntityAttributes;
-import com.auroali.sanguinisluxuria.common.registry.BLTags;
+import com.auroali.sanguinisluxuria.common.events.BloodEvents;
+import com.auroali.sanguinisluxuria.common.registry.*;
 import com.auroali.sanguinisluxuria.config.BLConfig;
 import dev.onyxstudios.cca.api.v3.component.Component;
 import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
 import dev.onyxstudios.cca.api.v3.component.tick.ServerTickingComponent;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
+import net.minecraft.entity.EntityInteraction;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.passive.VillagerEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.world.event.GameEvent;
 
 public interface VampireComponent extends Component, AutoSyncedComponent, ServerTickingComponent {
     /**
@@ -79,31 +89,6 @@ public interface VampireComponent extends Component, AutoSyncedComponent, Server
      */
     VampireAbilityContainer getAbilties();
 
-    /**
-     * @return the amount of skill points this component has
-     */
-    int getSkillPoints();
-
-    /**
-     * Sets this component's skill points
-     *
-     * @param points the amount of skill points to set
-     */
-    void setSkillPoints(int points);
-
-    /**
-     * Sets this component's level <br>
-     * This also updates the amount of available skill points
-     *
-     * @param level the new level
-     */
-    void setLevel(int level);
-
-    /**
-     * @return this component's level
-     */
-    int getLevel();
-
     void unlockAbility(VampireAbility ability);
 
     /**
@@ -158,4 +143,66 @@ public interface VampireComponent extends Component, AutoSyncedComponent, Server
         return false;
     }
 
+    static void handleBloodDrain(VampireComponent vampire, LivingEntity target, LivingEntity vampireEntity) {
+        BloodComponent blood = BLEntityComponents.BLOOD_COMPONENT.get(target);
+        // if the target doesn't have blood or cannot be drained, we can't fill hunger
+        if (!blood.hasBlood() || !BloodEvents.ALLOW_BLOOD_DRAIN.invoker().allowBloodDrain(vampireEntity, target) || !blood.drainBlood(vampireEntity))
+            return;
+
+        // damage the vampire and cancel filling up hunger if the target has blood protection
+        if (target.hasStatusEffect(BLStatusEffects.BLOOD_PROTECTION)) {
+            vampireEntity.damage(BLDamageSources.blessedWater(target), BLConfig.INSTANCE.blessedWaterDamage);
+            return;
+        }
+
+        // handle differing amounts of blood depending on the good blood tag and unlocked abilities
+        int bloodAmount = 1;
+
+        if (!VampireHelper.isVampire(target) && target.getType().isIn(BLTags.Entities.GOOD_BLOOD))
+            bloodAmount *= 2;
+
+        // handle differences between adding blood to the player and regular entities
+        // (such as saturation)
+        if (vampireEntity instanceof PlayerEntity player)
+            ((VampireHungerManager) player.getHungerManager()).sanguinisluxuria$addHunger(bloodAmount, 0.125f);
+        else BLEntityComponents.BLOOD_COMPONENT.get(vampireEntity).addBlood(bloodAmount);
+
+        BloodEvents.BLOOD_DRAINED.invoker().onBloodDrained(vampireEntity, target, bloodAmount);
+
+
+        // reset the downed state
+        vampire.setDowned(false);
+
+        vampireEntity.getWorld().emitGameEvent(vampireEntity, GameEvent.DRINK, vampireEntity.getPos());
+
+        // if the potion transfer ability is unlocked, transfer potion effects to the target
+        if (vampire.getAbilties().hasAbility(BLVampireAbilities.INFECTIOUS)) {
+            BLVampireAbilities.INFECTIOUS.sync(target, InfectiousAbility.InfectiousData.create(target, vampireEntity.getStatusEffects()));
+            VampireHelper.transferStatusEffects(vampireEntity, target);
+        }
+
+        // apply any negative effects for toxic blood
+        if (target.getType().isIn(BLTags.Entities.TOXIC_BLOOD))
+            VampireHelper.addToxicBloodEffects(vampireEntity);
+
+        // allow conversion of entities with weakness
+        if (!VampireHelper.isVampire(target) && target.hasStatusEffect(StatusEffects.WEAKNESS)) {
+            if (vampireEntity instanceof ServerPlayerEntity player)
+                BLAdvancementCriterion.INFECT_ENTITY.trigger(player);
+            VampireHelper.incrementBloodSickness(target);
+        }
+
+        // villagers have a 50% chance to wake up when having their blood drained
+        // it also adds negative reputation to the player
+        if (target.getWorld() instanceof ServerWorld serverWorld && target instanceof VillagerEntity villager) {
+            serverWorld.handleInteraction(EntityInteraction.VILLAGER_HURT, vampireEntity, villager);
+        }
+
+        if (vampireEntity.getRandom().nextDouble() > 0.5f)
+            target.wakeUp();
+
+        if (target.getType().isIn(BLTags.Entities.TELEPORTS_ON_DRAIN)) {
+            VampireHelper.teleportRandomly(vampireEntity);
+        }
+    }
 }
