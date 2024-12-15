@@ -72,7 +72,7 @@ public class HungerManagerMixin implements VampireHungerManager {
     }
 
     @ModifyConstant(method = "update", constant = @Constant(intValue = 18))
-    public int sanguinisluxuria$modifyMinHealth(int constant) {
+    public int sanguinisluxuria$modifyMinFoodLevelForRegen(int constant) {
         if (VampireHelper.isVampire(this.sanguinisluxuria$hmTrackedPlayer))
             return 8;
         return constant;
