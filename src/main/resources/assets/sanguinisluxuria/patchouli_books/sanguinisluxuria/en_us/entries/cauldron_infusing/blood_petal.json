@@ -13,11 +13,11 @@
     },
     {
       "type": "patchouli:text",
-      "text": "A blood petal can be grafted to a sapling, seemingly causing the sapling to die. No amount of water seems to satiate it, yet it still grows. Interestingly, the presence of the sun in the sky seems to halt it's growth temporarily."
+      "text": "A blood petal can be grafted to a sapling, seemingly causing the sapling to quickly wither. Yet the sapling still seems to cling on to life. Water does not satiate it, and it is far too delicate to grow from sunlight...$(br2)What would happen if it had a source of blood nearby?"
     },
     {
       "type": "patchouli:crafting",
-      "recipe": "sanguinisluxuria:hungry_sapling"
+      "recipe": "sanguinisluxuria:grafted_sapling"
     }
   ]
 }
