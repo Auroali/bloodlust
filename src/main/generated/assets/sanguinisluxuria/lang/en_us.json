@@ -24,7 +24,7 @@
   "advancements.sanguinisluxuria.unlock_ability.description": "Allocate a skill point to an ability",
   "advancements.sanguinisluxuria.unlock_ability.title": "Abilities",
   "altar_ritual.sanguinisluxuria.ability": "Ritual of Transformation",
-  "altar_ritual.sanguinisluxuria.ability_reveal_ritual": "Ritual of Revealing",
+  "altar_ritual.sanguinisluxuria.ability_reveal": "Ritual of Revealing",
   "altar_ritual.sanguinisluxuria.item_ritual": "Ritual of Transmutation",
   "altar_ritual.sanguinisluxuria.reset_abilities": "Ritual of Cleansing",
   "argument.sanguinisluxuria.id.invalid": "'%s' is not a valid id!",

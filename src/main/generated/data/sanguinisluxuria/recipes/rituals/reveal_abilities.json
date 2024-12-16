@@ -6,6 +6,6 @@
   "category": "misc",
   "inputs": [],
   "ritual": {
-    "type": "sanguinisluxuria:ability_reveal_ritual"
+    "type": "sanguinisluxuria:ability_reveal"
   }
 }
