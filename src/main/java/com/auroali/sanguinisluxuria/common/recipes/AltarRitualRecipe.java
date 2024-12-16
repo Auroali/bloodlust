@@ -111,7 +111,7 @@ public class AltarRitualRecipe implements Recipe<Inventory> {
             Ritual ritual = Ritual.RITUAL_CODEC
               .parse(JsonOps.INSTANCE, ritualData)
               .resultOrPartial(Bloodlust.LOGGER::error)
-              .orElseThrow();
+              .orElseThrow(() -> new JsonParseException("Failed to deserialize ritual, see above for information"));
 
             Ingredient catalyst = Ingredient.fromJson(json.get("catalyst"));
             DefaultedList<Ingredient> inputs = getIngredients(json.getAsJsonArray("inputs"));
