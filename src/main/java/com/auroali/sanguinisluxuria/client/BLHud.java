@@ -32,7 +32,6 @@ public class BLHud {
             return;
         drawBloodDrainIndicator(context, client, vampire, context.getScaledWindowWidth(), context.getScaledWindowHeight());
         drawBoundAbilities(context, client, context.getScaledWindowHeight(), vampire.getAbilties());
-
     }
 
     private static boolean targetHasBleeding(VampireComponent component, LivingEntity entity) {
@@ -78,25 +77,7 @@ public class BLHud {
     }
 
     public static void drawBoundAbilities(DrawContext context, MinecraftClient client, int height, VampireAbilityContainer container) {
-        int x = 16;
-        for (int i = 0; i < 3; i++) {
-            VampireAbility ability = container.getBoundAbility(i);
-            if (ability == null)
-                continue;
 
-            ItemStack stack = getOrCreateIcon(i, ability);
-            Text text = getTextForSlot(i);
-            float offset = (16 - client.textRenderer.getWidth(text)) / 2.0f;
-
-            context.drawTextWithShadow(client.textRenderer, text, (int) (x + offset), height - client.textRenderer.fontHeight, -1);
-            context.drawItem(stack, x, height - 16 - client.textRenderer.fontHeight);
-            if (container.isOnCooldown(ability)) {
-                double progress = (double) container.getCooldown(ability) / container.getMaxCooldown(ability);
-                RenderSystem.disableDepthTest();
-                context.fill(x, height - client.textRenderer.fontHeight, x + 16, height - (int) (16 * progress) - client.textRenderer.fontHeight, 0x7AFFFFFF);
-            }
-            x += 22;
-        }
     }
 
     public static Text getTextForSlot(int slot) {
