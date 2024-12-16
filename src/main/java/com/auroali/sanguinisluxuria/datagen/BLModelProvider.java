@@ -12,6 +12,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.LeveledCauldronBlock;
 import net.minecraft.block.PillarBlock;
+import net.minecraft.block.enums.WallMountLocation;
 import net.minecraft.block.enums.WireConnection;
 import net.minecraft.data.client.*;
 import net.minecraft.state.property.Properties;
@@ -19,6 +20,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
 
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public class BLModelProvider extends FabricModelProvider {
@@ -52,20 +54,51 @@ public class BLModelProvider extends FabricModelProvider {
         blockStateModelGenerator.blockStateCollector.accept(generateHungryDecayedLog(BLBlocks.STRIPPED_HUNGRY_DECAYED_LOG, blockStateModelGenerator.modelCollector));
 
         blockStateModelGenerator.registerItemModel(BLBlocks.DECAYED_TWIGS);
-        blockStateModelGenerator.blockStateCollector.accept(
-          VariantsBlockStateSupplier.create(BLBlocks.DECAYED_TWIGS)
-            .coordinate(BlockStateVariantMap.create(Properties.HORIZONTAL_FACING)
-              .register(Direction.NORTH, BlockStateVariant.create().put(VariantSettings.MODEL, BLResources.id("block/decayed_twigs")))
-              .register(Direction.EAST, BlockStateVariant.create().put(VariantSettings.Y, VariantSettings.Rotation.R90).put(VariantSettings.MODEL, BLResources.id("block/decayed_twigs")))
-              .register(Direction.SOUTH, BlockStateVariant.create().put(VariantSettings.Y, VariantSettings.Rotation.R180).put(VariantSettings.MODEL, BLResources.id("block/decayed_twigs")))
-              .register(Direction.WEST, BlockStateVariant.create().put(VariantSettings.Y, VariantSettings.Rotation.R270).put(VariantSettings.MODEL, BLResources.id("block/decayed_twigs")))
-            )
-        );
+        createDecayedTwigs(BLBlocks.DECAYED_TWIGS, blockStateModelGenerator.blockStateCollector, blockStateModelGenerator.modelCollector);
+
         blockStateModelGenerator.registerItemModel(BLBlocks.GRAFTED_SAPLING);
         blockStateModelGenerator.registerSingleton(BLBlocks.GRAFTED_SAPLING, TextureMap.cross(BLBlocks.GRAFTED_SAPLING), Models.CROSS);
 
         registerPressurePlate(blockStateModelGenerator, BLBlocks.SILVER_PRESSURE_PLATE, BLBlocks.SILVER_BLOCK);
         registerPressurePlate(blockStateModelGenerator, BLBlocks.DECAYED_PRESSURE_PLATE, BLBlocks.DECAYED_LOG);
+    }
+
+    private static void createDecayedTwigs(Block block, Consumer<BlockStateSupplier> blockStateCollector, BiConsumer<Identifier, Supplier<JsonElement>> modelCollector) {
+        Identifier model = Models.CROSS.upload(block, TextureMap.cross(block), modelCollector);
+        blockStateCollector.accept(
+          VariantsBlockStateSupplier.create(BLBlocks.DECAYED_TWIGS)
+            .coordinate(BlockStateVariantMap
+              .create(Properties.WALL_MOUNT_LOCATION, Properties.HORIZONTAL_FACING)
+              .register(WallMountLocation.WALL, Direction.EAST, BlockStateVariant.create()
+                .put(VariantSettings.MODEL, model)
+                .put(VariantSettings.X, VariantSettings.Rotation.R90)
+                .put(VariantSettings.Y, VariantSettings.Rotation.R90)
+              )
+              .register(WallMountLocation.WALL, Direction.WEST, BlockStateVariant.create()
+                .put(VariantSettings.MODEL, model)
+                .put(VariantSettings.X, VariantSettings.Rotation.R90)
+                .put(VariantSettings.Y, VariantSettings.Rotation.R270)
+              )
+              .register(WallMountLocation.WALL, Direction.NORTH, BlockStateVariant.create()
+                .put(VariantSettings.MODEL, model)
+                .put(VariantSettings.X, VariantSettings.Rotation.R90)
+                .put(VariantSettings.Y, VariantSettings.Rotation.R0)
+              )
+              .register(WallMountLocation.WALL, Direction.SOUTH, BlockStateVariant.create()
+                .put(VariantSettings.MODEL, model)
+                .put(VariantSettings.X, VariantSettings.Rotation.R90)
+                .put(VariantSettings.Y, VariantSettings.Rotation.R180)
+              )
+              .register(WallMountLocation.CEILING, Direction.EAST, BlockStateVariant.create().put(VariantSettings.MODEL, model).put(VariantSettings.X, VariantSettings.Rotation.R180))
+              .register(WallMountLocation.CEILING, Direction.WEST, BlockStateVariant.create().put(VariantSettings.MODEL, model).put(VariantSettings.X, VariantSettings.Rotation.R180))
+              .register(WallMountLocation.CEILING, Direction.SOUTH, BlockStateVariant.create().put(VariantSettings.MODEL, model).put(VariantSettings.X, VariantSettings.Rotation.R180))
+              .register(WallMountLocation.CEILING, Direction.NORTH, BlockStateVariant.create().put(VariantSettings.MODEL, model).put(VariantSettings.X, VariantSettings.Rotation.R180))
+              .register(WallMountLocation.FLOOR, Direction.EAST, BlockStateVariant.create().put(VariantSettings.MODEL, model))
+              .register(WallMountLocation.FLOOR, Direction.WEST, BlockStateVariant.create().put(VariantSettings.MODEL, model))
+              .register(WallMountLocation.FLOOR, Direction.SOUTH, BlockStateVariant.create().put(VariantSettings.MODEL, model))
+              .register(WallMountLocation.FLOOR, Direction.NORTH, BlockStateVariant.create().put(VariantSettings.MODEL, model))
+            )
+        );
     }
 
     private static void registerPressurePlate(BlockStateModelGenerator modelGenerator, Block pressurePlate, Block source) {

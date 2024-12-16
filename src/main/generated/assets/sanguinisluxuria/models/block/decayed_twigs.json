@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "cross": "sanguinisluxuria:block/decayed_twigs"
+  }
+}

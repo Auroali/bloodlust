@@ -2,6 +2,7 @@ package com.auroali.sanguinisluxuria.common.blocks;
 
 import com.auroali.sanguinisluxuria.common.registry.BLBlocks;
 import net.minecraft.block.*;
+import net.minecraft.block.enums.WallMountLocation;
 import net.minecraft.item.AutomaticItemPlacementContext;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
@@ -80,7 +81,7 @@ public class GraftedSaplingBlock extends PlantBlock implements Fertilizable {
             for (Direction direction : Direction.Type.HORIZONTAL) {
                 if (random.nextInt(6) != 0 || !world.getBlockState(logPos.offset(direction)).isAir())
                     continue;
-                world.setBlockState(logPos.offset(direction), decayedTwigsState.with(Properties.HORIZONTAL_FACING, direction.getOpposite()), Block.NOTIFY_ALL);
+                world.setBlockState(logPos.offset(direction), decayedTwigsState.with(Properties.HORIZONTAL_FACING, direction).with(Properties.WALL_MOUNT_LOCATION, WallMountLocation.WALL), Block.NOTIFY_ALL);
             }
         }
     }
