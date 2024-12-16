@@ -38,7 +38,7 @@ public class BLBlocks {
     public static final Block STRIPPED_DECAYED_LOG = new PillarBlock(AbstractBlock.Settings.create().mapColor(MapColor.OFF_WHITE).burnable().instrument(Instrument.BASS).strength(2.f).sounds(BlockSoundGroup.NETHER_WOOD));
     public static final Block STRIPPED_DECAYED_WOOD = new PillarBlock(AbstractBlock.Settings.create().mapColor(MapColor.OFF_WHITE).burnable().instrument(Instrument.BASS).strength(2.f).sounds(BlockSoundGroup.NETHER_WOOD));
     public static final Block DECAYED_TWIGS = new DecayedTwigsBlock(AbstractBlock.Settings.create().mapColor(MapColor.OFF_WHITE).noCollision().burnable().sounds(BlockSoundGroup.GRASS).breakInstantly());
-    public static final Block GRAFTED_SAPLING = new GraftedSaplingBlock(AbstractBlock.Settings.copy(Blocks.OAK_SAPLING).mapColor(MapColor.OFF_WHITE).ticksRandomly());
+    public static final Block GRAFTED_SAPLING = new GraftedSaplingBlock(new GraftedSaplingBlock.GraftedSaplingGenerator(), AbstractBlock.Settings.copy(Blocks.OAK_SAPLING).mapColor(MapColor.OFF_WHITE).ticksRandomly());
     public static final Block DECAYED_PRESSURE_PLATE = new PredicatePressurePlateBlock(
       PressurePlateBlock.ActivationRule.MOBS,
       e -> e instanceof LivingEntity entity && entity.isUndead(),

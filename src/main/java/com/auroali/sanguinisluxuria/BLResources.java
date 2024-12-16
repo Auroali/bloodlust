@@ -114,6 +114,7 @@ public class BLResources {
     public static final Identifier ABILITY_RESET_RITUAL_TYPE = id("reset_abilities");
     public static final Identifier ALTAR_BEAT_PARTICLE = id("altar_beat");
     public static final Identifier SPAWN_ALTAR_BEAT_PARTICLE_S2C = id("spawn_altar_beat_particle_s2c");
+    public static final Identifier DECAYED_TREE = id("decayed_tree");
 
     public static Identifier id(String path) {
         return new Identifier(Bloodlust.MODID, path);

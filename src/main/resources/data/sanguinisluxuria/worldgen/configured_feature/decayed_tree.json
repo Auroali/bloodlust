@@ -1,0 +1,86 @@
+{
+  "type": "minecraft:tree",
+  "config": {
+    "decorators": [
+      {
+        "type": "sanguinisluxuria:decayed_twigs",
+        "chance": 0.2
+      }
+    ],
+    "dirt_provider": {
+      "type": "minecraft:simple_state_provider",
+      "state": {
+        "Name": "minecraft:dirt"
+      }
+    },
+    "foliage_placer": {
+      "type": "minecraft:blob_foliage_placer",
+      "offset": 0,
+      "radius": 0,
+      "height": 0
+    },
+    "foliage_provider": {
+      "type": "minecraft:simple_state_provider",
+      "state": {
+        "Name": "minecraft:air"
+      }
+    },
+    "force_dirt": false,
+    "ignore_vines": false,
+    "minimum_size": {
+      "type": "minecraft:two_layers_feature_size",
+      "limit": 1,
+      "lower_size": 0,
+      "upper_size": 1
+    },
+    "trunk_placer": {
+      "type": "minecraft:upwards_branching_trunk_placer",
+      "can_grow_through": [
+        "minecraft:air"
+      ],
+      "extra_branch_steps": {
+        "type": "minecraft:biased_to_bottom",
+        "value": {
+          "min_inclusive": 1,
+          "max_inclusive": 5
+        }
+      },
+      "extra_branch_length": {
+        "type": "minecraft:biased_to_bottom",
+        "value": {
+          "min_inclusive": 0,
+          "max_inclusive": 3
+        }
+      },
+      "place_branch_per_log_probability": 0.35,
+      "base_height": 4,
+      "height_rand_a": 1,
+      "height_rand_b": 0,
+      "min_height_for_leaves": 1
+    },
+    "trunk_provider": {
+      "type": "minecraft:weighted_state_provider",
+      "entries": [
+        {
+          "data": {
+            "Name": "sanguinisluxuria:decayed_log",
+            "Properties": {
+              "axis": "y"
+            }
+          },
+          "weight": 23
+        },
+        {
+          "data": {
+            "Name": "sanguinisluxuria:hungry_decayed_log",
+            "Properties": {
+              "axis": "y",
+              "blood": 0
+            }
+          },
+          "weight": 2
+        }
+      ]
+    }
+  }
+}

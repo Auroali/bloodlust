@@ -73,7 +73,7 @@ public class Bloodlust implements ModInitializer {
         BLAdvancementCriterion.register();
         BLEnchantments.register();
         BLEntities.register();
-        BLFeatures.register();
+        BLWorldgen.register();
         BLParticles.register();
         BLRitualTypes.register();
 

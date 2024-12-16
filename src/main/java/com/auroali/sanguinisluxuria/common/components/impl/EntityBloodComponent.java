@@ -81,12 +81,18 @@ public class EntityBloodComponent implements InitializableBloodComponent, Server
             VampireComponent vampire = BLEntityComponents.VAMPIRE_COMPONENT.get(this.holder);
             vampire.setDowned(false);
         }
+        this.bloodGainTimer = 0;
+        if (this.currentBlood == 0)
+            this.killHolderFromBloodloss(null);
         return bloodAdded;
     }
 
     @Override
     public void setBlood(int amount) {
         this.currentBlood = amount;
+        this.bloodGainTimer = 0;
+        if (this.currentBlood == 0)
+            this.killHolderFromBloodloss(null);
         BLEntityComponents.BLOOD_COMPONENT.sync(this.holder);
     }
 
@@ -104,10 +110,7 @@ public class EntityBloodComponent implements InitializableBloodComponent, Server
 
         this.currentBlood = 0;
         BLEntityComponents.BLOOD_COMPONENT.sync(this.holder);
-        if (drainer == null)
-            this.holder.damage(BLDamageSources.get(this.holder.getWorld(), BLResources.BLOOD_DRAIN_DAMAGE_KEY), Float.MAX_VALUE);
-        else
-            this.holder.damage(BLDamageSources.bloodDrain(drainer), Float.MAX_VALUE);
+        this.killHolderFromBloodloss(drainer);
         return true;
     }
 
@@ -119,6 +122,13 @@ public class EntityBloodComponent implements InitializableBloodComponent, Server
     @Override
     public boolean hasBlood() {
         return this.getMaxBlood() > 0;
+    }
+
+    public void killHolderFromBloodloss(LivingEntity drainer) {
+        if (drainer == null)
+            this.holder.damage(BLDamageSources.get(this.holder.getWorld(), BLResources.BLOOD_DRAIN_DAMAGE_KEY), Float.MAX_VALUE);
+        else
+            this.holder.damage(BLDamageSources.bloodDrain(drainer), Float.MAX_VALUE);
     }
 
     @Override
