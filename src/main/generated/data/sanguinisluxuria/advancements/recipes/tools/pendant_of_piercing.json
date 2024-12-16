@@ -3,24 +3,26 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "sanguinisluxuria:rituals/ability_reset_test"
+        "recipe": "sanguinisluxuria:pendant_of_piercing"
       },
       "trigger": "minecraft:recipe_unlocked"
     },
-    "test": {
-      "conditions": {},
-      "trigger": "minecraft:tick"
+    "unlock_abilities": {
+      "conditions": {
+        "ability": "sanguinisluxuria:teleport"
+      },
+      "trigger": "sanguinisluxuria:unlock_ability"
     }
   },
   "requirements": [
     [
-      "test",
+      "unlock_abilities",
       "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
-      "sanguinisluxuria:rituals/ability_reset_test"
+      "sanguinisluxuria:pendant_of_piercing"
     ]
   },
   "sends_telemetry_event": true

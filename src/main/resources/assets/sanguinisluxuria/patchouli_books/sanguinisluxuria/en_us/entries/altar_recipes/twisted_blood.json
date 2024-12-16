@@ -5,13 +5,13 @@
   "advancement": "sanguinisluxuria:unlock/grow_tree_and_become_vampire",
   "pages": [
     {
-      "type": "patchouli:text",
-      "text": "Blood can be twisted through the altar, into something more... potent.$(br2)Drinking twisted blood will grant one skill point. Skill points can be assigned by pressing $(#a51e12)$(l)$(k:key.sanguinisluxuria.open_abilities)$()"
+      "type": "patchouli:spotlight",
+      "item": "sanguinisluxuria:twisted_blood_bottle",
+      "text": "It would seem blood can be converted into something else. This new, twisted version of blood may have uses as a ritual component..."
     },
     {
-      "type": "sanguinisluxuria:altar_4by4",
-      "recipe": "sanguinisluxuria:twisted_blood_bottle",
-      "text": "Unfortunately, it seems to stop being effective after being drank 7 times"
+      "type": "sanguinisluxuria:ritual",
+      "recipe": "sanguinisluxuria:twisted_blood_bottle"
     }
   ]
 }

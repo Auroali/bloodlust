@@ -3,7 +3,7 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "sanguinisluxuria:rituals/blood_bag"
+        "recipe": "sanguinisluxuria:rituals/infectious"
       },
       "trigger": "minecraft:recipe_unlocked"
     },
@@ -28,7 +28,7 @@
   ],
   "rewards": {
     "recipes": [
-      "sanguinisluxuria:rituals/blood_bag"
+      "sanguinisluxuria:rituals/infectious"
     ]
   },
   "sends_telemetry_event": true

@@ -5,11 +5,12 @@
   "advancement": "sanguinisluxuria:drink_twisted_blood",
   "pages": [
     {
-      "type": "patchouli:text",
+      "type": "patchouli:spotlight",
+      "item": "sanguinisluxuria:pendant_of_piercing",
       "text": "When worn, the pendant of piercing turns blink from a tool of escape and mobility into one of offense. Blinking through living creatures while wearing the pendant inflicts damage, but also increases exhaustion."
     },
     {
-      "type": "sanguinisluxuria:altar_4by4",
+      "type": "sanguinisluxuria:ritual",
       "recipe": "sanguinisluxuria:pendant_of_piercing"
     }
   ]

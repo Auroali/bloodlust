@@ -3,26 +3,32 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "sanguinisluxuria:rituals/pendant_of_piercing"
+        "recipe": "sanguinisluxuria:rituals/blink"
       },
       "trigger": "minecraft:recipe_unlocked"
     },
-    "unlock_abilities": {
+    "has_twisted_blood": {
       "conditions": {
-        "ability": "sanguinisluxuria:teleport"
+        "items": [
+          {
+            "items": [
+              "sanguinisluxuria:twisted_blood_bottle"
+            ]
+          }
+        ]
       },
-      "trigger": "sanguinisluxuria:unlock_ability"
+      "trigger": "minecraft:inventory_changed"
     }
   },
   "requirements": [
     [
-      "unlock_abilities",
+      "has_twisted_blood",
       "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
-      "sanguinisluxuria:rituals/pendant_of_piercing"
+      "sanguinisluxuria:rituals/blink"
     ]
   },
   "sends_telemetry_event": true

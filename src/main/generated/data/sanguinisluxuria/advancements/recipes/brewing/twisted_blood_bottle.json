@@ -3,7 +3,7 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "sanguinisluxuria:rituals/twisted_blood"
+        "recipe": "sanguinisluxuria:twisted_blood_bottle"
       },
       "trigger": "minecraft:recipe_unlocked"
     },
@@ -20,7 +20,7 @@
   ],
   "rewards": {
     "recipes": [
-      "sanguinisluxuria:rituals/twisted_blood"
+      "sanguinisluxuria:twisted_blood_bottle"
     ]
   },
   "sends_telemetry_event": true

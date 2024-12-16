@@ -1,0 +1,25 @@
+{
+  "type": "sanguinisluxuria:ritual",
+  "catalyst": {
+    "item": "minecraft:glass_bottle"
+  },
+  "category": "misc",
+  "inputs": [
+    {
+      "item": "sanguinisluxuria:twisted_blood_bottle"
+    },
+    {
+      "item": "minecraft:gunpowder"
+    },
+    {
+      "item": "minecraft:dragon_breath"
+    },
+    {
+      "item": "minecraft:glowstone"
+    }
+  ],
+  "ritual": {
+    "type": "sanguinisluxuria:ability",
+    "ability": "sanguinisluxuria:transfer_effects"
+  }
+}

@@ -167,29 +167,51 @@ public class BLRecipeProvider extends FabricRecipeProvider {
           .input(Items.FERMENTED_SPIDER_EYE)
           .input(BLItems.BLOOD_PETAL)
           .criterion("is_vampire", BecomeVampireCriterion.Conditions.create())
-          .offerTo(exporter, BLResources.id("rituals/twisted_blood"));
+          .offerTo(exporter);
         RitualRecipeJsonBuilder.create(RecipeCategory.TOOLS, new ItemRitual(BLItems.BLOOD_BAG))
           .catalyst(Items.GLASS_BOTTLE)
           .input(Items.GLASS)
           .input(Items.GLASS)
           .criterion("has_twisted_blood", conditionsFromItem(BLItems.TWISTED_BLOOD))
-          .offerTo(exporter, BLResources.id("rituals/blood_bag"));
+          .offerTo(exporter);
         RitualRecipeJsonBuilder.create(RecipeCategory.TOOLS, new ItemRitual(BLItems.PENDANT_OF_PIERCING))
           .catalyst(Items.ARROW)
           .input(BLItems.TWISTED_BLOOD)
           .input(Items.GOLD_INGOT)
           .input(Items.STRING)
           .criterion("unlock_abilities", UnlockAbilityCriterion.Conditions.create(BLVampireAbilities.TELEPORT))
-          .offerTo(exporter, BLResources.id("rituals/pendant_of_piercing"));
+          .offerTo(exporter);
+
         RitualRecipeJsonBuilder.create(RecipeCategory.MISC, new VampireAbilityRitual(BLVampireAbilities.TELEPORT))
           .catalyst(Items.ENDER_PEARL)
-          .criterion("test", TickCriterion.Conditions.createTick())
-          .offerTo(exporter, BLResources.id("rituals/ability_test"));
+          .input(BLItems.TWISTED_BLOOD)
+          .input(Items.CHORUS_FRUIT)
+          .input(BLItems.TWISTED_BLOOD)
+          .input(Items.CHORUS_FRUIT)
+          .criterion("has_twisted_blood", conditionsFromItem(BLItems.TWISTED_BLOOD))
+          .offerTo(exporter, BLResources.id("rituals/blink"));
+        RitualRecipeJsonBuilder.create(RecipeCategory.MISC, new VampireAbilityRitual(BLVampireAbilities.BITE))
+          .catalyst(Items.POINTED_DRIPSTONE)
+          .input(BLItems.TWISTED_BLOOD)
+          .input(Items.BONE)
+          .input(Items.SKELETON_SKULL)
+          .input(Items.BONE)
+          .criterion("has_twisted_blood", conditionsFromItem(BLItems.TWISTED_BLOOD))
+          .offerTo(exporter, BLResources.id("rituals/bite"));
+        RitualRecipeJsonBuilder.create(RecipeCategory.MISC, new VampireAbilityRitual(BLVampireAbilities.INFECTIOUS))
+          .catalyst(Items.GLASS_BOTTLE)
+          .input(BLItems.TWISTED_BLOOD)
+          .input(Items.GUNPOWDER)
+          .input(Items.DRAGON_BREATH)
+          .input(Items.GLOWSTONE_DUST)
+          .criterion("has_twisted_blood", conditionsFromItem(BLItems.TWISTED_BLOOD))
+          .offerTo(exporter, BLResources.id("rituals/infectious"));
+
         RitualRecipeJsonBuilder.create(RecipeCategory.MISC, VampireAbilityResetRitual.INSTANCE)
           .catalyst(PotionUtil.setPotion(new ItemStack(Items.POTION), BLStatusEffects.BLESSED_WATER_POTION))
           .input(Items.SUNFLOWER)
           .input(Items.SUNFLOWER)
           .criterion("test", TickCriterion.Conditions.createTick())
-          .offerTo(exporter, BLResources.id("rituals/ability_reset_test"));
+          .offerTo(exporter, BLResources.id("rituals/reset_abilities"));
     }
 }

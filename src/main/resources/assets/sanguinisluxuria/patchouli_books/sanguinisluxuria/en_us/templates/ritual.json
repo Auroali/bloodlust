@@ -1,0 +1,69 @@
+{
+  "components": [
+    {
+      "type": "patchouli:image",
+      "image": "sanguinisluxuria:textures/gui/patchouli_icons.png",
+      "x": 0,
+      "y": 0,
+      "width": 112,
+      "height": 112,
+      "u": 0,
+      "v": 67
+    },
+    {
+      "type": "patchouli:item",
+      "x": 4,
+      "y": 49,
+      "item": "#input1"
+    },
+    {
+      "type": "patchouli:item",
+      "x": 12,
+      "y": 12,
+      "item": "#input2"
+    },
+    {
+      "type": "patchouli:item",
+      "x": 48,
+      "y": 4,
+      "item": "#input3"
+    },
+    {
+      "type": "patchouli:item",
+      "x": 84,
+      "y": 12,
+      "item": "#input4"
+    },
+    {
+      "type": "patchouli:item",
+      "x": 92,
+      "y": 48,
+      "item": "#input5"
+    },
+    {
+      "type": "patchouli:item",
+      "x": 84,
+      "y": 84,
+      "item": "#input6"
+    },
+    {
+      "type": "patchouli:item",
+      "x": 48,
+      "y": 92,
+      "item": "#input7"
+    },
+    {
+      "type": "patchouli:item",
+      "x": 12,
+      "y": 84,
+      "item": "#input8"
+    },
+    {
+      "type": "patchouli:item",
+      "x": 48,
+      "y": 48,
+      "item": "#catalyst"
+    }
+  ],
+  "processor": "com.auroali.sanguinisluxuria.compat.patchouli.AltarRecipeProcessor"
+}

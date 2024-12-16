@@ -1,0 +1,25 @@
+{
+  "type": "sanguinisluxuria:ritual",
+  "catalyst": {
+    "item": "minecraft:ender_pearl"
+  },
+  "category": "misc",
+  "inputs": [
+    {
+      "item": "sanguinisluxuria:twisted_blood_bottle"
+    },
+    {
+      "item": "minecraft:chorus_fruit"
+    },
+    {
+      "item": "sanguinisluxuria:twisted_blood_bottle"
+    },
+    {
+      "item": "minecraft:chorus_fruit"
+    }
+  ],
+  "ritual": {
+    "type": "sanguinisluxuria:ability",
+    "ability": "sanguinisluxuria:teleport"
+  }
+}

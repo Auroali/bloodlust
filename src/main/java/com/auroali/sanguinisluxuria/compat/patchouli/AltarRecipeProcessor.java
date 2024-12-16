@@ -1,10 +1,8 @@
 package com.auroali.sanguinisluxuria.compat.patchouli;
 
 import com.auroali.sanguinisluxuria.common.recipes.AltarRitualRecipe;
-import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.RecipeManager;
-import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 import vazkii.patchouli.api.IComponentProcessor;
@@ -23,19 +21,18 @@ public class AltarRecipeProcessor implements IComponentProcessor {
 
     @Override
     public IVariable process(World world, String key) {
-        if (key.startsWith("item")) {
-            int i = Integer.parseInt(key.substring(4)) - 1;
+        if (key.startsWith("input")) {
+            int i = Integer.parseInt(key.substring(5)) - 1;
             if (i < this.recipe.getIngredients().size()) {
                 Ingredient ingredient = this.recipe.getIngredients().get(i);
                 return IVariable.from(ingredient.getMatchingStacks());
             }
-            return IVariable.from(ItemStack.EMPTY);
+            return IVariable.empty();
         }
-        if (key.equals("output"))
-            return IVariable.from(this.recipe.getOutput(world.getRegistryManager()));
-        if (key.equals("time")) {
-            return IVariable.from(Text.of("%ds".formatted(15)));
+        if (key.startsWith("catalyst")) {
+            return IVariable.from(this.recipe.getCatalyst().getMatchingStacks());
         }
+
         return null;
     }
 }

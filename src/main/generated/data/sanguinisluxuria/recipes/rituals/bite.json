@@ -1,0 +1,25 @@
+{
+  "type": "sanguinisluxuria:ritual",
+  "catalyst": {
+    "item": "minecraft:pointed_dripstone"
+  },
+  "category": "misc",
+  "inputs": [
+    {
+      "item": "sanguinisluxuria:twisted_blood_bottle"
+    },
+    {
+      "item": "minecraft:bone"
+    },
+    {
+      "item": "minecraft:skeleton_skull"
+    },
+    {
+      "item": "minecraft:bone"
+    }
+  ],
+  "ritual": {
+    "type": "sanguinisluxuria:ability",
+    "ability": "sanguinisluxuria:bite"
+  }
+}
