@@ -66,14 +66,15 @@ public class BLHud {
         int bloodBarX = (width - 14) / 2;
         int bloodBarY = height / 2 + 5;
         if (!VampireHelper.isMasked(client.player))
-            context.drawTexture(BLResources.ICONS, fangX, fangY, 0, 0, 26, 9, 256, 256);
-        context.drawTexture(BLResources.ICONS, bloodBarX, bloodBarY, 0, 17, 14, 3, 256, 256);
+            context.drawTexture(BLResources.ICONS, fangX, fangY, 0, 0, 26, 7, 256, 256);
+        context.drawTexture(BLResources.ICONS, bloodBarX, bloodBarY, 0, 14, 14, 3, 256, 256);
 
         RenderSystem.disableBlend();
 
-        context.drawTexture(BLResources.ICONS, bloodBarX + 1, bloodBarY, 15, 17, (int) (bloodPercent * 13), 3, 256, 256);
+        context.drawTexture(BLResources.ICONS, bloodBarX + 1, bloodBarY, 15, 14, (int) (bloodPercent * 13), 3, 256, 256);
+        int drainPosY = (int) (7 * drainPercent);
         if (!VampireHelper.isMasked(client.player))
-            context.drawTexture(BLResources.ICONS, fangX, fangY + (int) (9 * (1 - drainPercent)), 0, 9 + (int) (9 * (1 - drainPercent)), 26, (int) (9 * drainPercent), 256, 256);
+            context.drawTexture(BLResources.ICONS, fangX, fangY + (7 - drainPosY), 0, 7 + (7 - drainPosY), 26, drainPosY, 256, 256);
     }
 
     public static void drawBoundAbilities(DrawContext context, MinecraftClient client, int height, VampireAbilityContainer container) {
