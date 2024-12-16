@@ -41,6 +41,8 @@ public class GraftedSaplingBlock extends SaplingBlock {
         super.generate(world, pos, state, random);
     }
 
+    // if the sapling is in sunlight, it can't grow
+    // otherwise, try to drain blood from all nearby entities and grow if successful
     public boolean isRightConditionsToGrow(World world, BlockPos pos) {
         if (world.isDay() && world.isSkyVisible(pos))
             return false;
