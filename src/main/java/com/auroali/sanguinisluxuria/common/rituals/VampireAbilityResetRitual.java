@@ -18,6 +18,9 @@ public class VampireAbilityResetRitual implements Ritual {
     public static final VampireAbilityResetRitual INSTANCE = new VampireAbilityResetRitual();
     public static final Codec<VampireAbilityResetRitual> CODEC = Codec.unit(INSTANCE);
 
+    protected VampireAbilityResetRitual() {
+    }
+
     @Override
     public void onCompleted(World world, LivingEntity initiator, BlockPos pos, Inventory inventory) {
         if (!VampireHelper.isVampire(initiator))

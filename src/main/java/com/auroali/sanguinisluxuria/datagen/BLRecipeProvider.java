@@ -4,12 +4,12 @@ import com.auroali.sanguinisluxuria.BLResources;
 import com.auroali.sanguinisluxuria.common.advancements.BecomeVampireCriterion;
 import com.auroali.sanguinisluxuria.common.advancements.UnlockAbilityCriterion;
 import com.auroali.sanguinisluxuria.common.registry.*;
+import com.auroali.sanguinisluxuria.common.rituals.AbilityRevealRitual;
 import com.auroali.sanguinisluxuria.common.rituals.ItemRitual;
 import com.auroali.sanguinisluxuria.common.rituals.VampireAbilityResetRitual;
 import com.auroali.sanguinisluxuria.common.rituals.VampireAbilityRitual;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
-import net.minecraft.advancement.criterion.TickCriterion;
 import net.minecraft.data.server.recipe.*;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -211,7 +211,12 @@ public class BLRecipeProvider extends FabricRecipeProvider {
           .catalyst(PotionUtil.setPotion(new ItemStack(Items.POTION), BLStatusEffects.BLESSED_WATER_POTION))
           .input(Items.SUNFLOWER)
           .input(Items.SUNFLOWER)
-          .criterion("test", TickCriterion.Conditions.createTick())
+          .criterion("unlocked_ability", UnlockAbilityCriterion.Conditions.create())
           .offerTo(exporter, BLResources.id("rituals/reset_abilities"));
+
+        RitualRecipeJsonBuilder.create(RecipeCategory.MISC, AbilityRevealRitual.INSTANCE)
+          .catalyst(Items.WRITABLE_BOOK)
+          .criterion("unlocked_ability", UnlockAbilityCriterion.Conditions.create())
+          .offerTo(exporter, BLResources.id("rituals/reveal_abilities"));
     }
 }

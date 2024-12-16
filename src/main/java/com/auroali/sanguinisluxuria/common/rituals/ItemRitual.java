@@ -12,7 +12,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
-public record ItemRitual(ItemStack stack) implements Ritual {
+public record ItemRitual(ItemStack stack) implements Ritual, ItemCreatingRitual {
     public static final Codec<ItemRitual> CODEC = RecordCodecBuilder.create(instance -> instance
       .group(
         ItemStack.CODEC.fieldOf("result").forGetter(ItemRitual::stack)
@@ -42,5 +42,10 @@ public record ItemRitual(ItemStack stack) implements Ritual {
     @Override
     public RitualType<?> getType() {
         return BLRitualTypes.ITEM_RITUAL_TYPE;
+    }
+
+    @Override
+    public ItemStack getOutput() {
+        return this.stack;
     }
 }

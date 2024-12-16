@@ -3,7 +3,7 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "sanguinisluxuria:rituals/reset_abilities"
+        "recipe": "sanguinisluxuria:rituals/reveal_abilities"
       },
       "trigger": "minecraft:recipe_unlocked"
     },
@@ -20,7 +20,7 @@
   ],
   "rewards": {
     "recipes": [
-      "sanguinisluxuria:rituals/reset_abilities"
+      "sanguinisluxuria:rituals/reveal_abilities"
     ]
   },
   "sends_telemetry_event": true

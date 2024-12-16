@@ -90,10 +90,10 @@ public class BLLangProvider extends FabricLanguageProvider {
     }
 
     public static void rituals(TranslationBuilder builder) {
-        // todo: make better names
         generateRitualKey(builder, BLRitualTypes.ABILITY_RITUAL_TYPE, "Ritual of Transformation");
         generateRitualKey(builder, BLRitualTypes.ABILITY_RESET_RITUAL_TYPE, "Ritual of Cleansing");
         generateRitualKey(builder, BLRitualTypes.ITEM_RITUAL_TYPE, "Ritual of Transmutation");
+        generateRitualKey(builder, BLRitualTypes.ABILITY_REVEAL_RITUAL_TYPE, "Ritual of Revealing");
     }
 
     private static void generateRitualKey(TranslationBuilder builder, RitualType<?> type, String entry) {

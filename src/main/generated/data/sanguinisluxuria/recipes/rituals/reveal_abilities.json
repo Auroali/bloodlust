@@ -1,0 +1,11 @@
+{
+  "type": "sanguinisluxuria:ritual",
+  "catalyst": {
+    "item": "minecraft:writable_book"
+  },
+  "category": "misc",
+  "inputs": [],
+  "ritual": {
+    "type": "sanguinisluxuria:ability_reveal_ritual"
+  }
+}
