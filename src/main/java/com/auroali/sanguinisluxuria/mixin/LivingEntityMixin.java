@@ -7,8 +7,7 @@ import com.auroali.sanguinisluxuria.common.components.VampireComponent;
 import com.auroali.sanguinisluxuria.common.registry.BLEntityAttributes;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import com.llamalad7.mixinextras.sugar.Share;
-import com.llamalad7.mixinextras.sugar.ref.LocalRef;
+import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityGroup;
 import net.minecraft.entity.EntityType;
@@ -43,24 +42,19 @@ public abstract class LivingEntityMixin extends Entity {
         super(type, world);
     }
 
-    @Inject(method = "damage", at = @At(value = "HEAD"))
-    public void sanguinisluxuria$increaseDamage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir, @Share("source") LocalRef<DamageSource> dmgSource) {
-        dmgSource.set(source);
-    }
-
     @ModifyVariable(method = "damage", at = @At(
       value = "HEAD"
     ), argsOnly = true)
-    public float sanguinisluxuria$actuallyIncreaseDamage(float amount, @Share("source") LocalRef<DamageSource> source) {
+    public float sanguinisluxuria$increaseDamage(float amount, @Local(argsOnly = true) DamageSource source) {
         float blessedDamageMod = 0.0f;
-        if (this.isUndead() && source.get().getAttacker() instanceof LivingEntity entity) {
+        if (this.isUndead() && source.getAttacker() instanceof LivingEntity entity) {
             blessedDamageMod += (float) entity.getAttributeValue(BLEntityAttributes.BLESSED_DAMAGE);
         }
         if (VampireHelper.isVampire(this)) {
 //            VampireComponent vampire = BLEntityComponents.VAMPIRE_COMPONENT.get(this);
 //            if (!VampireComponent.isEffectiveAgainstVampires(source.get()) && vampire.getAbilties().hasAbility(BLVampireAbilities.DAMAGE_REDUCTION))
 //                amount *= 0.85f;
-            return blessedDamageMod + VampireComponent.calculateDamage(amount, source.get());
+            return blessedDamageMod + VampireComponent.calculateDamage(amount, source);
         }
         return blessedDamageMod + amount;
     }
