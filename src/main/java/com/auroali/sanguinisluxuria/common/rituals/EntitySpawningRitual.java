@@ -40,7 +40,7 @@ public record EntitySpawningRitual(EntityType<?> type, NbtCompound nbt, boolean 
         compound.putString("id", EntityType.getId(this.type).toString());
         EntityType.getEntityFromNbt(compound, world)
           .ifPresent(entity -> {
-              Vec3d position = pos.toCenterPos();
+              Vec3d position = pos.toCenterPos().add(0, 1, 0);
               entity.setPosition(position);
               world.spawnEntity(entity);
               if (this.autoTame() && entity instanceof TameableEntity tameable && initiator instanceof PlayerEntity player)
