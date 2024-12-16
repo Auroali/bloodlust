@@ -4,7 +4,6 @@ import com.auroali.sanguinisluxuria.common.abilities.VampireAbility;
 import com.auroali.sanguinisluxuria.common.commands.arguments.VampireAbilityArgument;
 import com.auroali.sanguinisluxuria.common.components.BLEntityComponents;
 import com.auroali.sanguinisluxuria.common.components.VampireComponent;
-import com.auroali.sanguinisluxuria.config.BLConfig;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
@@ -31,7 +30,6 @@ public class AbilityCommand {
                   a.onAbilityRemoved(ctx.getSource().getPlayer(), component);
                   component.getAbilties().removeAbility(a);
               }
-              component.setSkillPoints(BLConfig.INSTANCE.skillPointsPerLevel * component.getLevel());
               BLEntityComponents.VAMPIRE_COMPONENT.sync(ctx.getSource().getPlayer());
               return 0;
           }));
