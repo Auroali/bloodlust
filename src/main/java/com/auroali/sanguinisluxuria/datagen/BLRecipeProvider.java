@@ -58,17 +58,16 @@ public class BLRecipeProvider extends FabricRecipeProvider {
     }
 
     public void generateCraftingRecipes(Consumer<RecipeJsonProvider> exporter) {
+        generateFamily(exporter, BLBlockFamilies.DECAYED_WOOD_FAMILY);
+        offerPlanksRecipe(exporter, BLBlocks.DECAYED_PLANKS, BLTags.Items.DECAYED_LOGS, 4);
+        offerHangingSignRecipe(exporter, BLBlocks.DECAYED_HANGING_SIGN, BLBlocks.STRIPPED_DECAYED_LOG);
+
         ShapelessRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, BLBlocks.GRAFTED_SAPLING)
           .input(BLItems.BLOOD_PETAL)
           .input(ItemTags.SAPLINGS)
           .criterion(hasItem(BLItems.BLOOD_PETAL), conditionsFromItem(BLItems.BLOOD_PETAL))
           .offerTo(exporter);
-        // i dont want to make planks ;-;
-        ShapedRecipeJsonBuilder.create(RecipeCategory.REDSTONE, BLBlocks.DECAYED_PRESSURE_PLATE)
-          .pattern("##")
-          .input('#', BLTags.Items.DECAYED_LOGS)
-          .criterion("has_item", conditionsFromTag(BLTags.Items.DECAYED_LOGS))
-          .offerTo(exporter);
+
         ShapedRecipeJsonBuilder.create(RecipeCategory.REDSTONE, BLBlocks.SILVER_PRESSURE_PLATE)
           .pattern("##")
           .input('#', BLTags.Items.SILVER_INGOTS)

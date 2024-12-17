@@ -37,7 +37,7 @@ public class BLBlocks {
     public static final Block DECAYED_WOOD = new PillarBlock(AbstractBlock.Settings.create().mapColor(MapColor.OFF_WHITE).burnable().instrument(Instrument.BASS).strength(2.f).sounds(BlockSoundGroup.NETHER_WOOD));
     public static final Block STRIPPED_DECAYED_LOG = new PillarBlock(AbstractBlock.Settings.create().mapColor(MapColor.OFF_WHITE).burnable().instrument(Instrument.BASS).strength(2.f).sounds(BlockSoundGroup.NETHER_WOOD));
     public static final Block STRIPPED_DECAYED_WOOD = new PillarBlock(AbstractBlock.Settings.create().mapColor(MapColor.OFF_WHITE).burnable().instrument(Instrument.BASS).strength(2.f).sounds(BlockSoundGroup.NETHER_WOOD));
-    public static final Block DECAYED_TWIGS = new DecayedTwigsBlock(AbstractBlock.Settings.create().mapColor(MapColor.OFF_WHITE).noCollision().burnable().sounds(BlockSoundGroup.GRASS).breakInstantly());
+    public static final Block DECAYED_TWIGS = new DecayedTwigsBlock(AbstractBlock.Settings.create().mapColor(MapColor.OFF_WHITE).noCollision().burnable().sounds(BlockSoundGroup.GRASS).pistonBehavior(PistonBehavior.DESTROY).breakInstantly());
     public static final Block GRAFTED_SAPLING = new GraftedSaplingBlock(new GraftedSaplingBlock.GraftedSaplingGenerator(), AbstractBlock.Settings.copy(Blocks.OAK_SAPLING).mapColor(MapColor.OFF_WHITE).ticksRandomly());
     public static final Block DECAYED_PRESSURE_PLATE = new PredicatePressurePlateBlock(
       PressurePlateBlock.ActivationRule.MOBS,
@@ -66,6 +66,105 @@ public class BLBlocks {
         .pistonBehavior(PistonBehavior.DESTROY),
       BLBlockSetTypes.SILVER
     );
+    public static final Block DECAYED_PLANKS = new Block(AbstractBlock.Settings
+      .create()
+      .mapColor(MapColor.OFF_WHITE)
+      .burnable()
+      .instrument(Instrument.BASS)
+      .strength(2.f)
+      .sounds(BlockSoundGroup.NETHER_WOOD)
+    );
+    public static final Block DECAYED_FENCE = new FenceBlock(AbstractBlock.Settings
+      .create()
+      .mapColor(MapColor.OFF_WHITE)
+      .burnable()
+      .instrument(Instrument.BASS)
+      .strength(2.f)
+      .sounds(BlockSoundGroup.NETHER_WOOD)
+    );
+    public static final Block DECAYED_FENCE_GATE = new FenceGateBlock(AbstractBlock.Settings
+      .create()
+      .mapColor(MapColor.OFF_WHITE)
+      .burnable()
+      .instrument(Instrument.BASS)
+      .strength(2.f)
+      .sounds(BlockSoundGroup.NETHER_WOOD),
+      BLBlockSetTypes.DECAYED_WOOD_TYPE
+    );
+    public static final Block DECAYED_STAIRS = new StairsBlock(DECAYED_PLANKS.getDefaultState(), AbstractBlock.Settings
+      .create()
+      .mapColor(MapColor.OFF_WHITE)
+      .burnable()
+      .instrument(Instrument.BASS)
+      .strength(2.f)
+      .sounds(BlockSoundGroup.NETHER_WOOD)
+    );
+    public static final Block DECAYED_SLAB = new SlabBlock(AbstractBlock.Settings
+      .create()
+      .mapColor(MapColor.OFF_WHITE)
+      .burnable()
+      .instrument(Instrument.BASS)
+      .strength(2.f)
+      .sounds(BlockSoundGroup.NETHER_WOOD)
+    );
+    public static final Block DECAYED_SIGN = new SignBlock(AbstractBlock.Settings
+      .create()
+      .mapColor(MapColor.OFF_WHITE)
+      .instrument(Instrument.BASS)
+      .strength(1.f)
+      .sounds(BlockSoundGroup.NETHER_WOOD),
+      BLBlockSetTypes.DECAYED_WOOD_TYPE
+    );
+    public static final Block DECAYED_WALL_SIGN = new WallSignBlock(AbstractBlock.Settings
+      .create()
+      .mapColor(MapColor.OFF_WHITE)
+      .instrument(Instrument.BASS)
+      .strength(1.f)
+      .sounds(BlockSoundGroup.NETHER_WOOD),
+      BLBlockSetTypes.DECAYED_WOOD_TYPE);
+    public static final Block DECAYED_HANGING_SIGN = new HangingSignBlock(AbstractBlock.Settings
+      .create()
+      .mapColor(MapColor.OFF_WHITE)
+      .instrument(Instrument.BASS)
+      .strength(1.f)
+      .sounds(BlockSoundGroup.NETHER_WOOD),
+      BLBlockSetTypes.DECAYED_WOOD_TYPE);
+    public static final Block DECAYED_WALL_HANGING_SIGN = new WallHangingSignBlock(AbstractBlock.Settings
+      .create()
+      .mapColor(MapColor.OFF_WHITE)
+      .instrument(Instrument.BASS)
+      .strength(1.f)
+      .sounds(BlockSoundGroup.NETHER_WOOD),
+      BLBlockSetTypes.DECAYED_WOOD_TYPE);
+    public static final Block DECAYED_BUTTON = new ButtonBlock(AbstractBlock.Settings
+      .create()
+      .mapColor(MapColor.OFF_WHITE)
+      .instrument(Instrument.BASS)
+      .strength(0.5f)
+      .pistonBehavior(PistonBehavior.DESTROY)
+      .sounds(BlockSoundGroup.NETHER_WOOD),
+      BLBlockSetTypes.DECAYED_WOOD,
+      30,
+      true
+    );
+    public static final Block DECAYED_DOOR = new DoorBlock(AbstractBlock.Settings
+      .create()
+      .mapColor(MapColor.OFF_WHITE)
+      .nonOpaque()
+      .instrument(Instrument.BASS)
+      .strength(2.f)
+      .sounds(BlockSoundGroup.NETHER_WOOD),
+      BLBlockSetTypes.DECAYED_WOOD
+    );
+    public static final Block DECAYED_TRAPDOOR = new TrapdoorBlock(AbstractBlock.Settings
+      .create()
+      .mapColor(MapColor.OFF_WHITE)
+      .nonOpaque()
+      .instrument(Instrument.BASS)
+      .strength(2.f)
+      .sounds(BlockSoundGroup.NETHER_WOOD),
+      BLBlockSetTypes.DECAYED_WOOD
+    );
 
     public static void register() {
         Registry.register(Registries.BLOCK, BLResources.BLOOD_SPLATTER_ID, BLOOD_SPLATTER);
@@ -87,17 +186,38 @@ public class BLBlocks {
         Registry.register(Registries.BLOCK, BLResources.DECAYED_PRESSURE_PLATE, DECAYED_PRESSURE_PLATE);
         Registry.register(Registries.BLOCK, BLResources.SILVER_PRESSURE_PLATE, SILVER_PRESSURE_PLATE);
 
+        Registry.register(Registries.BLOCK, BLResources.DECAYED_PLANKS, DECAYED_PLANKS);
+        Registry.register(Registries.BLOCK, BLResources.DECAYED_FENCE, DECAYED_FENCE);
+        Registry.register(Registries.BLOCK, BLResources.DECAYED_FENCE_GATE, DECAYED_FENCE_GATE);
+        Registry.register(Registries.BLOCK, BLResources.DECAYED_STAIRS, DECAYED_STAIRS);
+        Registry.register(Registries.BLOCK, BLResources.DECAYED_SLAB, DECAYED_SLAB);
+        Registry.register(Registries.BLOCK, BLResources.DECAYED_SIGN, DECAYED_SIGN);
+        Registry.register(Registries.BLOCK, BLResources.DECAYED_WALL_SIGN, DECAYED_WALL_SIGN);
+        Registry.register(Registries.BLOCK, BLResources.DECAYED_BUTTON, DECAYED_BUTTON);
+        Registry.register(Registries.BLOCK, BLResources.DECAYED_HANGING_SIGN, DECAYED_HANGING_SIGN);
+        Registry.register(Registries.BLOCK, BLResources.DECAYED_WALL_HANGING_SIGN, DECAYED_WALL_HANGING_SIGN);
+        Registry.register(Registries.BLOCK, BLResources.DECAYED_DOOR, DECAYED_DOOR);
+        Registry.register(Registries.BLOCK, BLResources.DECAYED_TRAPDOOR, DECAYED_TRAPDOOR);
+
         StrippableBlockRegistry.register(HUNGRY_DECAYED_LOG, STRIPPED_HUNGRY_DECAYED_LOG);
         StrippableBlockRegistry.register(DECAYED_LOG, STRIPPED_DECAYED_LOG);
         StrippableBlockRegistry.register(DECAYED_WOOD, STRIPPED_DECAYED_WOOD);
 
         FlammableBlockRegistry fireRegistry = FlammableBlockRegistry.getDefaultInstance();
         fireRegistry.add(DECAYED_WOOD, 18, 24);
-        fireRegistry.add(STRIPPED_DECAYED_WOOD, 8, 24);
+        fireRegistry.add(STRIPPED_DECAYED_WOOD, 18, 24);
         fireRegistry.add(DECAYED_LOG, 18, 24);
         fireRegistry.add(STRIPPED_DECAYED_LOG, 18, 24);
         fireRegistry.add(HUNGRY_DECAYED_LOG, 18, 24);
         fireRegistry.add(STRIPPED_HUNGRY_DECAYED_LOG, 18, 24);
         fireRegistry.add(DECAYED_TWIGS, 18, 24);
+
+        fireRegistry.add(DECAYED_PLANKS, 18, 24);
+        fireRegistry.add(DECAYED_STAIRS, 18, 24);
+        fireRegistry.add(DECAYED_SLAB, 18, 24);
+        fireRegistry.add(DECAYED_FENCE, 18, 24);
+        fireRegistry.add(DECAYED_FENCE_GATE, 18, 24);
+
+
     }
 }

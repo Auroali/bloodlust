@@ -9,6 +9,7 @@
     "client.LightmapTextureManagerMixin"
   ],
   "mixins": [
+    "BlockEntityTypeMixin",
     "CakeBlockMixin",
     "HungerManagerMixin",
     "IronGolemEntityMixin",

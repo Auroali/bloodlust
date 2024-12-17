@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/door_top_left",
+  "textures": {
+    "bottom": "sanguinisluxuria:block/decayed_door_bottom",
+    "top": "sanguinisluxuria:block/decayed_door_top"
+  }
+}

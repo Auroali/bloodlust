@@ -119,6 +119,18 @@ public class BLResources {
     public static final Identifier ENTITY_SPAWNING_RITUAL_TYPE = id("entity");
     public static final Identifier STATUS_EFFECT_RITUAL_TYPE = id("effect");
     public static final Identifier PERFORM_RITUAL_ID = id("perform_ritual");
+    public static final Identifier DECAYED_PLANKS = id("decayed_planks");
+    public static final Identifier DECAYED_FENCE = id("decayed_fence");
+    public static final Identifier DECAYED_FENCE_GATE = id("decayed_fence_gate");
+    public static final Identifier DECAYED_STAIRS = id("decayed_stairs");
+    public static final Identifier DECAYED_SLAB = id("decayed_slab");
+    public static final Identifier DECAYED_SIGN = id("decayed_sign");
+    public static final Identifier DECAYED_WALL_SIGN = id("decayed_wall_sign");
+    public static final Identifier DECAYED_BUTTON = id("decayed_button");
+    public static final Identifier DECAYED_HANGING_SIGN = id("decayed_hanging_sign");
+    public static final Identifier DECAYED_WALL_HANGING_SIGN = id("decayed_wall_hanging_sign");
+    public static final Identifier DECAYED_DOOR = id("decayed_door");
+    public static final Identifier DECAYED_TRAPDOOR = id("decayed_trapdoor");
 
     public static Identifier id(String path) {
         return new Identifier(Bloodlust.MODID, path);

@@ -3,7 +3,7 @@
   "category": "redstone",
   "key": {
     "#": {
-      "tag": "sanguinisluxuria:decayed_logs"
+      "item": "sanguinisluxuria:decayed_planks"
     }
   },
   "pattern": [

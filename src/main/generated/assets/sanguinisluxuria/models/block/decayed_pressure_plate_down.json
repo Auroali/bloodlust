@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/pressure_plate_down",
   "textures": {
-    "texture": "sanguinisluxuria:block/decayed_log"
+    "texture": "sanguinisluxuria:block/decayed_planks"
   }
 }

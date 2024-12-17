@@ -1,11 +1,13 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_item": {
+    "has_decayed_planks": {
       "conditions": {
         "items": [
           {
-            "tag": "sanguinisluxuria:decayed_logs"
+            "items": [
+              "sanguinisluxuria:decayed_planks"
+            ]
           }
         ]
       },
@@ -20,7 +22,7 @@
   },
   "requirements": [
     [
-      "has_item",
+      "has_decayed_planks",
       "has_the_recipe"
     ]
   ],

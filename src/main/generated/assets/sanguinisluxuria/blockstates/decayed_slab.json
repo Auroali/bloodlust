@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "sanguinisluxuria:block/decayed_slab"
+    },
+    "type=double": {
+      "model": "sanguinisluxuria:block/decayed_planks"
+    },
+    "type=top": {
+      "model": "sanguinisluxuria:block/decayed_slab_top"
+    }
+  }
+}

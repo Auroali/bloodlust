@@ -54,6 +54,16 @@ public class BLItemGroups {
               entries.add(BLBlocks.STRIPPED_HUNGRY_DECAYED_LOG);
               entries.add(BLBlocks.STRIPPED_DECAYED_LOG);
               entries.add(BLBlocks.STRIPPED_DECAYED_WOOD);
+              entries.add(BLBlocks.DECAYED_PLANKS);
+              entries.add(BLBlocks.DECAYED_SLAB);
+              entries.add(BLBlocks.DECAYED_STAIRS);
+              entries.add(BLBlocks.DECAYED_FENCE);
+              entries.add(BLBlocks.DECAYED_FENCE_GATE);
+              entries.add(BLBlocks.DECAYED_TRAPDOOR);
+              entries.add(BLBlocks.DECAYED_DOOR);
+              entries.add(BLBlocks.DECAYED_SIGN);
+              entries.add(BLBlocks.DECAYED_HANGING_SIGN);
+              entries.add(BLBlocks.DECAYED_BUTTON);
               entries.add(BLBlocks.DECAYED_PRESSURE_PLATE);
               entries.add(BLItems.VAMPIRE_VILLAGER_SPAWN_EGG);
               entries.add(PotionUtil.setPotion(new ItemStack(Items.POTION), BLStatusEffects.BLESSED_WATER_POTION));

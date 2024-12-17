@@ -204,6 +204,16 @@ public class BLLangProvider extends FabricLanguageProvider {
         translationBuilder.add(BLBlocks.GRAFTED_SAPLING, "Grafted Sapling");
         translationBuilder.add(BLBlocks.DECAYED_PRESSURE_PLATE, "Decayed Pressure Plate");
         translationBuilder.add(BLBlocks.SILVER_PRESSURE_PLATE, "Silver Pressure Plate");
+        translationBuilder.add(BLBlocks.DECAYED_PLANKS, "Decayed Planks");
+        translationBuilder.add(BLBlocks.DECAYED_SLAB, "Decayed Slab");
+        translationBuilder.add(BLBlocks.DECAYED_FENCE, "Decayed Fence");
+        translationBuilder.add(BLBlocks.DECAYED_FENCE_GATE, "Decayed Fence Gate");
+        translationBuilder.add(BLBlocks.DECAYED_TRAPDOOR, "Decayed Trapdoor");
+        translationBuilder.add(BLBlocks.DECAYED_DOOR, "Decayed Door");
+        translationBuilder.add(BLBlocks.DECAYED_BUTTON, "Decayed Button");
+        translationBuilder.add(BLBlocks.DECAYED_SIGN, "Decayed Sign");
+        translationBuilder.add(BLBlocks.DECAYED_HANGING_SIGN, "Decayed Hanging Sign");
+        translationBuilder.add(BLBlocks.DECAYED_STAIRS, "Decayed Stairs");
     }
 
     private static void items(TranslationBuilder translationBuilder) {

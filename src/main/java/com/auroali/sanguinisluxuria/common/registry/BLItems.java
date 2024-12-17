@@ -7,10 +7,7 @@ import com.auroali.sanguinisluxuria.common.items.tools.*;
 import dev.emi.trinkets.api.TrinketItem;
 import net.fabricmc.fabric.api.registry.CompostingChanceRegistry;
 import net.minecraft.block.Block;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.Items;
-import net.minecraft.item.SpawnEggItem;
+import net.minecraft.item.*;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
@@ -74,6 +71,17 @@ public class BLItems {
         registerBlock(BLResources.GRAFTED_SAPLING, BLBlocks.GRAFTED_SAPLING);
         registerBlock(BLResources.SILVER_PRESSURE_PLATE, BLBlocks.SILVER_PRESSURE_PLATE);
         registerBlock(BLResources.DECAYED_PRESSURE_PLATE, BLBlocks.DECAYED_PRESSURE_PLATE);
+
+        registerBlock(BLResources.DECAYED_PLANKS, BLBlocks.DECAYED_PLANKS);
+        registerBlock(BLResources.DECAYED_FENCE, BLBlocks.DECAYED_FENCE);
+        registerBlock(BLResources.DECAYED_FENCE_GATE, BLBlocks.DECAYED_FENCE_GATE);
+        registerBlock(BLResources.DECAYED_STAIRS, BLBlocks.DECAYED_STAIRS);
+        registerBlock(BLResources.DECAYED_SLAB, BLBlocks.DECAYED_SLAB);
+        registerBlock(BLResources.DECAYED_BUTTON, BLBlocks.DECAYED_BUTTON);
+        registerBlock(BLResources.DECAYED_DOOR, BLBlocks.DECAYED_DOOR);
+        registerBlock(BLResources.DECAYED_TRAPDOOR, BLBlocks.DECAYED_TRAPDOOR);
+        Registry.register(Registries.ITEM, BLResources.DECAYED_SIGN, new SignItem(new Item.Settings(), BLBlocks.DECAYED_SIGN, BLBlocks.DECAYED_WALL_SIGN));
+        Registry.register(Registries.ITEM, BLResources.DECAYED_HANGING_SIGN, new HangingSignItem(BLBlocks.DECAYED_HANGING_SIGN, BLBlocks.DECAYED_WALL_HANGING_SIGN, new Item.Settings()));
 
         CompostingChanceRegistry.INSTANCE.add(BLBlocks.DECAYED_TWIGS, 0.15f);
         CompostingChanceRegistry.INSTANCE.add(BLBlocks.GRAFTED_SAPLING, 0.3f);
