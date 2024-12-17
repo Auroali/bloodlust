@@ -112,6 +112,7 @@ public class BLBlocks {
       .mapColor(MapColor.OFF_WHITE)
       .instrument(Instrument.BASS)
       .strength(1.f)
+      .noCollision()
       .sounds(BlockSoundGroup.NETHER_WOOD),
       BLBlockSetTypes.DECAYED_WOOD_TYPE
     );
@@ -120,6 +121,7 @@ public class BLBlocks {
       .mapColor(MapColor.OFF_WHITE)
       .instrument(Instrument.BASS)
       .strength(1.f)
+      .noCollision()
       .sounds(BlockSoundGroup.NETHER_WOOD),
       BLBlockSetTypes.DECAYED_WOOD_TYPE);
     public static final Block DECAYED_HANGING_SIGN = new HangingSignBlock(AbstractBlock.Settings
