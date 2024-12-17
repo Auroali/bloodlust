@@ -20,6 +20,7 @@ public class EntityBloodComponent implements InitializableBloodComponent, Server
     private int maxBlood;
     private int currentBlood;
     private int bloodGainTimer;
+    private boolean wasBaby;
 
     public EntityBloodComponent(LivingEntity holder) {
         this.holder = holder;
@@ -34,13 +35,10 @@ public class EntityBloodComponent implements InitializableBloodComponent, Server
             BLEntityComponents.BLOOD_COMPONENT.sync(this.holder);
             return;
         }
+        this.wasBaby = this.holder.isBaby();
 
         // if an entity isn't in the good blood tag, half the max amount of blood
-        float maxBloodFromHealth = this.holder.getMaxHealth();
-        if (!this.holder.getType().isIn(BLTags.Entities.GOOD_BLOOD))
-            maxBloodFromHealth = MathHelper.clamp(maxBloodFromHealth / 2.f, 1.f, Float.MAX_VALUE);
-
-        this.maxBlood = (int) Math.ceil(maxBloodFromHealth);
+        this.maxBlood = this.recalculateMaxBlood();
         if (this.currentBlood == -1)
             this.currentBlood = this.maxBlood;
         this.currentBlood = Math.min(this.currentBlood, this.maxBlood);
@@ -48,16 +46,32 @@ public class EntityBloodComponent implements InitializableBloodComponent, Server
         BLEntityComponents.BLOOD_COMPONENT.sync(this.holder);
     }
 
+    int recalculateMaxBlood() {
+        if (this.holder.isBaby())
+            return 1;
+
+        float maxBloodFromHealth = this.holder.getMaxHealth();
+        if (!this.holder.getType().isIn(BLTags.Entities.GOOD_BLOOD))
+            maxBloodFromHealth = MathHelper.clamp(maxBloodFromHealth / 2.f, 1.f, Float.MAX_VALUE);
+        return (int) Math.ceil(maxBloodFromHealth);
+    }
+
     @Override
     public void readFromNbt(NbtCompound tag) {
         this.currentBlood = tag.getInt("Blood");
         this.bloodGainTimer = tag.getInt("BloodTimer");
+        // only do this if it exists in the tag cuz otherwise older worlds will have all entities set to zero blood
+        if (tag.contains("MaxBlood"))
+            this.maxBlood = tag.getInt("MaxBlood");
+        this.wasBaby = tag.getBoolean("Baby");
     }
 
     @Override
     public void writeToNbt(NbtCompound tag) {
         tag.putInt("Blood", this.currentBlood);
         tag.putInt("BloodTimer", this.bloodGainTimer);
+        tag.putInt("MaxBlood", this.maxBlood);
+        tag.putBoolean("Baby", this.wasBaby);
     }
 
     @Override
@@ -134,7 +148,7 @@ public class EntityBloodComponent implements InitializableBloodComponent, Server
     @Override
     public void serverTick() {
         // have to do this here instead of the constructor, as health values aren't available there
-        if (this.maxBlood == -1)
+        if (this.maxBlood == -1 || this.wasBaby != this.holder.isBaby())
             this.initializeBloodValues();
 
         if (this.getMaxBlood() == 0 || VampireHelper.isVampire(this.holder))
