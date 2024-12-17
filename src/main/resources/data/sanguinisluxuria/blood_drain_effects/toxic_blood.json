@@ -1,11 +1,13 @@
 {
   "effects": [
     {
-      "effect": "minecraft:hunger"
+      "effect": "minecraft:hunger",
+      "chance": 0.9
     },
     {
       "effect": "minecraft:weakness",
-      "duration": 100
+      "duration": 100,
+      "chance": 0.73
     }
   ],
   "entity": "#sanguinisluxuria:toxic_blood"
