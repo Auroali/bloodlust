@@ -343,7 +343,7 @@ public class PlayerVampireComponent implements VampireComponent {
         ItemStack helmet = this.holder.getEquippedStack(EquipmentSlot.HEAD);
 
         if (helmet.isIn(BLTags.Items.SUN_BLOCKING_HELMETS))
-            maxTime *= 4;
+            maxTime += 80;
 
         int level = EnchantmentHelper.getLevel(BLEnchantments.SUN_PROTECTION, helmet);
         maxTime += level * 20;
