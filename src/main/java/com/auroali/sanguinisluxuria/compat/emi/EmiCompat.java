@@ -34,7 +34,7 @@ public class EmiCompat implements EmiPlugin {
 
         RecipeManager manager = registry.getRecipeManager();
         for (AltarRitualRecipe recipe : manager.listAllOfType(BLRecipeTypes.ALTAR_RECIPE)) {
-            registry.addRecipe(new AltarEmiRecipe(recipe, MinecraftClient.getInstance()));
+            registry.addRecipe(new AltarEmiRecipe(recipe));
         }
         for (BloodCauldronRecipe recipe : manager.listAllOfType(BLRecipeTypes.BLOOD_CAULDRON_TYPE)) {
             registry.addRecipe(new CauldronInfusingEmiRecipe(recipe, MinecraftClient.getInstance()));
