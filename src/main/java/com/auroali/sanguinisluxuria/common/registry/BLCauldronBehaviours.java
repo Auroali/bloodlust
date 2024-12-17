@@ -1,6 +1,6 @@
 package com.auroali.sanguinisluxuria.common.registry;
 
-import com.auroali.sanguinisluxuria.common.BloodConstants;
+import com.auroali.sanguinisluxuria.common.blood.BloodConstants;
 import com.auroali.sanguinisluxuria.common.items.BloodStorageItem;
 import net.minecraft.block.LeveledCauldronBlock;
 import net.minecraft.block.cauldron.CauldronBehavior;

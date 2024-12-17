@@ -36,12 +36,6 @@ public class BloodTransferComponent implements Component, AutoSyncedComponent {
         return this.bloodTransferLevel;
     }
 
-    public void setBloodTransferLevel(int level) {
-        this.bloodTransferLevel = level;
-        if (!this.holder.getWorld().isClient)
-            BLEntityComponents.BLOOD_TRANSFER_COMPONENT.sync(this.holder);
-    }
-
     public Entity getLatchedEntity() {
         if (this.holder.getWorld() instanceof ServerWorld world && this.latchedEntityId != null && (this.latchedEntity == null || !this.latchedEntity.isAlive() || this.latchedEntity.isRemoved())) {
             this.latchedEntity = null;

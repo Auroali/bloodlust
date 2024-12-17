@@ -1,6 +1,6 @@
 package com.auroali.sanguinisluxuria.common.recipes;
 
-import com.auroali.sanguinisluxuria.common.BloodConstants;
+import com.auroali.sanguinisluxuria.common.blood.BloodConstants;
 import com.auroali.sanguinisluxuria.common.items.BloodStorageItem;
 import com.auroali.sanguinisluxuria.common.registry.BLRecipeSerializers;
 import com.google.gson.JsonObject;

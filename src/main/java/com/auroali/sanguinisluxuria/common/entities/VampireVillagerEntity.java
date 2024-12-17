@@ -1,6 +1,6 @@
 package com.auroali.sanguinisluxuria.common.entities;
 
-import com.auroali.sanguinisluxuria.common.BloodConstants;
+import com.auroali.sanguinisluxuria.common.blood.BloodConstants;
 import com.auroali.sanguinisluxuria.common.components.BLEntityComponents;
 import com.auroali.sanguinisluxuria.common.components.BloodComponent;
 import com.auroali.sanguinisluxuria.common.components.VampireComponent;
@@ -46,7 +46,6 @@ public class VampireVillagerEntity extends HostileEntity {
         if (this.bloodDrainTimer > 0)
             this.bloodDrainTimer--;
 
-        BloodComponent blood = BLEntityComponents.BLOOD_COMPONENT.get(this);
         VampireComponent vampire = BLEntityComponents.VAMPIRE_COMPONENT.get(this);
         if (this.canHealWithBlood()) {
             this.setHealth(this.getHealth() + 1);

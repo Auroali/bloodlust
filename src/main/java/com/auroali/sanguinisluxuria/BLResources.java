@@ -131,6 +131,7 @@ public class BLResources {
     public static final Identifier DECAYED_WALL_HANGING_SIGN = id("decayed_wall_hanging_sign");
     public static final Identifier DECAYED_DOOR = id("decayed_door");
     public static final Identifier DECAYED_TRAPDOOR = id("decayed_trapdoor");
+    public static final Identifier BLOOD_DRAIN_EFFECTS = id("blood_drain_effects");
 
     public static Identifier id(String path) {
         return new Identifier(Bloodlust.MODID, path);

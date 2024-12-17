@@ -5,6 +5,7 @@ import com.auroali.sanguinisluxuria.common.VampireHungerManager;
 import com.auroali.sanguinisluxuria.common.abilities.InfectiousAbility;
 import com.auroali.sanguinisluxuria.common.abilities.VampireAbility;
 import com.auroali.sanguinisluxuria.common.abilities.VampireAbilityContainer;
+import com.auroali.sanguinisluxuria.common.blood.BloodConstants;
 import com.auroali.sanguinisluxuria.common.events.BloodEvents;
 import com.auroali.sanguinisluxuria.common.registry.*;
 import com.auroali.sanguinisluxuria.config.BLConfig;
@@ -62,8 +63,8 @@ public interface VampireComponent extends Component, AutoSyncedComponent, Server
      * Gets the current blood draining progress
      *
      * @return the amount of time blood has been draining for, in ticks
-     * @see com.auroali.sanguinisluxuria.common.BloodConstants#BLOOD_DRAIN_TIME
-     * @see com.auroali.sanguinisluxuria.common.BloodConstants#BLOOD_DRAIN_TIME_BLEEDING
+     * @see BloodConstants#BLOOD_DRAIN_TIME
+     * @see BloodConstants#BLOOD_DRAIN_TIME_BLEEDING
      */
     int getBloodDrainTimer();
 
@@ -181,9 +182,7 @@ public interface VampireComponent extends Component, AutoSyncedComponent, Server
             VampireHelper.transferStatusEffects(vampireEntity, target);
         }
 
-        // apply any negative effects for toxic blood
-        if (target.getType().isIn(BLTags.Entities.TOXIC_BLOOD))
-            VampireHelper.addToxicBloodEffects(vampireEntity);
+        BLEntityBloodDrainEffects.applyTo(vampireEntity, target);
 
         // allow conversion of entities with weakness
         if (!VampireHelper.isVampire(target) && target.hasStatusEffect(StatusEffects.WEAKNESS)) {

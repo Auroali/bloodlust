@@ -33,9 +33,6 @@ public abstract class LivingEntityMixin extends Entity {
     public abstract boolean damage(DamageSource source, float amount);
 
     @Shadow
-    public abstract boolean tryAttack(Entity target);
-
-    @Shadow
     public abstract void remove(RemovalReason reason);
 
     public LivingEntityMixin(EntityType<?> type, World world) {
@@ -50,12 +47,9 @@ public abstract class LivingEntityMixin extends Entity {
         if (this.isUndead() && source.getAttacker() instanceof LivingEntity entity) {
             blessedDamageMod += (float) entity.getAttributeValue(BLEntityAttributes.BLESSED_DAMAGE);
         }
-        if (VampireHelper.isVampire(this)) {
-//            VampireComponent vampire = BLEntityComponents.VAMPIRE_COMPONENT.get(this);
-//            if (!VampireComponent.isEffectiveAgainstVampires(source.get()) && vampire.getAbilties().hasAbility(BLVampireAbilities.DAMAGE_REDUCTION))
-//                amount *= 0.85f;
+        if (VampireHelper.isVampire(this))
             return blessedDamageMod + VampireComponent.calculateDamage(amount, source);
-        }
+
         return blessedDamageMod + amount;
     }
 

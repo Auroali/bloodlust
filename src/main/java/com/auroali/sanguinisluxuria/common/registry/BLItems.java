@@ -1,7 +1,7 @@
 package com.auroali.sanguinisluxuria.common.registry;
 
 import com.auroali.sanguinisluxuria.BLResources;
-import com.auroali.sanguinisluxuria.common.BloodConstants;
+import com.auroali.sanguinisluxuria.common.blood.BloodConstants;
 import com.auroali.sanguinisluxuria.common.items.*;
 import com.auroali.sanguinisluxuria.common.items.tools.*;
 import dev.emi.trinkets.api.TrinketItem;

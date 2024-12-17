@@ -38,14 +38,6 @@ public class TwistedBloodItem extends Item {
         return new ItemStack(Items.GLASS_BOTTLE);
     }
 
-    public static int getMinLevel() {
-        return 0;
-    }
-
-    public static int getMaxLevel() {
-        return 7;
-    }
-
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         return ItemUsage.consumeHeldItem(world, user, hand);

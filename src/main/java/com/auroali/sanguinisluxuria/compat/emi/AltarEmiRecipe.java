@@ -39,7 +39,7 @@ public class AltarEmiRecipe implements EmiRecipe {
     final EmiStack output;
     final String ritualTranslationKey;
 
-    public AltarEmiRecipe(AltarRitualRecipe recipe, MinecraftClient client) {
+    public AltarEmiRecipe(AltarRitualRecipe recipe) {
         this.recipe = recipe;
         this.ritual = recipe.getRitual();
         this.catalyst = EmiIngredient.of(recipe.getCatalyst());
@@ -53,37 +53,6 @@ public class AltarEmiRecipe implements EmiRecipe {
           : EmiStack.EMPTY;
         this.ritualTranslationKey = Util.createTranslationKey("altar_ritual", BLRegistries.RITUAL_TYPES.getId(this.ritual.getType()));
     }
-
-//    // https://github.com/emilyploszaj/emi/blob/2ac200302c2e7d551c5e7076ae03f32e4b26933b/xplat/src/main/java/dev/emi/emi/recipe/EmiShapedRecipe.java
-//    public static void setRemainders(List<EmiIngredient> input, AltarRecipe recipe) {
-//        try {
-//            AltarInventory inv = new AltarInventory(input.size());
-//            for (int i = 0; i < input.size(); i++) {
-//                if (input.get(i).isEmpty()) {
-//                    continue;
-//                }
-//                for (int j = 0; j < input.size(); j++) {
-//                    if (j == i) {
-//                        continue;
-//                    }
-//                    if (!input.get(j).isEmpty()) {
-//                        inv.setStack(j, input.get(j).getEmiStacks().get(0).getItemStack().copy());
-//                    }
-//                }
-//                List<EmiStack> stacks = input.get(i).getEmiStacks();
-//                for (EmiStack stack : stacks) {
-//                    inv.setStack(i, stack.getItemStack().copy());
-//                    ItemStack remainder = recipe.getRemainder(inv).get(i);
-//                    if (!remainder.isEmpty()) {
-//                        stack.setRemainder(EmiStack.of(remainder));
-//                    }
-//                }
-//                inv.clear();
-//            }
-//        } catch (Exception e) {
-//            Bloodlust.LOGGER.error("Exception thrown setting remainders for " + recipe.getId(), e);
-//        }
-//    }
 
     @Override
     public EmiRecipeCategory getCategory() {

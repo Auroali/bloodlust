@@ -1,6 +1,6 @@
 package com.auroali.sanguinisluxuria.common.items;
 
-import com.auroali.sanguinisluxuria.common.BloodConstants;
+import com.auroali.sanguinisluxuria.common.blood.BloodConstants;
 import com.auroali.sanguinisluxuria.common.registry.BLBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;

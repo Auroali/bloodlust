@@ -12,7 +12,6 @@ import java.util.EnumSet;
 public class TeleportWhenOutOfRangeGoal extends Goal {
     private final MobEntity mob;
     private LivingEntity target;
-    private int cooldown;
 
     public TeleportWhenOutOfRangeGoal(MobEntity mob) {
         this.mob = mob;

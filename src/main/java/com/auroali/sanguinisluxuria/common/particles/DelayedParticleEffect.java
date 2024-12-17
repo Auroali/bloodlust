@@ -31,8 +31,8 @@ public class DelayedParticleEffect implements ParticleEffect {
         }
     };
 
-    int delay;
-    ParticleType<?> type;
+    final int delay;
+    final ParticleType<?> type;
 
     public DelayedParticleEffect(ParticleType<?> type, int i) {
         this.type = type;

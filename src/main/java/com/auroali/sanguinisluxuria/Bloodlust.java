@@ -76,6 +76,7 @@ public class Bloodlust implements ModInitializer {
         BLWorldgen.register();
         BLParticles.register();
         BLRitualTypes.register();
+        BLEntityBloodDrainEffects.init();
 
         ArgumentTypeRegistry.registerArgumentType(
           BLResources.VAMPIRE_ABILITY_ARGUMENT_ID,

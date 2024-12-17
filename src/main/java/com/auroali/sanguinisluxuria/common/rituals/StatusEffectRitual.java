@@ -62,7 +62,7 @@ public record StatusEffectRitual(List<StatusEffect> effects, int duration, Targe
     }
 
     public static class Builder {
-        public List<StatusEffect> effects;
+        public final List<StatusEffect> effects;
         public int duration;
         public Target target;
 

@@ -1,4 +1,4 @@
-package com.auroali.sanguinisluxuria.common;
+package com.auroali.sanguinisluxuria.common.blood;
 
 public class BloodConstants {
     public static final int BLOOD_PER_BOTTLE = 2;

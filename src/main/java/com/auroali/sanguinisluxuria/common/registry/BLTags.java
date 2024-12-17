@@ -1,15 +1,19 @@
 package com.auroali.sanguinisluxuria.common.registry;
 
 import com.auroali.sanguinisluxuria.BLResources;
-import com.auroali.sanguinisluxuria.common.abilities.VampireAbility;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.damage.DamageType;
 import net.minecraft.item.Item;
+import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.biome.Biome;
+
+import java.util.Collections;
+import java.util.List;
 
 public class BLTags {
     public static class Blocks {
@@ -45,15 +49,18 @@ public class BLTags {
         public static final TagKey<Item> BLOOD_STORING_BOTTLES = TagKey.of(RegistryKeys.ITEM, BLResources.BLOOD_STORING_BOTTLES);
     }
 
-    public static class VampireAbilities {
-        public static final TagKey<VampireAbility> TELEPORT_RANGE = TagKey.of(BLRegistryKeys.VAMPIRE_ABILITIES, BLResources.TELEPORT_RANGE_TAG_ID);
-    }
-
     public static class DamageTypes {
         public static final TagKey<DamageType> VAMPIRES_WEAK_TO = TagKey.of(RegistryKeys.DAMAGE_TYPE, BLResources.VAMPIRES_WEAK_TO_ID);
     }
 
     public static class Biomes {
         public static final TagKey<Biome> VAMPIRE_VILLAGER_SPAWN = TagKey.of(RegistryKeys.BIOME, BLResources.VAMPIRE_VILLAGER_SPAWN);
+    }
+
+    public static <T> List<T> getAllEntriesInTag(TagKey<T> tag, Registry<T> registry) {
+        return registry.getTagCreatingWrapper()
+          .getOptional(tag)
+          .map(named -> named.stream().map(RegistryEntry::value).toList())
+          .orElse(Collections.emptyList());
     }
 }

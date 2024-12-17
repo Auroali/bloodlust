@@ -1,6 +1,6 @@
 package com.auroali.sanguinisluxuria;
 
-import com.auroali.sanguinisluxuria.common.BloodConstants;
+import com.auroali.sanguinisluxuria.common.blood.BloodConstants;
 import com.auroali.sanguinisluxuria.common.components.BLEntityComponents;
 import com.auroali.sanguinisluxuria.common.registry.BLAdvancementCriterion;
 import com.auroali.sanguinisluxuria.common.registry.BLStatusEffects;
@@ -65,6 +65,7 @@ public class VampireHelper {
      *
      * @param entity the entity to add the effects to
      */
+    @Deprecated(forRemoval = true)
     public static void addToxicBloodEffects(LivingEntity entity) {
         entity.addStatusEffect(new StatusEffectInstance(StatusEffects.HUNGER, 300, 3));
         entity.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 100, 0));
