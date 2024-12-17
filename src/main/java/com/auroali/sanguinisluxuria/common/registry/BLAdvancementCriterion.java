@@ -10,6 +10,7 @@ public class BLAdvancementCriterion {
     public static final ResetAbilitiesCriterion RESET_ABILITIES = new ResetAbilitiesCriterion();
     public static final InfectEntityCriterion INFECT_ENTITY = new InfectEntityCriterion();
     public static final TransferEffectsCriterion TRANSFER_EFFECTS = new TransferEffectsCriterion();
+    public static final PerformRitualCriterion PERFORM_RITUAL = new PerformRitualCriterion();
 
     public static void register() {
         Criteria.register(BECOME_VAMPIRE);
@@ -18,5 +19,6 @@ public class BLAdvancementCriterion {
         Criteria.register(RESET_ABILITIES);
         Criteria.register(INFECT_ENTITY);
         Criteria.register(TRANSFER_EFFECTS);
+        Criteria.register(PERFORM_RITUAL);
     }
 }

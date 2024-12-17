@@ -13,7 +13,7 @@ import net.minecraft.util.Identifier;
 public class ResetAbilitiesCriterion extends AbstractCriterion<ResetAbilitiesCriterion.Conditions> {
     @Override
     protected ResetAbilitiesCriterion.Conditions conditionsFromJson(JsonObject obj, LootContextPredicate playerPredicate, AdvancementEntityPredicateDeserializer predicateDeserializer) {
-        return new Conditions(LootContextPredicate.EMPTY);
+        return new Conditions(playerPredicate);
     }
 
     @Override

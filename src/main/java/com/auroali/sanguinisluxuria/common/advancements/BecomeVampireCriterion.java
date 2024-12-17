@@ -13,7 +13,7 @@ import net.minecraft.util.Identifier;
 public class BecomeVampireCriterion extends AbstractCriterion<BecomeVampireCriterion.Conditions> {
     @Override
     protected BecomeVampireCriterion.Conditions conditionsFromJson(JsonObject obj, LootContextPredicate playerPredicate, AdvancementEntityPredicateDeserializer predicateDeserializer) {
-        return new Conditions(LootContextPredicate.EMPTY);
+        return new Conditions(playerPredicate);
     }
 
     @Override

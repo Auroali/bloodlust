@@ -13,7 +13,7 @@ import net.minecraft.util.Identifier;
 public class TransferEffectsCriterion extends AbstractCriterion<TransferEffectsCriterion.Conditions> {
     @Override
     protected TransferEffectsCriterion.Conditions conditionsFromJson(JsonObject obj, LootContextPredicate playerPredicate, AdvancementEntityPredicateDeserializer predicateDeserializer) {
-        return new Conditions(LootContextPredicate.EMPTY, obj.has("min_effects") ? obj.get("min_effects").getAsInt() : 1);
+        return new Conditions(playerPredicate, obj.has("min_effects") ? obj.get("min_effects").getAsInt() : 1);
     }
 
     @Override

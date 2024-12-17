@@ -225,7 +225,6 @@ public class BLAdvancementsProvider extends FabricAdvancementProvider {
           .criterion("reset_abilities", ResetAbilitiesCriterion.Conditions.create())
           .build(BLResources.id("reset_abilities"));
 
-
         consumer.accept(becomeVampire);
         consumer.accept(bloodSickness);
         consumer.accept(drinkTwistedBlood);

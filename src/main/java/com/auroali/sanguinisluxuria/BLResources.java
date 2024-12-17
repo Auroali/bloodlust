@@ -118,6 +118,7 @@ public class BLResources {
     public static final Identifier ABILITY_REVEAL_RITUAL_TYPE = id("ability_reveal");
     public static final Identifier ENTITY_SPAWNING_RITUAL_TYPE = id("entity");
     public static final Identifier STATUS_EFFECT_RITUAL_TYPE = id("effect");
+    public static final Identifier PERFORM_RITUAL_ID = id("perform_ritual");
 
     public static Identifier id(String path) {
         return new Identifier(Bloodlust.MODID, path);

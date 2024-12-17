@@ -6,6 +6,7 @@ import com.auroali.sanguinisluxuria.VampireHelper;
 import com.auroali.sanguinisluxuria.common.blocks.AltarBlock;
 import com.auroali.sanguinisluxuria.common.network.AltarRecipeStartS2C;
 import com.auroali.sanguinisluxuria.common.network.SpawnAltarBeatParticleS2C;
+import com.auroali.sanguinisluxuria.common.registry.BLAdvancementCriterion;
 import com.auroali.sanguinisluxuria.common.registry.BLBlockEntities;
 import com.auroali.sanguinisluxuria.common.registry.BLRecipeTypes;
 import com.auroali.sanguinisluxuria.common.registry.BLSounds;
@@ -26,6 +27,7 @@ import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.collection.DefaultedList;
@@ -121,6 +123,8 @@ public class AltarBlockEntity extends BlockEntity implements Inventory, ItemDisp
         }
 
         altar.ritual.onCompleted(world, initiator, pos, altar);
+        if (initiator instanceof ServerPlayerEntity player)
+            BLAdvancementCriterion.PERFORM_RITUAL.trigger(player, altar.ritual);
         altar.getStack(0).decrement(1);
         altar.ritual = null;
         altar.ticksProcessing = 0;

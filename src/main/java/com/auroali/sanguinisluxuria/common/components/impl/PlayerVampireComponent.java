@@ -8,6 +8,7 @@ import com.auroali.sanguinisluxuria.common.components.BLEntityComponents;
 import com.auroali.sanguinisluxuria.common.components.BloodComponent;
 import com.auroali.sanguinisluxuria.common.components.VampireComponent;
 import com.auroali.sanguinisluxuria.common.events.AllowVampireChangeEvent;
+import com.auroali.sanguinisluxuria.common.events.VampireSunEvents;
 import com.auroali.sanguinisluxuria.common.items.BloodStorageItem;
 import com.auroali.sanguinisluxuria.common.registry.*;
 import com.jamieswhiteshirt.reachentityattributes.ReachEntityAttributes;
@@ -250,9 +251,9 @@ public class PlayerVampireComponent implements VampireComponent {
             boolean bl = this.holder.isWet() || this.holder.inPowderSnow || this.holder.wasInPowderSnow;
             return f > 0.5F
               && !bl
-              && this.holder.getWorld().isSkyVisible(blockPos);
+              && this.holder.getWorld().isSkyVisible(blockPos)
+              && VampireSunEvents.CAN_BURN.invoker().canBurn(this.holder.getWorld(), this.holder, this);
         }
-
         return false;
     }
 
@@ -348,7 +349,7 @@ public class PlayerVampireComponent implements VampireComponent {
         int level = EnchantmentHelper.getLevel(BLEnchantments.SUN_PROTECTION, helmet);
         maxTime += level * 20;
 
-        return maxTime;
+        return VampireSunEvents.MODIFY_SUN_TIME.invoker().getMaxTimeInSun(this.holder, this, maxTime);
     }
 
     @Override
