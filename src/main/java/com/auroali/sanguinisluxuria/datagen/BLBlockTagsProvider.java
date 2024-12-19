@@ -36,13 +36,26 @@ public class BLBlockTagsProvider extends FabricTagProvider<Block> {
         this.getOrCreateTagBuilder(ConventionalBlockTags.ORES)
           .add(BLBlocks.SILVER_ORE)
           .add(BLBlocks.DEEPSLATE_SILVER_ORE);
-        this.getOrCreateTagBuilder(BlockTags.AXE_MINEABLE)
-          .add(BLBlocks.DECAYED_WOOD)
-          .add(BLBlocks.DECAYED_LOG)
-          .add(BLBlocks.STRIPPED_DECAYED_LOG)
-          .add(BLBlocks.STRIPPED_DECAYED_WOOD)
-          .add(BLBlocks.HUNGRY_DECAYED_LOG)
-          .add(BLBlocks.STRIPPED_HUNGRY_DECAYED_LOG);
+        this.getOrCreateTagBuilder(BlockTags.ALL_SIGNS)
+          .add(BLBlocks.DECAYED_SIGN)
+          .add(BLBlocks.DECAYED_WALL_SIGN);
+        this.getOrCreateTagBuilder(BlockTags.ALL_HANGING_SIGNS)
+          .add(BLBlocks.DECAYED_HANGING_SIGN)
+          .add(BLBlocks.DECAYED_WALL_HANGING_SIGN);
+        this.getOrCreateTagBuilder(BlockTags.PLANKS)
+          .add(BLBlocks.DECAYED_PLANKS);
+        this.getOrCreateTagBuilder(BlockTags.WOODEN_SLABS)
+          .add(BLBlocks.DECAYED_SLAB);
+        this.getOrCreateTagBuilder(BlockTags.WOODEN_DOORS)
+          .add(BLBlocks.DECAYED_DOOR);
+        this.getOrCreateTagBuilder(BlockTags.WOODEN_TRAPDOORS)
+          .add(BLBlocks.DECAYED_TRAPDOOR);
+        this.getOrCreateTagBuilder(BlockTags.WOODEN_BUTTONS)
+          .add(BLBlocks.DECAYED_BUTTON);
+        this.getOrCreateTagBuilder(BlockTags.WOODEN_FENCES)
+          .add(BLBlocks.DECAYED_FENCE);
+        this.getOrCreateTagBuilder(BlockTags.FENCE_GATES)
+          .add(BLBlocks.DECAYED_FENCE_GATE);
         this.getOrCreateTagBuilder(BLTags.Blocks.DECAYED_LOGS)
           .add(BLBlocks.DECAYED_WOOD)
           .add(BLBlocks.DECAYED_LOG)
@@ -50,6 +63,8 @@ public class BLBlockTagsProvider extends FabricTagProvider<Block> {
           .add(BLBlocks.STRIPPED_DECAYED_WOOD)
           .add(BLBlocks.HUNGRY_DECAYED_LOG)
           .add(BLBlocks.STRIPPED_HUNGRY_DECAYED_LOG);
+        this.getOrCreateTagBuilder(BlockTags.WOODEN_PRESSURE_PLATES)
+          .add(BLBlocks.DECAYED_PRESSURE_PLATE);
         this.getOrCreateTagBuilder(BlockTags.LOGS)
           .add(BLBlocks.DECAYED_WOOD)
           .add(BLBlocks.DECAYED_LOG)

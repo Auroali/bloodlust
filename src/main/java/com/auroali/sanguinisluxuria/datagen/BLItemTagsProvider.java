@@ -86,5 +86,22 @@ public class BLItemTagsProvider extends FabricTagProvider<Item> {
           .add(BLItems.SILVER_INGOT);
         this.getOrCreateTagBuilder(ItemTags.SAPLINGS)
           .add(BLBlocks.GRAFTED_SAPLING.asItem());
+
+        this.getOrCreateTagBuilder(ItemTags.PLANKS)
+          .add(BLBlocks.DECAYED_PLANKS.asItem());
+        this.getOrCreateTagBuilder(ItemTags.WOODEN_FENCES)
+          .add(BLBlocks.DECAYED_FENCE.asItem());
+        this.getOrCreateTagBuilder(ItemTags.FENCE_GATES)
+          .add(BLBlocks.DECAYED_FENCE_GATE.asItem());
+        this.getOrCreateTagBuilder(ItemTags.WOODEN_DOORS)
+          .add(BLBlocks.DECAYED_DOOR.asItem());
+        this.getOrCreateTagBuilder(ItemTags.WOODEN_BUTTONS)
+          .add(BLBlocks.DECAYED_BUTTON.asItem());
+        this.getOrCreateTagBuilder(ItemTags.WOODEN_TRAPDOORS)
+          .add(BLBlocks.DECAYED_TRAPDOOR.asItem());
+        this.getOrCreateTagBuilder(ItemTags.WOODEN_STAIRS)
+          .add(BLBlocks.DECAYED_STAIRS.asItem());
+        this.getOrCreateTagBuilder(ItemTags.WOODEN_SLABS)
+          .add(BLBlocks.DECAYED_SLAB.asItem());
     }
 }
