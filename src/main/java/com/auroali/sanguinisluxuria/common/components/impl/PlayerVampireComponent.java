@@ -184,7 +184,7 @@ public class PlayerVampireComponent implements VampireComponent {
             return;
         }
 
-        if (this.timeInSun >= this.getMaxTimeInSun() / 2)
+        if (this.timeInSun >= 1)
             this.holder.addStatusEffect(new StatusEffectInstance(
               StatusEffects.WEAKNESS,
               4,
