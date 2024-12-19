@@ -1,0 +1,12 @@
+{
+  "name": "Blood Storage",
+  "icon": "minecraft:glass_bottle",
+  "advancement": "sanguinisluxuria:become_vampire",
+  "category": "sanguinisluxuria:cauldron_infusing",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Dropping a blood-storing item in a cauldron will fill it."
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 {
   "name": "Pendant of Piercing",
   "icon": "sanguinisluxuria:pendant_of_piercing",
-  "category": "sanguinisluxuria:altar_recipes",
+  "category": "sanguinisluxuria:rituals",
   "advancement": "sanguinisluxuria:drink_twisted_blood",
   "pages": [
     {

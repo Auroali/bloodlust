@@ -1,9 +1,13 @@
 package com.auroali.sanguinisluxuria.compat.patchouli;
 
 import com.auroali.sanguinisluxuria.common.recipes.AltarRitualRecipe;
+import com.auroali.sanguinisluxuria.common.registry.BLRegistries;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.RecipeManager;
+import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Util;
 import net.minecraft.world.World;
 import vazkii.patchouli.api.IComponentProcessor;
 import vazkii.patchouli.api.IVariable;
@@ -32,7 +36,13 @@ public class AltarRecipeProcessor implements IComponentProcessor {
         if (key.startsWith("catalyst")) {
             return IVariable.from(this.recipe.getCatalyst().getMatchingStacks());
         }
-
+        if (key.startsWith("ritual_name")) {
+            Identifier id = BLRegistries.RITUAL_TYPES.getId(this.recipe.getRitual().getType());
+            if (id == null)
+                return IVariable.empty();
+            Text name = Text.translatable(Util.createTranslationKey("altar_ritual", id)).formatted(Formatting.GOLD, Formatting.BOLD);
+            return IVariable.from(name);
+        }
         return null;
     }
 }

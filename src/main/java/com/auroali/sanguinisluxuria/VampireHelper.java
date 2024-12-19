@@ -2,6 +2,7 @@ package com.auroali.sanguinisluxuria;
 
 import com.auroali.sanguinisluxuria.common.blood.BloodConstants;
 import com.auroali.sanguinisluxuria.common.components.BLEntityComponents;
+import com.auroali.sanguinisluxuria.common.components.BloodComponent;
 import com.auroali.sanguinisluxuria.common.registry.BLAdvancementCriterion;
 import com.auroali.sanguinisluxuria.common.registry.BLStatusEffects;
 import com.auroali.sanguinisluxuria.common.registry.BLTags;
@@ -10,6 +11,10 @@ import dev.emi.trinkets.api.TrinketsApi;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.attribute.AttributeContainer;
+import net.minecraft.entity.attribute.EntityAttribute;
+import net.minecraft.entity.attribute.EntityAttributeInstance;
+import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.ItemStack;
@@ -197,5 +202,19 @@ public class VampireHelper {
 
     public static Hand getHandForStack(LivingEntity entity, ItemStack stack) {
         return stack.isEmpty() || stack == entity.getMainHandStack() ? Hand.MAIN_HAND : Hand.OFF_HAND;
+    }
+
+    public static void applyModifierFromBlood(LivingEntity entity, EntityAttribute attribute, EntityAttributeModifier modifier, BloodComponent blood, Predicate<BloodComponent> bloodPredicate) {
+        AttributeContainer attributes = entity.getAttributes();
+        EntityAttributeInstance instance = attributes.getCustomInstance(attribute);
+        if (instance != null)
+            applyModifierFromBlood(entity, instance, modifier, blood, bloodPredicate);
+    }
+
+    public static void applyModifierFromBlood(LivingEntity entity, EntityAttributeInstance instance, EntityAttributeModifier modifier, BloodComponent blood, Predicate<BloodComponent> bloodPredicate) {
+        if (instance.hasModifier(modifier) && !bloodPredicate.test(blood))
+            instance.removeModifier(modifier);
+        else if (!instance.hasModifier(modifier) && bloodPredicate.test(blood))
+            instance.addTemporaryModifier(modifier);
     }
 }

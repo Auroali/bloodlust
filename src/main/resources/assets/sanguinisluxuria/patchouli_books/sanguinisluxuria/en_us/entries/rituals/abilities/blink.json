@@ -1,0 +1,16 @@
+{
+  "name": "Blink",
+  "icon": "minecraft:ender_pearl",
+  "category": "sanguinisluxuria:rituals",
+  "advancement": "sanguinisluxuria:drink_twisted_blood",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "This ritual grants the ability to perform short-distance dashes by pressing $(keybind:sanguinisluxuria.activate_blink)$()"
+    },
+    {
+      "type": "sanguinisluxuria:ritual",
+      "recipe": "sanguinisluxuria:rituals/blink"
+    }
+  ]
+}

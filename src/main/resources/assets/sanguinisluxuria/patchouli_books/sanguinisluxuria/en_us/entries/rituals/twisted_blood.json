@@ -1,7 +1,7 @@
 {
   "name": "Twisted Blood",
   "icon": "sanguinisluxuria:twisted_blood_bottle",
-  "category": "sanguinisluxuria:altar_recipes",
+  "category": "sanguinisluxuria:rituals",
   "advancement": "sanguinisluxuria:unlock/grow_tree_and_become_vampire",
   "pages": [
     {

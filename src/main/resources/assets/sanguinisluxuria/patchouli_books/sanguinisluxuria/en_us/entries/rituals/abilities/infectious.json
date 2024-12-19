@@ -1,0 +1,16 @@
+{
+  "name": "Infectious",
+  "icon": "minecraft:glass_bottle",
+  "category": "sanguinisluxuria:rituals",
+  "advancement": "sanguinisluxuria:drink_twisted_blood",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "This ritual makes draining blood transfer most active status effects to the target."
+    },
+    {
+      "type": "sanguinisluxuria:ritual",
+      "recipe": "sanguinisluxuria:rituals/infectious"
+    }
+  ]
+}

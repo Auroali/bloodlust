@@ -47,6 +47,12 @@ public class PlayerVampireComponent implements VampireComponent {
       0.02,
       EntityAttributeModifier.Operation.ADDITION
     );
+    private static final EntityAttributeModifier HEALTH_ATTRIBUTE = new EntityAttributeModifier(
+      UUID.fromString("92d94e2c-1582-44f4-8563-c8341af52efb"),
+      "bloodlust.vampire_health",
+      4,
+      EntityAttributeModifier.Operation.ADDITION
+    );
 
     private boolean needsSync;
     private int syncType;
@@ -165,12 +171,8 @@ public class PlayerVampireComponent implements VampireComponent {
               true
             ));
 
-        EntityAttributeInstance speedInstance = this.holder.getAttributes().getCustomInstance(EntityAttributes.GENERIC_MOVEMENT_SPEED);
-        if (speedInstance != null && blood.getBlood() > 4 && !speedInstance.hasModifier(SPEED_ATTRIBUTE)) {
-            speedInstance.addPersistentModifier(SPEED_ATTRIBUTE);
-        } else if (speedInstance != null && blood.getBlood() <= 4 && speedInstance.hasModifier(SPEED_ATTRIBUTE)) {
-            speedInstance.removeModifier(SPEED_ATTRIBUTE);
-        }
+        VampireHelper.applyModifierFromBlood(this.holder, EntityAttributes.GENERIC_MOVEMENT_SPEED, SPEED_ATTRIBUTE, blood, b -> b.getBlood() >= 4);
+        VampireHelper.applyModifierFromBlood(this.holder, EntityAttributes.GENERIC_MAX_HEALTH, HEALTH_ATTRIBUTE, blood, b -> b.getBlood() >= 2);
     }
 
     private void tickSunEffects() {

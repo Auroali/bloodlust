@@ -1,7 +1,7 @@
 {
   "name": "Blood Bag",
   "icon": "sanguinisluxuria:blood_bag",
-  "category": "sanguinisluxuria:altar_recipes",
+  "category": "sanguinisluxuria:rituals",
   "advancement": "sanguinisluxuria:drink_twisted_blood",
   "pages": [
     {

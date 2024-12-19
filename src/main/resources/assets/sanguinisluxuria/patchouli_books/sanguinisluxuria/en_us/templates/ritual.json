@@ -63,6 +63,12 @@
       "x": 48,
       "y": 48,
       "item": "#catalyst"
+    },
+    {
+      "type": "patchouli:text",
+      "x": 0,
+      "y": 120,
+      "text": "#ritual_name"
     }
   ],
   "processor": "com.auroali.sanguinisluxuria.compat.patchouli.AltarRecipeProcessor"

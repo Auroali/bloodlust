@@ -12,6 +12,35 @@
       "type": "patchouli:text",
       "advancement": "sanguinisluxuria:obtain_hungry_decayed_log",
       "text": "On occasion, a few logs will grow with holes in them. It seems that these new, hungry logs are capable of draining blood from nearby animals and storing it...$(br2)I could probably extract the blood from these, much like a bee's nest."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "sanguinisluxuria:decayed_planks",
+      "recipe2": "sanguinisluxuria:decayed_slab"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "sanguinisluxuria:decayed_stairs",
+      "recipe2": "sanguinisluxuria:decayed_fence"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "sanguinisluxuria:decayed_fence_gate",
+      "recipe2": "sanguinisluxuria:decayed_door"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "sanguinisluxuria:decayed_trapdoor",
+      "recipe2": "sanguinisluxuria:decayed_button"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "sanguinisluxuria:decayed_pressure_plate",
+      "recipe2": "sanguinisluxuria:decayed_sign"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "sanguinisluxuria:decayed_hanging_sign"
     }
   ]
 }

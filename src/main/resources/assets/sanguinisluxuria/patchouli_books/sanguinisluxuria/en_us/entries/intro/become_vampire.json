@@ -10,7 +10,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "You can drain blood by being within range of something with blood, and holding $(#a51e12)$(l)$(k:key.sanguinisluxuria.bite)$().$(br2)Unfortunately, it does seem like Villagers can recognize that you are a vampire, and refuse to even trade with you, let alone go near you. Maybe there's a way around this?"
+      "text": "You can drain blood by being within range of something with blood, and holding $(keybind:key.sanguinisluxuria.bite)$().$(br2)Unfortunately, it does seem like Villagers can recognize that you are a vampire, and refuse to even trade with you, let alone go near you. Maybe there's a way around this?"
     }
   ]
 }

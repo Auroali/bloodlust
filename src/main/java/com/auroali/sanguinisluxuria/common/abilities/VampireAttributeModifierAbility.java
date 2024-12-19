@@ -1,5 +1,6 @@
 package com.auroali.sanguinisluxuria.common.abilities;
 
+import com.auroali.sanguinisluxuria.VampireHelper;
 import com.auroali.sanguinisluxuria.common.components.BloodComponent;
 import com.auroali.sanguinisluxuria.common.components.VampireComponent;
 import net.minecraft.entity.LivingEntity;
@@ -42,17 +43,9 @@ public class VampireAttributeModifierAbility extends VampireAbility {
     }
 
     public static void tick(VampireAttributeModifierAbility ability, World world, LivingEntity entity, VampireComponent component, VampireAbilityContainer container, BloodComponent blood) {
-        AttributeContainer attributes = entity.getAttributes();
-        ability.modifiers.forEach((attribute, modifier) -> {
-            EntityAttributeInstance instance = attributes.getCustomInstance(attribute);
-            if (instance == null)
-                return;
-
-            if (blood.getBlood() >= modifier.minBloodLevel() && !instance.hasModifier(modifier.modifier()))
-                instance.addPersistentModifier(modifier.modifier());
-            if (blood.getBlood() < modifier.minBloodLevel() && instance.hasModifier(modifier.modifier()))
-                instance.removeModifier(modifier.modifier());
-        });
+        ability.modifiers.forEach((attribute, modifier) ->
+          VampireHelper.applyModifierFromBlood(entity, attribute, modifier.modifier(), blood, b -> b.getBlood() >= modifier.minBloodLevel())
+        );
     }
 
     public static VampireAttributeModifierAbilityBuilder builder(Supplier<ItemStack> icon, VampireAbility parent) {

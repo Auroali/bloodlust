@@ -1,0 +1,16 @@
+{
+  "name": "Bite",
+  "icon": "minecraft:pointed_dripstone",
+  "category": "sanguinisluxuria:rituals",
+  "advancement": "sanguinisluxuria:drink_twisted_blood",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "This ritual grants the ability to bite other creatures by pressing $(keybind:sanguinisluxuria.activate_bite)$(). Bites inflict $(blood)Bleeding$()"
+    },
+    {
+      "type": "sanguinisluxuria:ritual",
+      "recipe": "sanguinisluxuria:rituals/bite"
+    }
+  ]
+}

@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "The altar allows crafting special items. Its inputs are from nearby pedestals, and it outputs items on top of it, on to the ground.$(br2)It does take time to craft items though, and it seems like it can only be used by vampires."
+      "text": "Decayed wood can be used to create an altar capable of performing $(l:sanguinisluxuria:rituals)rituals$(/l)."
     },
     {
       "type": "patchouli:crafting",
