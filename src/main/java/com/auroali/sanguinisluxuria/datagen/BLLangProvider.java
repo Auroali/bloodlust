@@ -80,13 +80,11 @@ public class BLLangProvider extends FabricLanguageProvider {
 
     private static void abilities(TranslationBuilder translationBuilder) {
         generateAbilityKey(translationBuilder, BLVampireAbilities.TELEPORT, "Blink");
-        generateAbilityDescKey(translationBuilder, BLVampireAbilities.TELEPORT, "Moves you forward a short distance");
-
         generateAbilityKey(translationBuilder, BLVampireAbilities.INFECTIOUS, "Infectious");
-        generateAbilityDescKey(translationBuilder, BLVampireAbilities.INFECTIOUS, "Allows transferring potion effects");
-
         generateAbilityKey(translationBuilder, BLVampireAbilities.BITE, "Bite");
-        generateAbilityDescKey(translationBuilder, BLVampireAbilities.BITE, "Deals damage and inflicts bleeding");
+        generateAbilityKey(translationBuilder, BLVampireAbilities.MIST, "Mist");
+        generateAbilityKey(translationBuilder, BLVampireAbilities.VULNERABILITY, "Vulnerability");
+        generateAbilityKey(translationBuilder, BLVampireAbilities.SUN_RESIST, "Resilience");
     }
 
     public static void rituals(TranslationBuilder builder) {
@@ -130,6 +128,7 @@ public class BLLangProvider extends FabricLanguageProvider {
         translationBuilder.add(BLEntityAttributes.BLINK_COOLDOWN.getTranslationKey(), "Blink Cooldown");
         translationBuilder.add(BLEntityAttributes.BLINK_RANGE.getTranslationKey(), "Blink Range");
         translationBuilder.add(BLEntityAttributes.SUN_RESISTANCE.getTranslationKey(), "Sun Resistance");
+        translationBuilder.add(BLEntityAttributes.VULNERABILITY.getTranslationKey(), "Vulnerability");
     }
 
     private static void entities(TranslationBuilder translationBuilder) {
@@ -291,9 +290,5 @@ public class BLLangProvider extends FabricLanguageProvider {
 
     public static void generateAbilityKey(TranslationBuilder builder, VampireAbility ability, String entry) {
         builder.add(ability.getTranslationKey(), entry);
-    }
-
-    public static void generateAbilityDescKey(TranslationBuilder builder, VampireAbility ability, String entry) {
-        builder.add(ability.getDescTranslationKey(), entry);
     }
 }

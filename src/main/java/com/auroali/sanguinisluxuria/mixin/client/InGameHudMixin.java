@@ -10,6 +10,7 @@ import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.MathHelper;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -48,7 +49,7 @@ public class InGameHudMixin {
             VampireComponent vampire = BLEntityComponents.VAMPIRE_COMPONENT.get(entity);
             if (vampire.getTimeInSun() == 0)
                 return g;
-            return (float) vampire.getTimeInSun() / vampire.getMaxTimeInSun();
+            return MathHelper.clamp(vampire.getTimeInSun() / (float) vampire.getMaxTimeInSun(), 0.f, 1.f);
         }
         return g;
     }
@@ -60,7 +61,7 @@ public class InGameHudMixin {
         if (VampireHelper.isVampire(player)) {
             VampireComponent vampire = BLEntityComponents.VAMPIRE_COMPONENT.get(player);
             if (vampire.getTimeInSun() != 0) {
-                float multiplier = (float) vampire.getTimeInSun() / vampire.getMaxTimeInSun();
+                float multiplier = MathHelper.clamp(vampire.getTimeInSun() / (float) vampire.getMaxTimeInSun(), 0.f, 1.f);
                 context.setShaderColor(multiplier * 0.6f, multiplier * 0.95f, multiplier, 0.0f);
             }
         }

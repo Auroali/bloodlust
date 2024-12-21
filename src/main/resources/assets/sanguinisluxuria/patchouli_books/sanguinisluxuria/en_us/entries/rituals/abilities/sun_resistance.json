@@ -1,0 +1,16 @@
+{
+  "name": "Resilience",
+  "icon": "minecraft:leather_helmet",
+  "category": "sanguinisluxuria:rituals",
+  "advancement": "sanguinisluxuria:drink_twisted_blood",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "This ritual allows you to stay out in the sun longer, at the cost of reduced health and movement speed. It is mutually exclusive with Vulnerability."
+    },
+    {
+      "type": "sanguinisluxuria:ritual",
+      "recipe": "sanguinisluxuria:rituals/vulnerability"
+    }
+  ]
+}

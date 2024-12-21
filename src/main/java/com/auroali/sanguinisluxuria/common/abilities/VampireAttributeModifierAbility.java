@@ -8,13 +8,9 @@ import net.minecraft.entity.attribute.AttributeContainer;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeInstance;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
-import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-import java.util.function.Supplier;
+import java.util.*;
 
 public class VampireAttributeModifierAbility extends VampireAbility {
     private final Map<EntityAttribute, VampireAttributeModifier> modifiers;
@@ -48,33 +44,27 @@ public class VampireAttributeModifierAbility extends VampireAbility {
         );
     }
 
-    public static VampireAttributeModifierAbilityBuilder builder(Supplier<ItemStack> icon, VampireAbility parent) {
-        return new VampireAttributeModifierAbilityBuilder(icon, parent);
-    }
-
-    public static VampireAttributeModifierAbilityBuilder builder(Supplier<ItemStack> icon) {
-        return new VampireAttributeModifierAbilityBuilder(icon, null);
+    public static VampireAttributeModifierAbilityBuilder builder(UUID uuid) {
+        return new VampireAttributeModifierAbilityBuilder(uuid);
     }
 
     public static class VampireAttributeModifierAbilityBuilder {
         private final Map<EntityAttribute, VampireAttributeModifier> modifiers = new HashMap<>();
+        private final List<VampireAbilityCondition> conditions = new ArrayList<>();
+        private final UUID uuid;
 
-        final Supplier<ItemStack> icon;
-        final VampireAbility parent;
-
-        protected VampireAttributeModifierAbilityBuilder(Supplier<ItemStack> icon, VampireAbility parent) {
-            this.icon = icon;
-            this.parent = parent;
+        protected VampireAttributeModifierAbilityBuilder(UUID uuid) {
+            this.uuid = uuid;
         }
 
-        public VampireAttributeModifierAbilityBuilder addModifier(EntityAttribute attribute, String uuid, double value, EntityAttributeModifier.Operation operation) {
-            return this.addModifier(attribute, uuid, value, operation, 0);
+        public VampireAttributeModifierAbilityBuilder addModifier(EntityAttribute attribute, double value, EntityAttributeModifier.Operation operation) {
+            return this.addModifier(attribute, value, operation, 0);
         }
 
-        public VampireAttributeModifierAbilityBuilder addModifier(EntityAttribute attribute, String uuid, double value, EntityAttributeModifier.Operation operation, int minBlood) {
+        public VampireAttributeModifierAbilityBuilder addModifier(EntityAttribute attribute, double value, EntityAttributeModifier.Operation operation, int minBlood) {
             this.modifiers.put(attribute, new VampireAttributeModifier(
               new EntityAttributeModifier(
-                UUID.fromString(uuid),
+                this.uuid,
                 () -> "sanguinisluxuria.vampire_ability",
                 value,
                 operation
@@ -84,8 +74,17 @@ public class VampireAttributeModifierAbility extends VampireAbility {
             return this;
         }
 
+        public VampireAttributeModifierAbilityBuilder condition(VampireAbilityCondition condition) {
+            this.conditions.add(condition);
+            return this;
+        }
+
         public VampireAttributeModifierAbility build() {
-            return new VampireAttributeModifierAbility(this.modifiers);
+            VampireAttributeModifierAbility ability = new VampireAttributeModifierAbility(this.modifiers);
+            for (VampireAbilityCondition condition : this.conditions) {
+                ability.condition(condition);
+            }
+            return ability;
         }
     }
 

@@ -64,10 +64,6 @@ public class VampireAbility {
         return this.transKey == null ? "" : this.transKey;
     }
 
-    public String getDescTranslationKey() {
-        return this.descTransKey == null ? this.descTransKey = this.getTranslationKey() + ".desc" : this.descTransKey;
-    }
-
 
     /**
      * Activates the ability when the bound key is pressed

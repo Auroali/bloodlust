@@ -14,13 +14,15 @@ public class BLEntityAttributes {
     public static final EntityAttribute BLESSED_DAMAGE = new ClampedEntityAttribute(transFromId(BLResources.BLESSED_DAMAGE_ID), 0.0f, 0.0, 2048);
     public static final EntityAttribute BLINK_COOLDOWN = new ClampedEntityAttribute(transFromId(BLResources.BLINK_COOLDOWN_ID), 250, 0, 2048);
     public static final EntityAttribute BLINK_RANGE = new ClampedEntityAttribute(transFromId(BLResources.BLINK_RANGE_ID), 12, 0, 2048);
-    public static final EntityAttribute SUN_RESISTANCE = new ClampedEntityAttribute(transFromId(BLResources.SUN_RESISTANCE_ID), 1.f, 0.f, 2.f);
+    public static final EntityAttribute SUN_RESISTANCE = new ClampedEntityAttribute(transFromId(BLResources.SUN_RESISTANCE_ID), 1.f, 0.f, 16.f).setTracked(true);
+    public static final EntityAttribute VULNERABILITY = new ClampedEntityAttribute(transFromId(BLResources.VULNERABILITY_ID), 1.f, 1.f, 2.f).setTracked(true);
 
     public static void register() {
         Registry.register(Registries.ATTRIBUTE, BLResources.BLESSED_DAMAGE_ID, BLESSED_DAMAGE);
         Registry.register(Registries.ATTRIBUTE, BLResources.BLINK_COOLDOWN_ID, BLINK_COOLDOWN);
         Registry.register(Registries.ATTRIBUTE, BLResources.BLINK_RANGE_ID, BLINK_RANGE);
         Registry.register(Registries.ATTRIBUTE, BLResources.SUN_RESISTANCE_ID, SUN_RESISTANCE);
+        Registry.register(Registries.ATTRIBUTE, BLResources.VULNERABILITY_ID, VULNERABILITY);
     }
 
     public static String transFromId(Identifier id) {

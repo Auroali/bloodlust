@@ -13,6 +13,7 @@ import net.minecraft.entity.EntityGroup;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
+import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.registry.tag.DamageTypeTags;
 import net.minecraft.world.World;
@@ -35,6 +36,9 @@ public abstract class LivingEntityMixin extends Entity {
     @Shadow
     public abstract void remove(RemovalReason reason);
 
+    @Shadow
+    public abstract double getAttributeValue(EntityAttribute attribute);
+
     public LivingEntityMixin(EntityType<?> type, World world) {
         super(type, world);
     }
@@ -47,9 +51,10 @@ public abstract class LivingEntityMixin extends Entity {
         if (this.isUndead() && source.getAttacker() instanceof LivingEntity entity) {
             blessedDamageMod += (float) entity.getAttributeValue(BLEntityAttributes.BLESSED_DAMAGE);
         }
-        if (VampireHelper.isVampire(this))
-            return blessedDamageMod + VampireComponent.calculateDamage(amount, source);
-
+        if (VampireHelper.isVampire(this)) {
+            double vulnerability = this.getAttributeValue(BLEntityAttributes.VULNERABILITY);
+            return blessedDamageMod + VampireComponent.calculateDamage(amount, (float) vulnerability, source);
+        }
         return blessedDamageMod + amount;
     }
 
@@ -94,9 +99,10 @@ public abstract class LivingEntityMixin extends Entity {
     private static void sanguinisluxuria$addAttributes(CallbackInfoReturnable<DefaultAttributeContainer.Builder> cir) {
         cir.getReturnValue()
           .add(BLEntityAttributes.BLESSED_DAMAGE)
-          .add(BLEntityAttributes.BLINK_RANGE, 8)
-          .add(BLEntityAttributes.BLINK_COOLDOWN, 250)
-          .add(BLEntityAttributes.SUN_RESISTANCE, 1.f);
+          .add(BLEntityAttributes.BLINK_RANGE)
+          .add(BLEntityAttributes.BLINK_COOLDOWN)
+          .add(BLEntityAttributes.SUN_RESISTANCE)
+          .add(BLEntityAttributes.VULNERABILITY);
     }
 
     @Inject(method = "canTarget(Lnet/minecraft/entity/LivingEntity;)Z", at = @At("HEAD"), cancellable = true)

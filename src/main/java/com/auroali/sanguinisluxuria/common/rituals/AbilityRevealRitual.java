@@ -42,7 +42,7 @@ public class AbilityRevealRitual implements Ritual, ItemCreatingRitual {
         VampireComponent vampire = BLEntityComponents.VAMPIRE_COMPONENT.get(initiator);
         ItemStack outputStack = new ItemStack(Items.WRITTEN_BOOK);
         NbtCompound nbt = outputStack.getOrCreateNbt();
-        nbt.putString(WrittenBookItem.AUTHOR_KEY, "Ritual");
+        nbt.putString(WrittenBookItem.AUTHOR_KEY, "Ritual of Revealing");
         nbt.putString(WrittenBookItem.TITLE_KEY, "Mutations");
 
         // generate the pages for the book

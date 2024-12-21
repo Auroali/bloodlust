@@ -29,7 +29,7 @@ public class VampireTeleportAbility extends VampireAbility implements SyncableVa
         Vec3d start = entity.getPos();
         BlockHitResult result = entity.getWorld().raycast(new RaycastContext(
           entity.getEyePos(),
-          entity.getEyePos().add(entity.getRotationVector().multiply(this.getRange(entity))),
+          entity.getEyePos().add(entity.getRotationVector().multiply(getRange(entity))),
           RaycastContext.ShapeType.COLLIDER,
           RaycastContext.FluidHandling.NONE,
           entity
@@ -55,7 +55,7 @@ public class VampireTeleportAbility extends VampireAbility implements SyncableVa
 
         this.sync(entity, new TeleportData(start, entity.getPos()));
 
-        component.getAbilties().setCooldown(this, this.getCooldown(entity));
+        component.getAbilties().setCooldown(this, getCooldown(entity));
     }
 
     public void damageEntitiesBetween(LivingEntity entity, Vec3d start, Vec3d end) {
@@ -67,11 +67,11 @@ public class VampireTeleportAbility extends VampireAbility implements SyncableVa
           });
     }
 
-    public double getRange(LivingEntity entity) {
+    public static double getRange(LivingEntity entity) {
         return entity.getAttributeValue(BLEntityAttributes.BLINK_RANGE);
     }
 
-    public int getCooldown(LivingEntity entity) {
+    public static int getCooldown(LivingEntity entity) {
         return (int) entity.getAttributeValue(BLEntityAttributes.BLINK_COOLDOWN);
     }
 

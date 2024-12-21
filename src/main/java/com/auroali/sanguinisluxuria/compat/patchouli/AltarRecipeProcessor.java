@@ -1,5 +1,6 @@
 package com.auroali.sanguinisluxuria.compat.patchouli;
 
+import com.auroali.sanguinisluxuria.Bloodlust;
 import com.auroali.sanguinisluxuria.common.recipes.AltarRitualRecipe;
 import com.auroali.sanguinisluxuria.common.registry.BLRegistries;
 import net.minecraft.recipe.Ingredient;
@@ -13,6 +14,8 @@ import vazkii.patchouli.api.IComponentProcessor;
 import vazkii.patchouli.api.IVariable;
 import vazkii.patchouli.api.IVariableProvider;
 
+import java.util.Optional;
+
 public class AltarRecipeProcessor implements IComponentProcessor {
     private AltarRitualRecipe recipe;
 
@@ -20,11 +23,19 @@ public class AltarRecipeProcessor implements IComponentProcessor {
     public void setup(World world, IVariableProvider variables) {
         String id = variables.get("recipe").asString();
         RecipeManager manager = world.getRecipeManager();
-        this.recipe = (AltarRitualRecipe) manager.get(new Identifier(id)).orElseThrow(IllegalArgumentException::new);
+        this.recipe = manager.get(new Identifier(id))
+          .flatMap(r -> r instanceof AltarRitualRecipe ritualRecipe ? Optional.of(ritualRecipe) : Optional.empty())
+          .orElse(null);
+        if (this.recipe == null) {
+            Bloodlust.LOGGER.warn("Could not find ritual recipe {} for patchouli entry", id);
+        }
     }
 
     @Override
     public IVariable process(World world, String key) {
+        if (this.recipe == null)
+            return null;
+
         if (key.startsWith("input")) {
             int i = Integer.parseInt(key.substring(5)) - 1;
             if (i < this.recipe.getIngredients().size()) {

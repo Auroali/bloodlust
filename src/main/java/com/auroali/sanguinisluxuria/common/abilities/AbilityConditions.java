@@ -6,16 +6,26 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 
+import java.util.function.Supplier;
+
 /**
  * Utility class for creating common ability conditions
  */
 public class AbilityConditions {
     public static VampireAbility.VampireAbilityCondition hasAbility(VampireAbility ability) {
-        return (entity, vampire, container) -> container.hasAbility(ability);
+        return hasAbility(() -> ability);
     }
 
     public static VampireAbility.VampireAbilityCondition lacksAbility(VampireAbility ability) {
-        return (entity, vampire, container) -> !container.hasAbility(ability);
+        return lacksAbility(() -> ability);
+    }
+
+    public static VampireAbility.VampireAbilityCondition hasAbility(Supplier<VampireAbility> ability) {
+        return (entity, vampire, container) -> container.hasAbility(ability.get());
+    }
+
+    public static VampireAbility.VampireAbilityCondition lacksAbility(Supplier<VampireAbility> ability) {
+        return (entity, vampire, container) -> !container.hasAbility(ability.get());
     }
 
     public static VampireAbility.VampireAbilityCondition hasAdvancement(Identifier advancementId) {

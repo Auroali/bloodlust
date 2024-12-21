@@ -134,6 +134,7 @@ public class BLResources {
     public static final Identifier MIST_ID = id("mist");
     public static final Identifier SUN_RESISTANCE_ID = id("sun_resistance");
     public static final Identifier VAMPIRE_MERCHANT_OFFERS_ID = id("vampire_merchant_enchantments");
+    public static final Identifier VULNERABILITY_ID = id("vulnerability");
 
     public static Identifier id(String path) {
         return new Identifier(Bloodlust.MODID, path);

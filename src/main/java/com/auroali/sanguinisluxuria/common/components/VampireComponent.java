@@ -118,9 +118,9 @@ public interface VampireComponent extends Component, AutoSyncedComponent, Server
      * @return the amount of damage that should be taken by the vampire
      * @see BLConfig#vampireDamageMultiplier
      */
-    static float calculateDamage(float amount, DamageSource source) {
+    static float calculateDamage(float amount, float vulnerability, DamageSource source) {
         if (source.isIn(BLTags.DamageTypes.VAMPIRES_WEAK_TO))
-            return amount * BLConfig.INSTANCE.vampireDamageMultiplier;
+            return amount * vulnerability * BLConfig.INSTANCE.vampireDamageMultiplier;
 
         return amount;
     }
