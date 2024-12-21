@@ -1,0 +1,16 @@
+{
+  "name": "Ritual of Revealing",
+  "icon": "minecraft:written_book",
+  "category": "sanguinisluxuria:rituals",
+  "advancement": "sanguinisluxuria:drink_twisted_blood",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "This ritual reveals any changes granted by previous transformation rituals."
+    },
+    {
+      "type": "sanguinisluxuria:ritual",
+      "recipe": "sanguinisluxuria:rituals/reveal_abilities"
+    }
+  ]
+}

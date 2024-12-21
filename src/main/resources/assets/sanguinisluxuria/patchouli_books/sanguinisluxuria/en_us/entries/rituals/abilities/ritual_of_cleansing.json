@@ -1,0 +1,16 @@
+{
+  "name": "Ritual of Cleansing",
+  "icon": "minecraft:potion{Potion:\"sanguinisluxuria:blessed_water\"}",
+  "category": "sanguinisluxuria:rituals",
+  "advancement": "sanguinisluxuria:drink_twisted_blood",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "This ritual undoes previous transformation rituals, effectively removing any abilities."
+    },
+    {
+      "type": "sanguinisluxuria:ritual",
+      "recipe": "sanguinisluxuria:rituals/reset_abilities"
+    }
+  ]
+}
