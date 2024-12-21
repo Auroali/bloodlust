@@ -4,6 +4,7 @@ import com.auroali.sanguinisluxuria.common.registry.BLCauldronBehaviours;
 import com.auroali.sanguinisluxuria.common.registry.BLFluids;
 import com.auroali.sanguinisluxuria.common.registry.BLRecipeTypes;
 import com.google.common.base.Predicates;
+import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.LeveledCauldronBlock;
@@ -13,12 +14,15 @@ import net.minecraft.entity.ItemEntity;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
+
+import java.util.Collections;
 
 public class BloodCauldronBlock extends LeveledCauldronBlock {
     public BloodCauldronBlock(Settings settings) {
@@ -49,6 +53,11 @@ public class BloodCauldronBlock extends LeveledCauldronBlock {
           .ifPresent(recipe -> {
               if (level < recipe.getCauldronLevel())
                   return;
+
+              if (item.getOwner() instanceof ServerPlayerEntity player) {
+                  Criteria.RECIPE_CRAFTED.trigger(player, recipe.getId(), Collections.singletonList(stack));
+              }
+
               ItemStack result = recipe.craft(new SimpleInventory(stack), world.getRegistryManager());
               stack.decrement(1);
               if (item.getStack().isEmpty())

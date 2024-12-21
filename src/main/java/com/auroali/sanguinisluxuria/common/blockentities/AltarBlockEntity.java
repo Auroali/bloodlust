@@ -13,6 +13,7 @@ import com.auroali.sanguinisluxuria.common.registry.BLSounds;
 import com.auroali.sanguinisluxuria.common.rituals.Ritual;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
@@ -177,6 +178,9 @@ public class AltarBlockEntity extends BlockEntity implements Inventory, ItemDisp
               world.setBlockState(pos, state.with(AltarBlock.ACTIVE, true));
               this.ticksProcessing = 0;
               this.ritual = recipe.getRitual();
+              if (initiator instanceof ServerPlayerEntity player) {
+                  Criteria.RECIPE_CRAFTED.trigger(player, recipe.getId(), inventory.stacks);
+              }
               this.markDirty();
           });
     }
