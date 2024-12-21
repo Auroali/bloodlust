@@ -10,6 +10,7 @@ import net.minecraft.entity.SpawnGroup;
 import net.minecraft.entity.SpawnRestriction;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.mob.HostileEntity;
+import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.world.Heightmap;
@@ -44,11 +45,10 @@ public class BLEntities {
             .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.52)
           );
         FabricDefaultAttributeRegistry
-          .register(VAMPIRE_MERCHANT, VampireVillagerEntity.createHostileAttributes()
+          .register(VAMPIRE_MERCHANT, MobEntity.createMobAttributes()
             .add(EntityAttributes.GENERIC_MAX_HEALTH, 25)
             .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 3)
             .add(EntityAttributes.GENERIC_ARMOR, 2)
-            .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.52)
           );
     }
 

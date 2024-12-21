@@ -13,6 +13,7 @@ import dev.onyxstudios.cca.api.v3.entity.EntityComponentInitializer;
 import dev.onyxstudios.cca.api.v3.entity.RespawnCopyStrategy;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.VillagerEntity;
+import net.minecraft.entity.passive.WanderingTraderEntity;
 import net.minecraft.entity.projectile.TridentEntity;
 
 public class BLEntityComponents implements EntityComponentInitializer {
@@ -32,6 +33,7 @@ public class BLEntityComponents implements EntityComponentInitializer {
         registry.registerFor(TridentEntity.class, BLOOD_TRANSFER_COMPONENT, BloodTransferComponent::new);
         registry.registerFor(VampireVillagerEntity.class, VAMPIRE_COMPONENT, e -> new EntityVampireComponent<>(e, BLVampireAbilities.TELEPORT));
         registry.registerFor(VillagerEntity.class, VAMPIRE_COMPONENT, ConvertibleVampireComponent.create(BLEntities.VAMPIRE_VILLAGER));
-        registry.registerFor(VampireMerchant.class, VAMPIRE_COMPONENT, EntityVampireComponent<VampireMerchant>::new);
+        registry.registerFor(VampireMerchant.class, VAMPIRE_COMPONENT, e -> new EntityVampireComponent<>(e, BLVampireAbilities.MIST));
+        registry.registerFor(WanderingTraderEntity.class, VAMPIRE_COMPONENT, ConvertibleVampireComponent.create(BLEntities.VAMPIRE_MERCHANT));
     }
 }

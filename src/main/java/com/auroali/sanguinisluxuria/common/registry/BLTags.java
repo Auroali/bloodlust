@@ -2,6 +2,7 @@ package com.auroali.sanguinisluxuria.common.registry;
 
 import com.auroali.sanguinisluxuria.BLResources;
 import net.minecraft.block.Block;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.damage.DamageType;
 import net.minecraft.item.Item;
@@ -57,6 +58,11 @@ public class BLTags {
     public static class Biomes {
         public static final TagKey<Biome> VAMPIRE_VILLAGER_SPAWN = TagKey.of(RegistryKeys.BIOME, BLResources.VAMPIRE_VILLAGER_SPAWN);
     }
+
+    public static class Enchantments {
+        public static final TagKey<Enchantment> VAMPIRE_MERCHANT_OFFERS = TagKey.of(RegistryKeys.ENCHANTMENT, BLResources.VAMPIRE_MERCHANT_OFFERS_ID);
+    }
+
 
     public static <T> List<T> getAllEntriesInTag(TagKey<T> tag, Registry<T> registry) {
         return registry.getTagCreatingWrapper()
