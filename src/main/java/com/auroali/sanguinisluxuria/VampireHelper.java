@@ -208,10 +208,10 @@ public class VampireHelper {
         AttributeContainer attributes = entity.getAttributes();
         EntityAttributeInstance instance = attributes.getCustomInstance(attribute);
         if (instance != null)
-            applyModifierFromBlood(entity, instance, modifier, blood, bloodPredicate);
+            applyModifierFromBlood(instance, modifier, blood, bloodPredicate);
     }
 
-    public static void applyModifierFromBlood(LivingEntity entity, EntityAttributeInstance instance, EntityAttributeModifier modifier, BloodComponent blood, Predicate<BloodComponent> bloodPredicate) {
+    public static void applyModifierFromBlood(EntityAttributeInstance instance, EntityAttributeModifier modifier, BloodComponent blood, Predicate<BloodComponent> bloodPredicate) {
         if (instance.hasModifier(modifier) && !bloodPredicate.test(blood))
             instance.removeModifier(modifier);
         else if (!instance.hasModifier(modifier) && bloodPredicate.test(blood))
