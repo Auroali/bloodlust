@@ -24,6 +24,7 @@ public class BLTags {
         public static final TagKey<Block> SILVER_BLOCKS = TagKey.of(RegistryKeys.BLOCK, new Identifier("c", "silver_blocks"));
         public static final TagKey<Block> RAW_SILVER_BLOCKS = TagKey.of(RegistryKeys.BLOCK, new Identifier("c", "raw_silver_blocks"));
         public static final TagKey<Block> SILVER_ORES = TagKey.of(RegistryKeys.BLOCK, new Identifier("c", "silver_ores"));
+        public static final TagKey<Block> NO_MIST_COLLISION = TagKey.of(RegistryKeys.BLOCK, BLResources.NO_MIST_COLLISION_ID);
     }
 
     public static class Entities {

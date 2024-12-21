@@ -153,6 +153,16 @@ public class ConvertibleVampireComponent<U extends LivingEntity, T extends Livin
     }
 
     @Override
+    public boolean isMist() {
+        return false;
+    }
+
+    @Override
+    public void setMist(boolean isMist) {
+
+    }
+
+    @Override
     public void serverTick() {
     }
 

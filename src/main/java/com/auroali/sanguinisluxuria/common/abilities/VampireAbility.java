@@ -6,6 +6,8 @@ import com.auroali.sanguinisluxuria.common.registry.BLRegistries;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.TagKey;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 
@@ -88,6 +90,9 @@ public class VampireAbility {
         return true;
     }
 
+    public void onCooldownEnd(LivingEntity entity, VampireComponent component, VampireAbilityContainer container) {
+    }
+
     /**
      * Called when an entity's state changes from vampire to non-vampire
      *
@@ -105,6 +110,16 @@ public class VampireAbility {
      * @param vampire the entity's vampire component
      */
     public void onAbilityRemoved(LivingEntity entity, VampireComponent vampire) {
+    }
+
+    void playSound(LivingEntity entity, SoundEvent event) {
+        this.playSound(entity, event, 0.f);
+    }
+
+    void playSound(LivingEntity entity, SoundEvent event, float pitchVariance) {
+        float basePitch = 1.f - pitchVariance / 2.f;
+        float pitch = basePitch + entity.getRandom().nextFloat() * pitchVariance;
+        entity.getWorld().playSound(null, entity.getX(), entity.getY(), entity.getZ(), event, SoundCategory.PLAYERS, 1.0f, pitch);
     }
 
     public boolean testConditions(LivingEntity entity, VampireComponent component, VampireAbilityContainer container) {

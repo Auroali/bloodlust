@@ -18,6 +18,7 @@ public class EntityVampireComponent<T extends LivingEntity> implements VampireCo
     final VampireAbilityContainer abilities = new VampireAbilityContainer();
     final List<VampireAbility> defaultAbilities;
     boolean downed;
+    boolean isMist;
 
     public EntityVampireComponent(T holder, Predicate<T> vampirePredicate, VampireAbility... abilities) {
         this.holder = holder;
@@ -92,6 +93,17 @@ public class EntityVampireComponent<T extends LivingEntity> implements VampireCo
     }
 
     @Override
+    public boolean isMist() {
+        return this.isMist;
+    }
+
+    @Override
+    public void setMist(boolean isMist) {
+        this.isMist = isMist;
+        BLEntityComponents.VAMPIRE_COMPONENT.sync(this.holder);
+    }
+
+    @Override
     public void serverTick() {
         this.abilities.tick(this.holder, this);
     }
@@ -99,6 +111,7 @@ public class EntityVampireComponent<T extends LivingEntity> implements VampireCo
     @Override
     public void readFromNbt(NbtCompound tag) {
         this.downed = tag.getBoolean("Downed");
+        this.isMist = tag.getBoolean("IsMist");
         this.abilities.load(tag);
         // ensure that all default abilities are present
         this.defaultAbilities.forEach(this.abilities::addAbility);
@@ -107,6 +120,7 @@ public class EntityVampireComponent<T extends LivingEntity> implements VampireCo
     @Override
     public void writeToNbt(NbtCompound tag) {
         tag.putBoolean("Downed", this.downed);
+        tag.putBoolean("IsMist", this.isMist);
         this.abilities.save(tag);
     }
 }

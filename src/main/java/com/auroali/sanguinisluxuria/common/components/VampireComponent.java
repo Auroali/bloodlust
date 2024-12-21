@@ -106,6 +106,10 @@ public interface VampireComponent extends Component, AutoSyncedComponent, Server
      */
     void setDowned(boolean down);
 
+    boolean isMist();
+
+    void setMist(boolean isMist);
+
     /**
      * Calculates the amount of damage taken by a vampire for a given damage source
      *

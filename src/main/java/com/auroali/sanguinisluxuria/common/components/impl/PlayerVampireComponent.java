@@ -66,6 +66,7 @@ public class PlayerVampireComponent implements VampireComponent {
     private int skillPoints;
     private int level;
     private boolean isDowned;
+    private boolean isMist;
 
     public PlayerVampireComponent(PlayerEntity holder) {
         this.holder = holder;
@@ -264,6 +265,7 @@ public class PlayerVampireComponent implements VampireComponent {
         this.needsSync = false;
         buf.writeBoolean(this.isVampire);
         buf.writeBoolean(this.isDowned);
+        buf.writeBoolean(this.isMist);
         // sync blood drain info
         buf.writeBoolean(this.shouldSync(SYNC_BLOOD_DRAIN));
         if (this.shouldSync(SYNC_BLOOD_DRAIN)) {
@@ -289,6 +291,7 @@ public class PlayerVampireComponent implements VampireComponent {
     public void applySyncPacket(PacketByteBuf buf) {
         this.isVampire = buf.readBoolean();
         this.isDowned = buf.readBoolean();
+        this.isMist = buf.readBoolean();
 
         if (buf.readBoolean()) {
             this.bloodDrainTimer = buf.readVarInt();
@@ -381,6 +384,18 @@ public class PlayerVampireComponent implements VampireComponent {
     @Override
     public void setDowned(boolean down) {
         this.isDowned = down;
+        this.isMist = false;
+        BLEntityComponents.VAMPIRE_COMPONENT.sync(this.holder);
+    }
+
+    @Override
+    public boolean isMist() {
+        return this.isMist;
+    }
+
+    @Override
+    public void setMist(boolean isMist) {
+        this.isMist = isMist;
         BLEntityComponents.VAMPIRE_COMPONENT.sync(this.holder);
     }
 

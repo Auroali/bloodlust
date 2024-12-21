@@ -62,6 +62,12 @@ public class BloodlustClient implements ClientModInitializer {
       GLFW.GLFW_KEY_Z,
       "category.sanguinisluxuria.sanguinisluxuria"
     );
+    public static KeyBinding ACTIVATE_MIST = new KeyBinding(
+      "key.sanguinisluxuria.activate_mist",
+      InputUtil.Type.KEYSYM,
+      GLFW.GLFW_KEY_C,
+      "category.sanguinisluxuria.sanguinisluxuria"
+    );
 
     public static boolean isAltarActive = false;
 
@@ -178,9 +184,10 @@ public class BloodlustClient implements ClientModInitializer {
     }
 
     public void registerBindings() {
-        SUCK_BLOOD = KeyBindingHelper.registerKeyBinding(SUCK_BLOOD);
-        ACTIVATE_BITE = KeyBindingHelper.registerKeyBinding(ACTIVATE_BITE);
-        ACTIVATE_BLINK = KeyBindingHelper.registerKeyBinding(ACTIVATE_BLINK);
+        KeyBindingHelper.registerKeyBinding(SUCK_BLOOD);
+        KeyBindingHelper.registerKeyBinding(ACTIVATE_BITE);
+        KeyBindingHelper.registerKeyBinding(ACTIVATE_BLINK);
+        KeyBindingHelper.registerKeyBinding(ACTIVATE_MIST);
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             while (ACTIVATE_BITE.wasPressed()) {
@@ -188,6 +195,9 @@ public class BloodlustClient implements ClientModInitializer {
             }
             while (ACTIVATE_BLINK.wasPressed()) {
                 ClientPlayNetworking.send(new ActivateAbilityC2S(BLVampireAbilities.TELEPORT));
+            }
+            while (ACTIVATE_MIST.wasPressed()) {
+                ClientPlayNetworking.send(new ActivateAbilityC2S(BLVampireAbilities.MIST));
             }
             if (SUCK_BLOOD.isPressed()) {
                 if (isLookingAtValidTarget() || !VampireHelper.getItemInHand(client.player, Hand.MAIN_HAND, BloodStorageItem.FILLABLE_ITEM_PREDICATE).isEmpty()) {

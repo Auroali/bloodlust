@@ -29,10 +29,8 @@ public class BLResources {
     public static final Identifier BLOOD_PROTECTION_ID = id("blessed_blood");
     public static final Identifier VAMPIRE_MASKS_ID = id("vampire_masks");
     public static final Identifier VAMPIRE_ABILITY_REGISTRY_ID = id("vampire_ability");
-    public static final Identifier VAMPIRE_HEALTH_1_ID = id("health_1");
     public static final Identifier VAMPIRE_ABILITY_ARGUMENT_ID = id("ability_argument");
     public static final Identifier TELEPORT_ID = id("teleport");
-    public static final Identifier TELEPORT_RANGE_TAG_ID = id("teleport_range_increase");
     public static final Identifier BECOME_VAMPIRE_CRITERION_ID = id("become_vampire");
     public static final Identifier ALTAR_ID = id("altar");
     public static final Identifier ALTAR_RECIPE_ID = id("ritual");
@@ -132,6 +130,8 @@ public class BLResources {
     public static final Identifier DECAYED_DOOR = id("decayed_door");
     public static final Identifier DECAYED_TRAPDOOR = id("decayed_trapdoor");
     public static final Identifier BLOOD_DRAIN_EFFECTS = id("blood_drain_effects");
+    public static final Identifier NO_MIST_COLLISION_ID = id("mist_phaseable");
+    public static final Identifier MIST_ID = id("mist_phaseable");
 
     public static Identifier id(String path) {
         return new Identifier(Bloodlust.MODID, path);

@@ -35,10 +35,16 @@ public class VampireAbilityContainer implements Iterable<VampireAbility> {
     public void tick(LivingEntity entity, VampireComponent vampire) {
         BloodComponent blood = BLEntityComponents.BLOOD_COMPONENT.get(entity);
         this.tickers.object2ObjectEntrySet().fastForEach(p -> p.getValue().tick(p.getKey(), entity.getWorld(), entity, vampire, this, blood));
+
+        List<VampireAbility> cooldownEndedList = new ArrayList<>(this.cooldowns.size());
         this.cooldowns.entrySet().removeIf(e -> {
             this.setShouldSync(true);
-            return e.getKey().canTickCooldown(entity, vampire) && e.getValue().ticks-- == 0;
+            boolean shouldRemove = e.getKey().canTickCooldown(entity, vampire) && e.getValue().ticks-- == 0;
+            if (shouldRemove)
+                cooldownEndedList.add(e.getKey());
+            return shouldRemove;
         });
+        cooldownEndedList.forEach(ability -> ability.onCooldownEnd(entity, vampire, this));
     }
 
     public void addAbility(VampireAbility ability) {

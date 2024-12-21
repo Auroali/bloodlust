@@ -6,9 +6,11 @@
     "client.BossBarHudMixin",
     "client.InGameHudMixin",
     "client.ItemRendererMixin",
-    "client.LightmapTextureManagerMixin"
+    "client.LightmapTextureManagerMixin",
+    "client.LivingEntityRendererMixin"
   ],
   "mixins": [
+    "AbstractBlockStateMixin",
     "BlockEntityTypeMixin",
     "CakeBlockMixin",
     "DatapackContentsMixin",

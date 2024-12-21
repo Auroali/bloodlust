@@ -10,16 +10,14 @@ import com.jamieswhiteshirt.reachentityattributes.ReachEntityAttributes;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.projectile.ProjectileUtil;
-import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.RaycastContext;
-import net.minecraft.world.World;
 
-public class BiteAbility extends VampireAbility implements SyncableVampireAbility<LivingEntity> {
+public class BiteAbility extends VampireAbility implements EntitySyncableVampireAbility<LivingEntity> {
     @Override
     public void activate(LivingEntity entity, VampireComponent component) {
         if (component.getAbilties().isOnCooldown(this) || VampireHelper.isMasked(entity))
@@ -68,16 +66,6 @@ public class BiteAbility extends VampireAbility implements SyncableVampireAbilit
             }
         }
         return result;
-    }
-
-    @Override
-    public void writePacket(PacketByteBuf buf, World world, LivingEntity data) {
-        buf.writeVarInt(data.getId());
-    }
-
-    @Override
-    public LivingEntity readPacket(PacketByteBuf buf, World world) {
-        return (LivingEntity) world.getEntityById(buf.readVarInt());
     }
 
     @Override

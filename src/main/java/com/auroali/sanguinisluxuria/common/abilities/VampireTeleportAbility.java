@@ -10,7 +10,6 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.particle.DustParticleEffect;
-import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
@@ -47,7 +46,7 @@ public class VampireTeleportAbility extends VampireAbility implements SyncableVa
         entity.teleport(newPos.getX(), newPos.getY(), newPos.getZ());
         entity.fallDistance = 0;
         entity.getWorld().emitGameEvent(GameEvent.TELEPORT, start, GameEvent.Emitter.of(entity));
-        entity.getWorld().playSound(null, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.PLAYERS, 1.0f, 1.0f);
+        this.playSound(entity, SoundEvents.ENTITY_ENDERMAN_TELEPORT, 0.1f);
         TrinketsApi.getTrinketComponent(entity).ifPresent(c -> {
             if (c.isEquipped(BLItems.PENDANT_OF_PIERCING))
                 this.damageEntitiesBetween(entity, start, newPos);

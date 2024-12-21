@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 public class VampireAbilityArgument implements ArgumentType<VampireAbility> {
-    public static final Collection<String> EXAMPLES = List.of(BLResources.VAMPIRE_HEALTH_1_ID.toString());
+    public static final Collection<String> EXAMPLES = List.of(BLResources.TELEPORT_ID.toString(), BLResources.BITE_ID.toString());
     private static final DynamicCommandExceptionType ID_INVALID_EXCEPTION = new DynamicCommandExceptionType(
       id -> Text.translatable("argument.sanguinisluxuria.id.invalid", id)
     );
