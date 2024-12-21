@@ -354,7 +354,8 @@ public class PlayerVampireComponent implements VampireComponent {
         int level = EnchantmentHelper.getLevel(BLEnchantments.SUN_PROTECTION, helmet);
         maxTime += level * 20;
 
-        return VampireSunEvents.MODIFY_SUN_TIME.invoker().getMaxTimeInSun(this.holder, this, maxTime);
+        double sunResistance = this.holder.getAttributeValue(BLEntityAttributes.SUN_RESISTANCE);
+        return (int) (sunResistance * VampireSunEvents.MODIFY_SUN_TIME.invoker().getMaxTimeInSun(this.holder, this, maxTime));
     }
 
     @Override

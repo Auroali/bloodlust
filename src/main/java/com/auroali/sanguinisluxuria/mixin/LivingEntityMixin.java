@@ -95,7 +95,8 @@ public abstract class LivingEntityMixin extends Entity {
         cir.getReturnValue()
           .add(BLEntityAttributes.BLESSED_DAMAGE)
           .add(BLEntityAttributes.BLINK_RANGE, 8)
-          .add(BLEntityAttributes.BLINK_COOLDOWN, 250);
+          .add(BLEntityAttributes.BLINK_COOLDOWN, 250)
+          .add(BLEntityAttributes.SUN_RESISTANCE, 1.f);
     }
 
     @Inject(method = "canTarget(Lnet/minecraft/entity/LivingEntity;)Z", at = @At("HEAD"), cancellable = true)

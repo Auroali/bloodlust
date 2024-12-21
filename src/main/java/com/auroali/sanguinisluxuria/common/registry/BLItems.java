@@ -4,7 +4,6 @@ import com.auroali.sanguinisluxuria.BLResources;
 import com.auroali.sanguinisluxuria.common.blood.BloodConstants;
 import com.auroali.sanguinisluxuria.common.items.*;
 import com.auroali.sanguinisluxuria.common.items.tools.*;
-import dev.emi.trinkets.api.TrinketItem;
 import net.fabricmc.fabric.api.registry.CompostingChanceRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.item.*;
@@ -26,7 +25,7 @@ public class BLItems {
     ).emptyItem(Items.GLASS_BOTTLE);
     public static final Item TWISTED_BLOOD = new TwistedBloodItem(new Item.Settings().maxCount(1));
     public static final Item VAMPIRE_VILLAGER_SPAWN_EGG = new SpawnEggItem(BLEntities.VAMPIRE_VILLAGER, 0xFF1E1C1B, 0xFFF9f8EF, new Item.Settings());
-    public static final Item PENDANT_OF_PIERCING = new TrinketItem(new Item.Settings().maxCount(1));
+    public static final Item PENDANT_OF_PIERCING = new PendantOfPiercingItem(new Item.Settings().maxCount(1));
     public static final Item BLOOD_PETAL = new Item(new Item.Settings());
     public static final Item SILVER_INGOT = new Item(new Item.Settings());
     public static final Item RAW_SILVER = new Item(new Item.Settings());

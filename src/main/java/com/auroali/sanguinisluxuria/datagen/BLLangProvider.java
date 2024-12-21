@@ -29,7 +29,7 @@ public class BLLangProvider extends FabricLanguageProvider {
         translationBuilder.add(BLItemGroups.SANGUINIS_LUXURIA_TAB, "Sanguinis Luxuria");
         translationBuilder.add("fluids.sanguinisluxuria.blood", "Blood");
         translationBuilder.add("argument.sanguinisluxuria.id.invalid", "'%s' is not a valid id!");
-        this.tags(translationBuilder);
+        tags(translationBuilder);
         subtitles(translationBuilder);
         keybindings(translationBuilder);
         config(translationBuilder);
@@ -48,7 +48,7 @@ public class BLLangProvider extends FabricLanguageProvider {
         rituals(translationBuilder);
     }
 
-    private void generateTagTranslation(TranslationBuilder builder, TagKey<?> key, String translation) {
+    private static void generateTagTranslation(TranslationBuilder builder, TagKey<?> key, String translation) {
         String transKey = "tag.%s.%s.%s".formatted(key.registry().getValue().getPath(), key.id().getNamespace(), key.id().getPath().replace("/", "."));
         builder.add(transKey, translation);
     }
@@ -58,10 +58,10 @@ public class BLLangProvider extends FabricLanguageProvider {
         builder.add("emi.category.sanguinisluxuria.blood_cauldron", "Cauldron Infusing");
     }
 
-    private void tags(TranslationBuilder builder) {
-        this.generateTagTranslation(builder, BLTags.Items.VAMPIRE_MASKS, "Vampire Masks");
-        this.generateTagTranslation(builder, BLTags.Items.SUN_BLOCKING_HELMETS, "Sun Blocking Helmets");
-        this.generateTagTranslation(builder, BLTags.Items.VAMPIRES_GET_HUNGER_FROM, "Vampire Food");
+    private static void tags(TranslationBuilder builder) {
+        generateTagTranslation(builder, BLTags.Items.VAMPIRE_MASKS, "Vampire Masks");
+        generateTagTranslation(builder, BLTags.Items.SUN_BLOCKING_HELMETS, "Sun Blocking Helmets");
+        generateTagTranslation(builder, BLTags.Items.VAMPIRES_GET_HUNGER_FROM, "Vampire Food");
     }
 
     private static void deathMessages(TranslationBuilder translationBuilder) {
@@ -129,6 +129,7 @@ public class BLLangProvider extends FabricLanguageProvider {
         translationBuilder.add(BLEntityAttributes.BLESSED_DAMAGE.getTranslationKey(), "Blessed Damage");
         translationBuilder.add(BLEntityAttributes.BLINK_COOLDOWN.getTranslationKey(), "Blink Cooldown");
         translationBuilder.add(BLEntityAttributes.BLINK_RANGE.getTranslationKey(), "Blink Range");
+        translationBuilder.add(BLEntityAttributes.SUN_RESISTANCE.getTranslationKey(), "Sun Resistance");
     }
 
     private static void entities(TranslationBuilder translationBuilder) {
