@@ -46,7 +46,7 @@ public class VampireTeleportAbility extends VampireAbility implements SyncableVa
         entity.teleport(newPos.getX(), newPos.getY(), newPos.getZ());
         entity.fallDistance = 0;
         entity.getWorld().emitGameEvent(GameEvent.TELEPORT, start, GameEvent.Emitter.of(entity));
-        this.playSound(entity, SoundEvents.ENTITY_ENDERMAN_TELEPORT, 0.1f);
+        this.playSound(entity, SoundEvents.ENTITY_ENDERMAN_TELEPORT, 0.05f);
         TrinketsApi.getTrinketComponent(entity).ifPresent(c -> {
             if (c.isEquipped(BLItems.PENDANT_OF_PIERCING))
                 this.damageEntitiesBetween(entity, start, newPos);

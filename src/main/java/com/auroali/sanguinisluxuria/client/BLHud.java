@@ -14,6 +14,7 @@ import com.auroali.sanguinisluxuria.common.registry.BLStatusEffects;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.entity.Entity;
@@ -31,7 +32,7 @@ public class BLHud {
         if (!vampire.isVampire())
             return;
         drawBloodDrainIndicator(context, client, vampire, context.getScaledWindowWidth(), context.getScaledWindowHeight());
-        drawBoundAbilities(context, client, context.getScaledWindowHeight(), vampire.getAbilties());
+        showAbilityCooldowns(context, client, context.getScaledWindowHeight(), vampire.getAbilties());
     }
 
     private static boolean targetHasBleeding(VampireComponent component, LivingEntity entity) {
@@ -76,8 +77,22 @@ public class BLHud {
             context.drawTexture(BLResources.ICONS, fangX, fangY + (7 - drainPosY), 0, 7 + (7 - drainPosY), 26, drainPosY, 256, 256);
     }
 
-    public static void drawBoundAbilities(DrawContext context, MinecraftClient client, int height, VampireAbilityContainer container) {
+    public static void showAbilityCooldowns(DrawContext context, MinecraftClient client, int height, VampireAbilityContainer container) {
+        TextRenderer renderer = client.textRenderer;
+        context.getMatrices().push();
+        context.getMatrices().translate(0, -8, 0);
+        for (VampireAbility ability : container) {
+            if (!container.isOnCooldown(ability))
+                continue;
 
+            int cooldown = container.getCooldown(ability);
+            int maxCooldown = container.getMaxCooldown(ability);
+            float cooldownPercent = cooldown / (float) maxCooldown;
+            context.fill(0, height - 4, (int) (cooldownPercent * 48), height, 0xFF000000);
+            context.drawText(client.textRenderer, Text.translatable(ability.getTranslationKey()), 0, height - 4 - renderer.fontHeight, -1, true);
+            context.getMatrices().translate(0, -renderer.fontHeight - 4, 0);
+        }
+        context.getMatrices().pop();
     }
 
     public static Text getTextForSlot(int slot) {

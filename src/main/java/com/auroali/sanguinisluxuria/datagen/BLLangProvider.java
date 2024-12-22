@@ -140,6 +140,7 @@ public class BLLangProvider extends FabricLanguageProvider {
         translationBuilder.add("key.sanguinisluxuria.drain_blood", "Drain Blood");
         translationBuilder.add("key.sanguinisluxuria.activate_bite", "Bite");
         translationBuilder.add("key.sanguinisluxuria.activate_blink", "Blink");
+        translationBuilder.add("key.sanguinisluxuria.activate_mist", "Mist");
         translationBuilder.add("category.sanguinisluxuria.sanguinisluxuria", "Sanguinis Luxuria");
     }
 
