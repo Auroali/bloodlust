@@ -22,6 +22,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.hit.EntityHitResult;
+import net.minecraft.util.math.MathHelper;
 
 public class BLHud {
     public static void render(DrawContext context, float deltaTick) {
@@ -80,17 +81,21 @@ public class BLHud {
     public static void showAbilityCooldowns(DrawContext context, MinecraftClient client, int height, VampireAbilityContainer container) {
         TextRenderer renderer = client.textRenderer;
         context.getMatrices().push();
-        context.getMatrices().translate(0, -8, 0);
+        context.getMatrices().translate(0, -2, 0);
         for (VampireAbility ability : container) {
             if (!container.isOnCooldown(ability))
                 continue;
 
             int cooldown = container.getCooldown(ability);
             int maxCooldown = container.getMaxCooldown(ability);
-            float cooldownPercent = cooldown / (float) maxCooldown;
-            context.fill(0, height - 4, (int) (cooldownPercent * 48), height, 0xFF000000);
-            context.drawText(client.textRenderer, Text.translatable(ability.getTranslationKey()), 0, height - 4 - renderer.fontHeight, -1, true);
-            context.getMatrices().translate(0, -renderer.fontHeight - 4, 0);
+            float cooldownPercent = MathHelper.clamp(cooldown / (float) maxCooldown, 0.f, 1.f);
+            context.drawTexture(BLResources.ICONS, 0, height - 17, 0, 46, 64, 17);
+            context.drawText(client.textRenderer, Text.translatable(ability.getTranslationKey()), 4, height - 13, -1, false);
+            //context.drawTexture(BLResources.ICONS, 4, height - 3, 0, 69, 56, 3);
+            //context.drawTexture(BLResources.ICONS, 4, height - 3, 0, 72, (int) (56 * cooldownPercent), 3);
+            //context.fill(3, height - 3, (int) (59 * cooldownPercent), height - 2, -1);
+            context.drawTexture(BLResources.ICONS, 3, height - 3, 0, 63, (int) (56 * cooldownPercent), 1);
+            context.getMatrices().translate(0, -20, 0);
         }
         context.getMatrices().pop();
     }
