@@ -160,19 +160,14 @@ public interface VampireComponent extends Component, AutoSyncedComponent, Server
             return;
         }
 
-        // handle differing amounts of blood depending on the good blood tag and unlocked abilities
-        int bloodAmount = 1;
-
-        if (!VampireHelper.isVampire(target) && target.getType().isIn(BLTags.Entities.GOOD_BLOOD))
-            bloodAmount *= 2;
 
         // handle differences between adding blood to the player and regular entities
         // (such as saturation)
         if (vampireEntity instanceof PlayerEntity player)
-            ((VampireHungerManager) player.getHungerManager()).sanguinisluxuria$addHunger(bloodAmount, 0.125f);
-        else BLEntityComponents.BLOOD_COMPONENT.get(vampireEntity).addBlood(bloodAmount);
+            ((VampireHungerManager) player.getHungerManager()).sanguinisluxuria$addHunger(1, 0.125f);
+        else BLEntityComponents.BLOOD_COMPONENT.get(vampireEntity).addBlood(1);
 
-        BloodEvents.BLOOD_DRAINED.invoker().onBloodDrained(vampireEntity, target, bloodAmount);
+        BloodEvents.BLOOD_DRAINED.invoker().onBloodDrained(vampireEntity, target, 1);
 
 
         // reset the downed state
