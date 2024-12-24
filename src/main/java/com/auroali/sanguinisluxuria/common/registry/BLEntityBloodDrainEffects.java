@@ -96,11 +96,11 @@ public class BLEntityBloodDrainEffects implements IdentifiableResourceReloadList
                   try {
                       element = GSON.fromJson(resource.getReader(), JsonElement.class);
                   } catch (JsonSyntaxException | JsonIOException | IOException e) {
-                      Bloodlust.LOGGER.error("Could not read {}", id, e);
+                      Bloodlust.LOGGER.error("Could not parse entity blood drain effect {}", id, e);
                       return;
                   }
                   CODEC.parse(JsonOps.INSTANCE, element)
-                    .resultOrPartial(Bloodlust.LOGGER::error)
+                    .resultOrPartial(e -> Bloodlust.LOGGER.error("Could not parse entity blood drain effect {}: {}", id, e))
                     .ifPresent(entries::add);
               });
               return CompletableFuture.completedFuture(entries);
