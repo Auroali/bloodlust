@@ -35,7 +35,7 @@ import java.util.concurrent.Executor;
 
 public class BLEntityBloodDrainEffects implements IdentifiableResourceReloadListener {
     private static final HashMap<EntityType<?>, List<BloodDrainEffectInstance>> EFFECT_MAP = new HashMap<>();
-    private static final List<LoadedEffects> LOADED_EFFECTS_CACHE = new ArrayList<>();
+    private static final List<LoadedEffects> UNRESOLVED_EFFECTS = new ArrayList<>();
     private static final Codec<LoadedEffects> CODEC = RecordCodecBuilder.create(instance -> instance.group(
       Codec.either(TagKey.codec(RegistryKeys.ENTITY_TYPE), Registries.ENTITY_TYPE.getCodec()).fieldOf("entity").forGetter(LoadedEffects::targets),
       BloodDrainEffectInstance.CODEC.listOf().fieldOf("effects").forGetter(LoadedEffects::effects)
@@ -64,16 +64,16 @@ public class BLEntityBloodDrainEffects implements IdentifiableResourceReloadList
           .registerReloadListener(new BLEntityBloodDrainEffects());
     }
 
-    public static void flushCache() {
+    public static void resolveReferences() {
         EFFECT_MAP.clear();
-        for (LoadedEffects entry : LOADED_EFFECTS_CACHE) {
+        for (LoadedEffects entry : UNRESOLVED_EFFECTS) {
             List<EntityType<?>> targets = entry.resolveTargets();
             List<BloodDrainEffectInstance> effects = entry.effects();
             targets.forEach(entity ->
               mergeEffects(effects, EFFECT_MAP.computeIfAbsent(entity, key -> new ArrayList<>()))
             );
         }
-        LOADED_EFFECTS_CACHE.clear();
+        UNRESOLVED_EFFECTS.clear();
     }
 
     @Override
@@ -108,7 +108,7 @@ public class BLEntityBloodDrainEffects implements IdentifiableResourceReloadList
           // wait for apply stage
           .thenCompose(synchronizer::whenPrepared)
           // tags aren't loaded yet, so store the loaded effects into a cache
-          .thenAcceptAsync(LOADED_EFFECTS_CACHE::addAll, applyExecutor);
+          .thenAcceptAsync(UNRESOLVED_EFFECTS::addAll, applyExecutor);
     }
 
     private static void mergeEffects(List<BloodDrainEffectInstance> from, List<BloodDrainEffectInstance> to) {

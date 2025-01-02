@@ -12,6 +12,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class DatapackContentsMixin {
     @Inject(method = "refresh", at = @At("RETURN"))
     public void sanguinisluxuria$flushEffectCache(DynamicRegistryManager dynamicRegistryManager, CallbackInfo ci) {
-        BLEntityBloodDrainEffects.flushCache();
+        BLEntityBloodDrainEffects.resolveReferences();
     }
 }
