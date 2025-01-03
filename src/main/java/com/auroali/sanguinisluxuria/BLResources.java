@@ -135,6 +135,14 @@ public class BLResources {
     public static final Identifier SUN_RESISTANCE_ID = id("sun_resistance");
     public static final Identifier VAMPIRE_MERCHANT_OFFERS_ID = id("vampire_merchant_enchantments");
     public static final Identifier VULNERABILITY_ID = id("vulnerability");
+    public static final Identifier CONVERSION_TRANSFORMERS = id("conversion_transformers");
+    public static final Identifier CONVERSION_CONDITIONS = id("conversion_conditions");
+    public static final Identifier COPY_ID = id("copy");
+    public static final Identifier CONVERSION_DATA = id("conversion_data");
+    public static final Identifier CONVERSION_TYPES = id("conversion_types");
+    public static final Identifier SPAWN_TYPE = id("spawn");
+    public static final Identifier SET_VAMPIRE_TYPE = id("set_vampire");
+    public static final Identifier REVERT_VAMPIRE_TYPE = id("revert_vampire");
 
     public static Identifier id(String path) {
         return new Identifier(Bloodlust.MODID, path);
