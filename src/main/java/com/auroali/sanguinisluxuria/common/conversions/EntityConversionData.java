@@ -4,6 +4,7 @@ import com.auroali.sanguinisluxuria.Bloodlust;
 import com.auroali.sanguinisluxuria.common.components.BLEntityComponents;
 import com.auroali.sanguinisluxuria.common.components.BloodComponent;
 import com.auroali.sanguinisluxuria.common.components.InitializableBloodComponent;
+import com.auroali.sanguinisluxuria.common.events.VampireConversionEvents;
 import com.auroali.sanguinisluxuria.common.registry.BLRegistries;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -57,20 +58,24 @@ public class EntityConversionData {
 
         this.transformers.forEach(transformer -> transformer.apply(context, entityNbt, newNbt));
         Entity newEntity = this.type.apply(world, entity, this.target, newNbt);
-        if (newEntity == entity)
+        if (newEntity == entity) {
+            VampireConversionEvents.AFTER_CONVERSION.invoker().afterConversion(context, newEntity);
             return;
+        }
 
         if (BLEntityComponents.BLOOD_COMPONENT.isProvidedBy(newEntity) && BLEntityComponents.BLOOD_COMPONENT.isProvidedBy(entity)) {
             BloodComponent oldBlood = BLEntityComponents.BLOOD_COMPONENT.get(entity);
             BloodComponent newBlood = BLEntityComponents.BLOOD_COMPONENT.get(newEntity);
-            if (newBlood instanceof InitializableBloodComponent initializeable)
-                initializeable.initializeBloodValues();
+            if (newBlood instanceof InitializableBloodComponent initializable)
+                initializable.initializeBloodValues();
 
             newBlood.setBlood(Math.min(oldBlood.getBlood(), newBlood.getMaxBlood()));
         }
 
         world.spawnEntity(newEntity);
         entity.remove(Entity.RemovalReason.DISCARDED);
+
+        VampireConversionEvents.AFTER_CONVERSION.invoker().afterConversion(context, newEntity);
     }
 
     public static EntityConversionData fromJson(JsonObject object) {

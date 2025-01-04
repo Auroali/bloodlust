@@ -7,6 +7,8 @@
     "minecraft:evoker",
     "minecraft:witch",
     "minecraft:wandering_trader",
-    "minecraft:player"
+    "minecraft:player",
+    "sanguinisluxuria:vampire_merchant",
+    "sanguinisluxuria:vampire_villager"
   ]
 }

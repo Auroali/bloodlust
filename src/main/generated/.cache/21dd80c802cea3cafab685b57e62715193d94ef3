@@ -1,9 +1,9 @@
-// 1.20.1	2025-01-04T16:46:34.490173089	Sanguinis Luxuria/Tags for minecraft:item
+// 1.20.1	2025-01-04T18:11:06.066939829	Sanguinis Luxuria/Tags for minecraft:item
 b730ffc8e63f32a3da32d2cac45fbc4df71ba54e data/c/tags/items/raw_silver_blocks.json
 7246aec037ac6c03902a5efb15c2e213af5d8f3d data/minecraft/tags/items/hoes.json
 6833b2e755c0a03d2b0802c9b489a4a58776efc6 data/minecraft/tags/items/axes.json
-3d81f29b664ba8ac540a85e97eabcbec26ed6a9c data/sanguinisluxuria/tags/items/sun_blocking_helmets.json
 f22e2796a4ca82a6fe95f70f0bcca2ce351ac6a4 data/c/tags/items/silver_blocks.json
+3d81f29b664ba8ac540a85e97eabcbec26ed6a9c data/sanguinisluxuria/tags/items/sun_blocking_helmets.json
 cbc32d4bc22046141999636336671badf0644782 data/sanguinisluxuria/tags/items/decayed_logs.json
 629f75843c82691375ef6b0fe17524c2599abffc data/sanguinisluxuria/tags/items/vampire_masks.json
 d1beb62c086c9735402c190ae0f606116164b9e5 data/c/tags/items/silver_ores.json

@@ -7,7 +7,7 @@ import com.auroali.sanguinisluxuria.common.blood.BloodConstants;
 import com.auroali.sanguinisluxuria.common.components.BLEntityComponents;
 import com.auroali.sanguinisluxuria.common.components.BloodComponent;
 import com.auroali.sanguinisluxuria.common.components.VampireComponent;
-import com.auroali.sanguinisluxuria.common.events.AllowVampireChangeEvent;
+import com.auroali.sanguinisluxuria.common.events.VampireConversionEvents;
 import com.auroali.sanguinisluxuria.common.events.VampireSunEvents;
 import com.auroali.sanguinisluxuria.common.items.BloodStorageItem;
 import com.auroali.sanguinisluxuria.common.registry.*;
@@ -79,9 +79,6 @@ public class PlayerVampireComponent implements VampireComponent {
 
     @Override
     public void setIsVampire(boolean isVampire) {
-        if (!AllowVampireChangeEvent.EVENT.invoker().onChanged(this.holder, this, isVampire))
-            return;
-
         this.isVampire = isVampire;
         if (!isVampire) {
             this.removeModifiers();

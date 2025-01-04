@@ -67,7 +67,9 @@ public class BLEntityTagsProvider extends FabricTagProvider<EntityType<?>> {
           .add(EntityType.EVOKER)
           .add(EntityType.WITCH)
           .add(EntityType.WANDERING_TRADER)
-          .add(EntityType.PLAYER);
+          .add(EntityType.PLAYER)
+          .add(BLEntities.VAMPIRE_MERCHANT)
+          .add(BLEntities.VAMPIRE_VILLAGER);
 
         this.getOrCreateTagBuilder(BLTags.Entities.TOXIC_BLOOD)
           .add(EntityType.ZOMBIE)

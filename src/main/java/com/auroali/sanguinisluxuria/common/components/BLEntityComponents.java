@@ -32,8 +32,6 @@ public class BLEntityComponents implements EntityComponentInitializer {
           .end(EntityBloodComponent::new);
         registry.registerFor(TridentEntity.class, BLOOD_TRANSFER_COMPONENT, BloodTransferComponent::new);
         registry.registerFor(VampireVillagerEntity.class, VAMPIRE_COMPONENT, e -> new EntityVampireComponent<>(e, BLVampireAbilities.TELEPORT));
-        registry.registerFor(VillagerEntity.class, VAMPIRE_COMPONENT, ConvertibleVampireComponent.create(BLEntities.VAMPIRE_VILLAGER));
         registry.registerFor(VampireMerchant.class, VAMPIRE_COMPONENT, e -> new EntityVampireComponent<>(e, BLVampireAbilities.MIST));
-        registry.registerFor(WanderingTraderEntity.class, VAMPIRE_COMPONENT, ConvertibleVampireComponent.create(BLEntities.VAMPIRE_MERCHANT));
     }
 }

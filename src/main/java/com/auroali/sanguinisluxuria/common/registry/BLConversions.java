@@ -6,6 +6,7 @@ import com.auroali.sanguinisluxuria.common.conversions.*;
 import com.auroali.sanguinisluxuria.common.conversions.conditions.ConversionContextCondition;
 import com.auroali.sanguinisluxuria.common.conversions.conditions.OrConversionCondition;
 import com.auroali.sanguinisluxuria.common.conversions.transformers.CopyConversionTransformer;
+import com.auroali.sanguinisluxuria.common.events.VampireConversionEvents;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -57,6 +58,9 @@ public class BLConversions implements IdentifiableResourceReloadListener {
     public static boolean convertEntity(ConversionContext context) {
         List<EntityConversionData> conversions = CONVERSIONS.get(context.entity().getType());
         if (conversions == null || conversions.isEmpty())
+            return false;
+
+        if (!VampireConversionEvents.ALLOW_CONVERSION.invoker().allowConversion(context))
             return false;
 
         for (EntityConversionData conversion : conversions) {
