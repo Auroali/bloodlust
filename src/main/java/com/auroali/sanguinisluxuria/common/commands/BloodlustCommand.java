@@ -11,6 +11,7 @@ public class BloodlustCommand {
     public static LiteralArgumentBuilder<ServerCommandSource> register() {
         return CommandManager.literal(Bloodlust.MODID.toLowerCase(Locale.ROOT))
           .then(VampireCommand.register())
-          .then(AbilityCommand.register());
+          .then(AbilityCommand.register())
+          .then(ConvertCommand.register());
     }
 }

@@ -2,7 +2,9 @@ package com.auroali.sanguinisluxuria.common.statuseffects;
 
 import com.auroali.sanguinisluxuria.VampireHelper;
 import com.auroali.sanguinisluxuria.common.components.BLEntityComponents;
+import com.auroali.sanguinisluxuria.common.conversions.ConversionContext;
 import com.auroali.sanguinisluxuria.common.registry.BLAdvancementCriterion;
+import com.auroali.sanguinisluxuria.common.registry.BLConversions;
 import com.auroali.sanguinisluxuria.common.registry.BLStatusEffects;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.AttributeContainer;
@@ -35,11 +37,10 @@ public class BloodSicknessEffect extends StatusEffect {
         if (amplifier >= 4 && entity.getRandom().nextInt(420) == 0)
             entity.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, 200));
 
-        if (duration == 1 && this.isRightConditions(entity, amplifier) && VampireHelper.canBeConvertedToVampire(entity)) {
+        if (duration == 1 && this.isRightConditions(entity, amplifier) && BLConversions.convertEntity(ConversionContext.from(entity, ConversionContext.Conversion.CONVERTING))) {
             if (entity instanceof ServerPlayerEntity p)
                 BLAdvancementCriterion.BECOME_VAMPIRE.trigger(p);
             entity.clearStatusEffects();
-            BLEntityComponents.VAMPIRE_COMPONENT.get(entity).setIsVampire(true);
         }
     }
 

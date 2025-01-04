@@ -137,12 +137,15 @@ public class BLResources {
     public static final Identifier VULNERABILITY_ID = id("vulnerability");
     public static final Identifier CONVERSION_TRANSFORMERS = id("conversion_transformers");
     public static final Identifier CONVERSION_CONDITIONS = id("conversion_conditions");
-    public static final Identifier COPY_ID = id("copy");
+    public static final Identifier COPY_TRANSFORMER_ID = id("copy");
     public static final Identifier CONVERSION_DATA = id("conversion_data");
     public static final Identifier CONVERSION_TYPES = id("conversion_types");
     public static final Identifier SPAWN_TYPE = id("spawn");
     public static final Identifier SET_VAMPIRE_TYPE = id("set_vampire");
     public static final Identifier REVERT_VAMPIRE_TYPE = id("revert_vampire");
+    public static final Identifier CONVERSION_ARGUMENT_ID = id("conversion");
+    public static final Identifier CONVERSION_CONTEXT_CONDITION_ID = id("context");
+    public static final Identifier OR_CONDITION_ID = id("or");
 
     public static Identifier id(String path) {
         return new Identifier(Bloodlust.MODID, path);

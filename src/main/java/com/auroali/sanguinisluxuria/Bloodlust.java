@@ -4,6 +4,7 @@ import com.auroali.sanguinisluxuria.common.abilities.VampireAbilityContainer;
 import com.auroali.sanguinisluxuria.common.blockentities.AltarBlockEntity;
 import com.auroali.sanguinisluxuria.common.blockentities.PedestalBlockEntity;
 import com.auroali.sanguinisluxuria.common.commands.BloodlustCommand;
+import com.auroali.sanguinisluxuria.common.commands.arguments.ConversionArgument;
 import com.auroali.sanguinisluxuria.common.commands.arguments.VampireAbilityArgument;
 import com.auroali.sanguinisluxuria.common.components.BLEntityComponents;
 import com.auroali.sanguinisluxuria.common.components.BloodComponent;
@@ -83,6 +84,12 @@ public class Bloodlust implements ModInitializer {
           BLResources.VAMPIRE_ABILITY_ARGUMENT_ID,
           VampireAbilityArgument.class,
           ConstantArgumentSerializer.of(VampireAbilityArgument::argument)
+        );
+
+        ArgumentTypeRegistry.registerArgumentType(
+          BLResources.CONVERSION_ARGUMENT_ID,
+          ConversionArgument.class,
+          ConstantArgumentSerializer.of(ConversionArgument::conversion)
         );
 
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> dispatcher.register(BloodlustCommand.register()));

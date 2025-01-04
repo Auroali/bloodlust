@@ -1,0 +1,11 @@
+{
+  "type": "sanguinisluxuria:spawn",
+  "conditions": [
+    {
+      "type": "sanguinisluxuria:context",
+      "conversion": "converting"
+    }
+  ],
+  "entity": "minecraft:villager",
+  "target": "sanguinisluxuria:vampire_villager"
+}

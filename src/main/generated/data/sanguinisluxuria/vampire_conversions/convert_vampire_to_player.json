@@ -1,0 +1,11 @@
+{
+  "type": "sanguinisluxuria:revert_vampire",
+  "conditions": [
+    {
+      "type": "sanguinisluxuria:context",
+      "conversion": "deconverting"
+    }
+  ],
+  "entity": "minecraft:player",
+  "target": "minecraft:player"
+}

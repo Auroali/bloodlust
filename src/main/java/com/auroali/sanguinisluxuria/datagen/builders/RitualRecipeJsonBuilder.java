@@ -1,4 +1,4 @@
-package com.auroali.sanguinisluxuria.datagen;
+package com.auroali.sanguinisluxuria.datagen.builders;
 
 import com.auroali.sanguinisluxuria.Bloodlust;
 import com.auroali.sanguinisluxuria.common.registry.BLRecipeSerializers;

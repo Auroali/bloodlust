@@ -2,7 +2,6 @@ package com.auroali.sanguinisluxuria.common.conversions;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.Registries;
 import net.minecraft.world.World;
@@ -14,11 +13,10 @@ public class CreateEntityConversionType implements ConversionType {
 
         return EntityType.getEntityFromNbt(tag, world)
           .map(newEntity -> {
-              newEntity.setPos(original.getX(), original.getY(), original.getZ());
+              newEntity.setPosition(original.getX(), original.getY(), original.getZ());
               newEntity.setYaw(original.getYaw());
               newEntity.setPitch(original.getPitch());
               newEntity.setCustomName(original.getCustomName());
-              newEntity.setVelocity(original.getVelocity());
               return newEntity;
           })
           .orElse(null);

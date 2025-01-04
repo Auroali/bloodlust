@@ -1,4 +1,4 @@
-package com.auroali.sanguinisluxuria.datagen;
+package com.auroali.sanguinisluxuria.datagen.builders;
 
 import com.auroali.sanguinisluxuria.common.registry.BLRecipeSerializers;
 import com.google.gson.JsonObject;
@@ -22,42 +22,37 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Consumer;
 
-public class BloodCauldronRecipeJsonBuilder extends RecipeJsonBuilder implements CraftingRecipeJsonBuilder {
+public class BloodCauldronFillRecipeJsonBuilder extends RecipeJsonBuilder implements CraftingRecipeJsonBuilder {
     private final Item output;
-    private int level;
     private final int outputCount;
     private String group;
     private final Ingredient ingredient;
     private final Advancement.Builder advancementBuilder = Advancement.Builder.create();
     private final RecipeCategory category;
 
-    BloodCauldronRecipeJsonBuilder(RecipeCategory category, Ingredient ingredient, Item output, int outputCount) {
+    BloodCauldronFillRecipeJsonBuilder(RecipeCategory category, Ingredient ingredient, Item output, int outputCount) {
         this.output = output;
         this.outputCount = outputCount;
         this.ingredient = ingredient;
         this.category = category;
-        this.level = 1;
     }
 
-    public BloodCauldronRecipeJsonBuilder level(int level) {
-        if (level < 1 || level > 3)
-            throw new IllegalArgumentException("level must be between 1 and 3!");
-        this.level = level;
-        return this;
+    public static BloodCauldronFillRecipeJsonBuilder create(RecipeCategory category, Ingredient ingredient, ItemConvertible output) {
+        return new BloodCauldronFillRecipeJsonBuilder(category, ingredient, output.asItem(), 1);
     }
 
-    public static BloodCauldronRecipeJsonBuilder create(RecipeCategory category, Ingredient ingredient, ItemConvertible output) {
-        return new BloodCauldronRecipeJsonBuilder(category, ingredient, output.asItem(), 1);
+    public static BloodCauldronFillRecipeJsonBuilder create(RecipeCategory category, ItemConvertible output) {
+        return new BloodCauldronFillRecipeJsonBuilder(category, Ingredient.ofItems(output), output.asItem(), 1);
     }
 
     @Override
-    public BloodCauldronRecipeJsonBuilder criterion(String name, CriterionConditions conditions) {
+    public BloodCauldronFillRecipeJsonBuilder criterion(String name, CriterionConditions conditions) {
         this.advancementBuilder.criterion(name, conditions);
         return this;
     }
 
     @Override
-    public BloodCauldronRecipeJsonBuilder group(@Nullable String group) {
+    public BloodCauldronFillRecipeJsonBuilder group(@Nullable String group) {
         this.group = group;
         return this;
     }
@@ -70,6 +65,12 @@ public class BloodCauldronRecipeJsonBuilder extends RecipeJsonBuilder implements
     public void validate(Identifier id) {
         if (this.advancementBuilder.getCriteria().isEmpty())
             throw new IllegalStateException("No way of obtaining recipe " + id);
+    }
+
+    @Override
+    public void offerTo(Consumer<RecipeJsonProvider> exporter) {
+        Identifier id = CraftingRecipeJsonBuilder.getItemId(this.getOutputItem());
+        this.offerTo(exporter, new Identifier(id.getNamespace(), "cauldron_filling/" + id.getPath()));
     }
 
     @Override
@@ -95,13 +96,12 @@ public class BloodCauldronRecipeJsonBuilder extends RecipeJsonBuilder implements
         final int outputCount;
         final String group;
         public final Ingredient ingredient;
-        public final int level;
         private final Advancement.Builder advancementBuilder;
         private final Identifier id;
         private final Identifier advancementId;
         private final CraftingRecipeCategory category;
 
-        public Provider(Identifier recipeId, Identifier advancementId, BloodCauldronRecipeJsonBuilder builder, CraftingRecipeCategory category) {
+        public Provider(Identifier recipeId, Identifier advancementId, BloodCauldronFillRecipeJsonBuilder builder, CraftingRecipeCategory category) {
             this.outputCount = builder.outputCount;
             this.output = builder.output;
             this.advancementBuilder = builder.advancementBuilder;
@@ -110,14 +110,12 @@ public class BloodCauldronRecipeJsonBuilder extends RecipeJsonBuilder implements
             this.id = recipeId;
             this.advancementId = advancementId;
             this.category = category;
-            this.level = builder.level;
         }
 
         @Override
         public void serialize(JsonObject json) {
             json.addProperty("category", this.category.asString());
             json.add("input", this.ingredient.toJson());
-            json.addProperty("level", this.level);
 
             if (!this.group.isEmpty()) {
                 json.addProperty("group", this.group);
@@ -138,7 +136,7 @@ public class BloodCauldronRecipeJsonBuilder extends RecipeJsonBuilder implements
 
         @Override
         public RecipeSerializer<?> getSerializer() {
-            return BLRecipeSerializers.BLOOD_CAULDRON_SERIALIZER;
+            return BLRecipeSerializers.BLOOD_CAULDRON_FILL_SERIALIZER;
         }
 
         @Nullable
