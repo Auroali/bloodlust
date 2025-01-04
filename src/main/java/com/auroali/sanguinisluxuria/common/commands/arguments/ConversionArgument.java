@@ -2,10 +2,7 @@ package com.auroali.sanguinisluxuria.common.commands.arguments;
 
 import com.auroali.sanguinisluxuria.common.conversions.ConversionContext;
 import com.mojang.brigadier.context.CommandContext;
-import com.mojang.serialization.Codec;
 import net.minecraft.command.argument.EnumArgumentType;
-
-import java.util.function.Supplier;
 
 public class ConversionArgument extends EnumArgumentType<ConversionContext.Conversion> {
     protected ConversionArgument() {

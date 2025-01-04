@@ -4,14 +4,12 @@ import com.auroali.sanguinisluxuria.common.commands.arguments.ConversionArgument
 import com.auroali.sanguinisluxuria.common.conversions.ConversionContext;
 import com.auroali.sanguinisluxuria.common.registry.BLConversions;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
-import com.mojang.brigadier.context.CommandContext;
 import net.minecraft.command.argument.EntityArgumentType;
 import net.minecraft.entity.Entity;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 
 import java.util.Collection;
-import java.util.List;
 
 public class ConvertCommand {
     public static LiteralArgumentBuilder<ServerCommandSource> register() {

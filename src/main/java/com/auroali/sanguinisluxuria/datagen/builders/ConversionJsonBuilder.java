@@ -3,14 +3,10 @@ package com.auroali.sanguinisluxuria.datagen.builders;
 import com.auroali.sanguinisluxuria.common.conversions.ConversionType;
 import com.auroali.sanguinisluxuria.common.conversions.EntityConversionCondition;
 import com.auroali.sanguinisluxuria.common.conversions.EntityConversionTransformer;
-import com.auroali.sanguinisluxuria.common.entities.VampireVillagerEntity;
 import com.auroali.sanguinisluxuria.common.registry.BLRegistries;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import net.fabricmc.fabric.api.resource.conditions.v1.ConditionJsonProvider;
-import net.fabricmc.fabric.impl.datagen.FabricDataGenHelper;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 

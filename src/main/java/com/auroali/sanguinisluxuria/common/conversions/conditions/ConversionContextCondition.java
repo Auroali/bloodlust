@@ -2,9 +2,7 @@ package com.auroali.sanguinisluxuria.common.conversions.conditions;
 
 import com.auroali.sanguinisluxuria.common.conversions.ConversionContext;
 import com.auroali.sanguinisluxuria.common.conversions.EntityConversionCondition;
-import com.auroali.sanguinisluxuria.common.conversions.EntityConversionTransformer;
 import com.auroali.sanguinisluxuria.common.registry.BLConversions;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 public class ConversionContextCondition implements EntityConversionCondition {

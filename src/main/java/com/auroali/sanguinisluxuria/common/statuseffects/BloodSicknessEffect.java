@@ -1,7 +1,6 @@
 package com.auroali.sanguinisluxuria.common.statuseffects;
 
 import com.auroali.sanguinisluxuria.VampireHelper;
-import com.auroali.sanguinisluxuria.common.components.BLEntityComponents;
 import com.auroali.sanguinisluxuria.common.conversions.ConversionContext;
 import com.auroali.sanguinisluxuria.common.registry.BLAdvancementCriterion;
 import com.auroali.sanguinisluxuria.common.registry.BLConversions;

@@ -1,10 +1,12 @@
 package com.auroali.sanguinisluxuria.common.components;
 
 import com.auroali.sanguinisluxuria.BLResources;
-import com.auroali.sanguinisluxuria.common.components.impl.*;
+import com.auroali.sanguinisluxuria.common.components.impl.EntityBloodComponent;
+import com.auroali.sanguinisluxuria.common.components.impl.EntityVampireComponent;
+import com.auroali.sanguinisluxuria.common.components.impl.PlayerBloodComponent;
+import com.auroali.sanguinisluxuria.common.components.impl.PlayerVampireComponent;
 import com.auroali.sanguinisluxuria.common.entities.VampireMerchant;
 import com.auroali.sanguinisluxuria.common.entities.VampireVillagerEntity;
-import com.auroali.sanguinisluxuria.common.registry.BLEntities;
 import com.auroali.sanguinisluxuria.common.registry.BLVampireAbilities;
 import dev.onyxstudios.cca.api.v3.component.ComponentKey;
 import dev.onyxstudios.cca.api.v3.component.ComponentRegistry;
@@ -12,8 +14,6 @@ import dev.onyxstudios.cca.api.v3.entity.EntityComponentFactoryRegistry;
 import dev.onyxstudios.cca.api.v3.entity.EntityComponentInitializer;
 import dev.onyxstudios.cca.api.v3.entity.RespawnCopyStrategy;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.passive.VillagerEntity;
-import net.minecraft.entity.passive.WanderingTraderEntity;
 import net.minecraft.entity.projectile.TridentEntity;
 
 public class BLEntityComponents implements EntityComponentInitializer {

@@ -2,7 +2,6 @@ package com.auroali.sanguinisluxuria.datagen;
 
 import com.auroali.sanguinisluxuria.BLResources;
 import com.auroali.sanguinisluxuria.Bloodlust;
-import com.auroali.sanguinisluxuria.common.conversions.ConversionContext;
 import com.auroali.sanguinisluxuria.common.conversions.conditions.ConversionContextCondition;
 import com.auroali.sanguinisluxuria.common.registry.BLConversions;
 import com.auroali.sanguinisluxuria.common.registry.BLEntities;
