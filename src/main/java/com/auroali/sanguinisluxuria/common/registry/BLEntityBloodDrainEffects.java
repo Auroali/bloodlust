@@ -90,7 +90,7 @@ public class BLEntityBloodDrainEffects implements IdentifiableResourceReloadList
         // someday i will make it not terrible
         return CompletableFuture.supplyAsync(() -> FINDER.findResources(manager), prepareExecutor)
           // read effect files
-          .thenCompose(resources -> {
+          .thenApply(resources -> {
               List<LoadedEffects> entries = new ArrayList<>();
               resources.forEach((id, resource) -> {
                   JsonElement element;
@@ -106,7 +106,7 @@ public class BLEntityBloodDrainEffects implements IdentifiableResourceReloadList
                     .resultOrPartial(e -> Bloodlust.LOGGER.error("Could not parse entity blood drain effect {}: {}", id, e))
                     .ifPresent(entries::add);
               });
-              return CompletableFuture.completedFuture(entries);
+              return entries;
           })
           // wait for apply stage
           .thenCompose(synchronizer::whenPrepared)
