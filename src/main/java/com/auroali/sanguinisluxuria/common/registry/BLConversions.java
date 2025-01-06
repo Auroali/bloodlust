@@ -31,7 +31,7 @@ import java.util.concurrent.Executor;
 
 public class BLConversions implements IdentifiableResourceReloadListener {
     private static final HashMap<EntityType<?>, List<EntityConversionData>> CONVERSIONS = new HashMap<>();
-    private static final ResourceFinder FINDER = new ResourceFinder("vampire_conversions", ".json");
+    private static final ResourceFinder FINDER = new ResourceFinder("vampire_conversions", "json");
     private static final Gson GSON = new Gson();
 
     public static final ConversionType SET_VAMPIRE_TYPE = new VampireSettingConversionType(true);
