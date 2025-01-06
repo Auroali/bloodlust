@@ -22,5 +22,6 @@ public class BloodlustDataGenerator implements DataGeneratorEntrypoint {
         pack.addProvider(BLDamageTagsProvider::new);
         pack.addProvider(BLEnchantmentTagsProvider::new);
         pack.addProvider(BLConversionProvider::new);
+        pack.addProvider(BLBloodEffectProvider::new);
     }
 }

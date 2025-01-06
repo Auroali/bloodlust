@@ -13,6 +13,7 @@ import com.mojang.serialization.JsonOps;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
+import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -95,6 +96,8 @@ public class BLEntityBloodDrainEffects implements IdentifiableResourceReloadList
                   JsonElement element;
                   try {
                       element = GSON.fromJson(resource.getReader(), JsonElement.class);
+                      if (element.isJsonObject() && element.getAsJsonObject().has(ResourceConditions.CONDITIONS_KEY) && !ResourceConditions.objectMatchesConditions(element.getAsJsonObject()))
+                          return;
                   } catch (JsonSyntaxException | JsonIOException | IOException e) {
                       Bloodlust.LOGGER.error("Could not parse entity blood drain effect {}", id, e);
                       return;
