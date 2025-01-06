@@ -56,19 +56,6 @@ public class VampireHelper {
     }
 
     /**
-     * Adds all the toxic blood status effects to an entity
-     *
-     * @param entity the entity to add the effects to
-     */
-    @Deprecated(forRemoval = true)
-    public static void addToxicBloodEffects(LivingEntity entity) {
-        entity.addStatusEffect(new StatusEffectInstance(StatusEffects.HUNGER, 300, 3));
-        entity.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 100, 0));
-        if (entity.getRandom().nextDouble() > 0.75)
-            entity.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, 100, 0));
-    }
-
-    /**
      * Increments the level of blood sickness on an entity. If the entity does not currently have blood sickness, this will add it
      *
      * @param entity the entity to increment the blood sickness level of
