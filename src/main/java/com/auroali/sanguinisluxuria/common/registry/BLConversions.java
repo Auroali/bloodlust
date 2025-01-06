@@ -80,16 +80,12 @@ public class BLConversions implements IdentifiableResourceReloadListener {
 
     @Override
     public CompletableFuture<Void> reload(Synchronizer synchronizer, ResourceManager manager, Profiler prepareProfiler, Profiler applyProfiler, Executor prepareExecutor, Executor applyExecutor) {
-        return CompletableFuture.supplyAsync(() -> {
+        return CompletableFuture.supplyAsync(() -> FINDER.findResources(manager), prepareExecutor)
+          .thenApply(resources -> {
               List<EntityConversionData> data = new ArrayList<>();
-              FINDER.findResources(manager).forEach((identifier, resource) -> {
+              resources.forEach((identifier, resource) -> {
                   try {
-                      JsonElement element = GSON.fromJson(resource.getReader(), JsonElement.class);
-                      if (!element.isJsonObject()) {
-                          Bloodlust.LOGGER.error("Expected json object for conversion {}", identifier);
-                          return;
-                      }
-                      JsonObject object = element.getAsJsonObject();
+                      JsonObject object = GSON.fromJson(resource.getReader(), JsonObject.class);
                       if (object.has(ResourceConditions.CONDITIONS_KEY) && !ResourceConditions.objectMatchesConditions(object))
                           return;
 
@@ -100,7 +96,7 @@ public class BLConversions implements IdentifiableResourceReloadListener {
                   }
               });
               return data;
-          }, prepareExecutor)
+          })
           .thenCompose(synchronizer::whenPrepared)
           .thenAcceptAsync(conversions -> {
               CONVERSIONS.clear();

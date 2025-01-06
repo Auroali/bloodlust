@@ -3,10 +3,7 @@ package com.auroali.sanguinisluxuria.common.registry;
 import com.auroali.sanguinisluxuria.BLResources;
 import com.auroali.sanguinisluxuria.Bloodlust;
 import com.auroali.sanguinisluxuria.common.blood.BloodDrainEffectInstance;
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonIOException;
-import com.google.gson.JsonSyntaxException;
+import com.google.gson.*;
 import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.JsonOps;
@@ -93,16 +90,16 @@ public class BLEntityBloodDrainEffects implements IdentifiableResourceReloadList
           .thenApply(resources -> {
               List<LoadedEffects> entries = new ArrayList<>();
               resources.forEach((id, resource) -> {
-                  JsonElement element;
+                  JsonObject object;
                   try {
-                      element = GSON.fromJson(resource.getReader(), JsonElement.class);
-                      if (element.isJsonObject() && element.getAsJsonObject().has(ResourceConditions.CONDITIONS_KEY) && !ResourceConditions.objectMatchesConditions(element.getAsJsonObject()))
+                      object = GSON.fromJson(resource.getReader(), JsonObject.class);
+                      if (object.has(ResourceConditions.CONDITIONS_KEY) && !ResourceConditions.objectMatchesConditions(object))
                           return;
-                  } catch (JsonSyntaxException | JsonIOException | IOException e) {
+                  } catch (JsonParseException | IOException e) {
                       Bloodlust.LOGGER.error("Could not parse entity blood drain effect {}", id, e);
                       return;
                   }
-                  CODEC.parse(JsonOps.INSTANCE, element)
+                  CODEC.parse(JsonOps.INSTANCE, object)
                     .resultOrPartial(e -> Bloodlust.LOGGER.error("Could not parse entity blood drain effect {}: {}", id, e))
                     .ifPresent(entries::add);
               });
