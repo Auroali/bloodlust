@@ -56,16 +56,6 @@ public class VampireHelper {
     }
 
     /**
-     * Checks whether an entity can be converted to a vampire
-     *
-     * @param entity the potentially convertible entity
-     * @return if the entity can be converted (has a vampire component and is not currently a vampire)
-     */
-    public static boolean canBeConvertedToVampire(LivingEntity entity) {
-        return BLEntityComponents.VAMPIRE_COMPONENT.isProvidedBy(entity) && !BLEntityComponents.VAMPIRE_COMPONENT.get(entity).isVampire();
-    }
-
-    /**
      * Adds all the toxic blood status effects to an entity
      *
      * @param entity the entity to add the effects to
