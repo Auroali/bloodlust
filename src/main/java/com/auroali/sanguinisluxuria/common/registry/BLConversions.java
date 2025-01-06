@@ -6,6 +6,7 @@ import com.auroali.sanguinisluxuria.common.conversions.*;
 import com.auroali.sanguinisluxuria.common.conversions.conditions.ConversionContextCondition;
 import com.auroali.sanguinisluxuria.common.conversions.conditions.OrConversionCondition;
 import com.auroali.sanguinisluxuria.common.conversions.transformers.CopyConversionTransformer;
+import com.auroali.sanguinisluxuria.common.conversions.transformers.SetTransformer;
 import com.auroali.sanguinisluxuria.common.events.VampireConversionEvents;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -38,6 +39,7 @@ public class BLConversions implements IdentifiableResourceReloadListener {
     public static final ConversionType SPAWN_TYPE = new CreateEntityConversionType();
 
     public static final EntityConversionTransformer.Serializer<?> COPY_TRANSFORMER = new EntityConversionTransformer.Serializer<>(CopyConversionTransformer::fromJson);
+    public static final EntityConversionTransformer.Serializer<?> SET_TRANSFORMER = new EntityConversionTransformer.Serializer<>(SetTransformer::fromJson);
 
     public static final EntityConversionCondition.Serializer<?> CONVERSION_CONTEXT_CONDITION = new EntityConversionCondition.Serializer<>(ConversionContextCondition::fromJson);
     public static final EntityConversionCondition.Serializer<?> OR_CONDITION = new EntityConversionCondition.Serializer<>(OrConversionCondition::fromJson);
@@ -47,6 +49,7 @@ public class BLConversions implements IdentifiableResourceReloadListener {
         Registry.register(BLRegistries.CONVERSION_TYPES, BLResources.REVERT_VAMPIRE_TYPE, REVERT_VAMPIRE_TYPE);
         Registry.register(BLRegistries.CONVERSION_TYPES, BLResources.SPAWN_TYPE, SPAWN_TYPE);
         Registry.register(BLRegistries.CONVERSION_TRANSFORMERS, BLResources.COPY_TRANSFORMER_ID, COPY_TRANSFORMER);
+        Registry.register(BLRegistries.CONVERSION_TRANSFORMERS, BLResources.SET_TRANSFORMER_ID, SET_TRANSFORMER);
         Registry.register(BLRegistries.CONVERSION_CONDITIONS, BLResources.CONVERSION_CONTEXT_CONDITION_ID, CONVERSION_CONTEXT_CONDITION);
         Registry.register(BLRegistries.CONVERSION_CONDITIONS, BLResources.OR_CONDITION_ID, OR_CONDITION);
 

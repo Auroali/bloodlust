@@ -3,6 +3,7 @@ package com.auroali.sanguinisluxuria.datagen.builders;
 import com.auroali.sanguinisluxuria.common.conversions.ConversionType;
 import com.auroali.sanguinisluxuria.common.conversions.EntityConversionCondition;
 import com.auroali.sanguinisluxuria.common.conversions.EntityConversionTransformer;
+import com.auroali.sanguinisluxuria.common.conversions.transformers.SetTransformer;
 import com.auroali.sanguinisluxuria.common.registry.BLRegistries;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -108,6 +109,11 @@ public class ConversionJsonBuilder {
         Identifier toId = Registries.ENTITY_TYPE.getId(this.to);
         String path = fromId.getNamespace() + "_" + fromId.getPath() + "_to_" + toId.getNamespace() + "_" + toId.getPath();
         return new Identifier(namespace, path);
+    }
+
+    public ConversionJsonBuilder transformer(EntityConversionTransformer transformer) {
+        this.transformers.add(transformer);
+        return this;
     }
 
     public static class Provider {

@@ -6,6 +6,7 @@ import com.auroali.sanguinisluxuria.common.components.BloodComponent;
 import com.auroali.sanguinisluxuria.common.components.InitializableBloodComponent;
 import com.auroali.sanguinisluxuria.common.events.VampireConversionEvents;
 import com.auroali.sanguinisluxuria.common.registry.BLRegistries;
+import com.auroali.sanguinisluxuria.common.registry.BLTags;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -63,7 +64,7 @@ public class EntityConversionData {
             return;
         }
 
-        if (BLEntityComponents.BLOOD_COMPONENT.isProvidedBy(newEntity) && BLEntityComponents.BLOOD_COMPONENT.isProvidedBy(entity)) {
+        if (newEntity.getType().isIn(BLTags.Entities.HAS_BLOOD) && BLEntityComponents.BLOOD_COMPONENT.isProvidedBy(newEntity) && BLEntityComponents.BLOOD_COMPONENT.isProvidedBy(entity)) {
             BloodComponent oldBlood = BLEntityComponents.BLOOD_COMPONENT.get(entity);
             BloodComponent newBlood = BLEntityComponents.BLOOD_COMPONENT.get(newEntity);
             if (newBlood instanceof InitializableBloodComponent initializable)

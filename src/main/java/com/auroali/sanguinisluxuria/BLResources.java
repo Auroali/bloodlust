@@ -146,6 +146,7 @@ public class BLResources {
     public static final Identifier CONVERSION_ARGUMENT_ID = id("conversion");
     public static final Identifier CONVERSION_CONTEXT_CONDITION_ID = id("context");
     public static final Identifier OR_CONDITION_ID = id("or");
+    public static final Identifier SET_TRANSFORMER_ID = id("set");
 
     public static Identifier id(String path) {
         return new Identifier(Bloodlust.MODID, path);

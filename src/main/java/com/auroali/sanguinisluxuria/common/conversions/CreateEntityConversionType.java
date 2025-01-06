@@ -4,6 +4,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtElement;
 import net.minecraft.registry.Registries;
 import net.minecraft.world.World;
 
@@ -18,7 +19,7 @@ public class CreateEntityConversionType implements ConversionType {
               newEntity.setYaw(original.getYaw());
               newEntity.setPitch(original.getPitch());
               newEntity.setCustomName(original.getCustomName());
-              if (newEntity instanceof LivingEntity living) {
+              if (!tag.contains("Health", NbtElement.FLOAT_TYPE) && newEntity instanceof LivingEntity living) {
                   living.setHealth(original instanceof LivingEntity originalLiving
                     ? Math.min(originalLiving.getHealth(), living.getMaxHealth())
                     : living.getMaxHealth()

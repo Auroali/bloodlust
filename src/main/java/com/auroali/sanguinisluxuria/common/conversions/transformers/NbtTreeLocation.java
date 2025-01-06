@@ -19,33 +19,28 @@ public class NbtTreeLocation {
         return new NbtTreeLocation(nodes);
     }
 
-    public NbtElement get(NbtCompound tag) {
-        NbtElement element = null;
-        for (int i = 0; i < this.nodes.length; i++) {
-            element = tag.get(this.nodes[i]);
-            if (element == null)
+    protected NbtCompound getParent(NbtCompound tag) {
+        NbtCompound parent = tag;
+        for (int i = 0; i < this.nodes.length - 1; i++) {
+            NbtElement element = tag.get(this.nodes[i]);
+            if (element == null || element.getType() != NbtElement.COMPOUND_TYPE)
                 return null;
-            // if this isnt the last index and it isn't a compound tag, return null
-            if (i != this.nodes.length - 1 && element.getType() != NbtElement.COMPOUND_TYPE)
-                return null;
+            parent = (NbtCompound) element;
         }
-        return element;
+        return parent;
+    }
+
+    public NbtElement get(NbtCompound tag) {
+        NbtCompound parent = this.getParent(tag);
+        if (parent == null)
+            return null;
+        return parent.get(this.nodes[this.nodes.length - 1]);
     }
 
     public void insertInto(NbtCompound tag, NbtElement element) {
-        NbtElement found = null;
-        for (int i = 0; i < this.nodes.length; i++) {
-            found = tag.get(this.nodes[i]);
-            if (found == null)
-                return;
-            // unlike get, this checks the second to last index
-            // as this stops at the parent
-            if (i != this.nodes.length - 2 && found.getType() != NbtElement.COMPOUND_TYPE)
-                return;
-        }
-
-        if (found != null && found.getType() == NbtElement.COMPOUND_TYPE)
-            ((NbtCompound) found).put(this.nodes[this.nodes.length - 1], element);
+        NbtCompound parent = this.getParent(tag);
+        if (parent != null)
+            parent.put(this.nodes[this.nodes.length - 1], element);
     }
 
     @Override

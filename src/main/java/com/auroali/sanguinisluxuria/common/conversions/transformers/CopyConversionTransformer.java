@@ -4,18 +4,17 @@ import com.auroali.sanguinisluxuria.common.conversions.ConversionContext;
 import com.auroali.sanguinisluxuria.common.conversions.EntityConversionTransformer;
 import com.auroali.sanguinisluxuria.common.registry.BLConversions;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 
 public class CopyConversionTransformer implements EntityConversionTransformer {
-    NbtTreeLocation srcPath;
-    NbtTreeLocation dstPath;
+    final NbtTreeLocation srcPath;
+    final NbtTreeLocation dstPath;
 
-    public CopyConversionTransformer(String srcPath, String dstPath) {
-        this.srcPath = NbtTreeLocation.fromString(srcPath);
-        this.dstPath = NbtTreeLocation.fromString(dstPath);
-        if (this.dstPath == null)
-            this.dstPath = this.srcPath;
+    public CopyConversionTransformer(NbtTreeLocation srcPath, NbtTreeLocation dstPath) {
+        this.srcPath = srcPath;
+        this.dstPath = dstPath;
     }
 
     @Override
@@ -43,6 +42,10 @@ public class CopyConversionTransformer implements EntityConversionTransformer {
         String dstPath = srcPath;
         if (object.has("dst"))
             dstPath = object.get("dst").getAsString();
-        return new CopyConversionTransformer(srcPath, dstPath);
+        NbtTreeLocation src = NbtTreeLocation.fromString(srcPath);
+        NbtTreeLocation dst = NbtTreeLocation.fromString(dstPath);
+        if (src == null)
+            throw new JsonParseException("Could not parse nbt tree location " + srcPath);
+        return new CopyConversionTransformer(src, dst);
     }
 }
