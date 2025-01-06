@@ -22,11 +22,11 @@ import java.util.Collections;
 import java.util.List;
 
 public class EntityConversionData {
-    protected ConversionType type;
-    protected EntityType<?> entity;
-    protected EntityType<?> target;
-    protected List<EntityConversionTransformer> transformers;
-    protected List<EntityConversionCondition> conditions;
+    protected final ConversionType type;
+    protected final EntityType<?> entity;
+    protected final EntityType<?> target;
+    protected final List<EntityConversionTransformer> transformers;
+    protected final List<EntityConversionCondition> conditions;
 
     public EntityConversionData(ConversionType type, EntityType<?> entity, EntityType<?> target, List<EntityConversionTransformer> transformers, List<EntityConversionCondition> conditions) {
         this.type = type;

@@ -65,7 +65,7 @@ public class BLVampireVillagerTrades {
 
     // modified version of TradeOffers.EnchantBook that only offers vampire enchantments
     public static class VampireEnchantedBookFactory implements TradeOffers.Factory {
-        int experience;
+        final int experience;
 
         public VampireEnchantedBookFactory(int experience) {
             this.experience = experience;

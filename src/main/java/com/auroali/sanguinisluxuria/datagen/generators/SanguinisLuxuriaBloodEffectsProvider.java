@@ -1,8 +1,6 @@
 package com.auroali.sanguinisluxuria.datagen.generators;
 
-import com.auroali.sanguinisluxuria.common.registry.BLEntityBloodDrainEffects;
 import com.auroali.sanguinisluxuria.datagen.builders.BloodDrainEffectBuilder;
-import com.auroali.sanguinisluxuria.datagen.builders.ConversionJsonBuilder;
 import com.google.common.base.Preconditions;
 import com.google.gson.JsonObject;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;

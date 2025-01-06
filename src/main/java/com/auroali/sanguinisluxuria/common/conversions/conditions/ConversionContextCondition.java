@@ -6,7 +6,7 @@ import com.auroali.sanguinisluxuria.common.registry.BLConversions;
 import com.google.gson.JsonObject;
 
 public class ConversionContextCondition implements EntityConversionCondition {
-    ConversionContext.Conversion conversion;
+    final ConversionContext.Conversion conversion;
 
     public ConversionContextCondition(ConversionContext.Conversion conversion) {
         this.conversion = conversion;

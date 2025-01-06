@@ -15,11 +15,11 @@ import java.util.List;
 import java.util.function.Consumer;
 
 public class ConversionJsonBuilder {
-    EntityType<?> from;
-    EntityType<?> to;
+    final EntityType<?> from;
+    final EntityType<?> to;
     ConversionType type;
-    List<EntityConversionTransformer> transformers;
-    List<EntityConversionCondition> conditions;
+    final List<EntityConversionTransformer> transformers;
+    final List<EntityConversionCondition> conditions;
 
     protected ConversionJsonBuilder(EntityType<?> from, EntityType<?> to) {
         this.from = from;

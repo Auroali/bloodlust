@@ -8,7 +8,6 @@ import com.auroali.sanguinisluxuria.common.conversions.conditions.OrConversionCo
 import com.auroali.sanguinisluxuria.common.conversions.transformers.CopyConversionTransformer;
 import com.auroali.sanguinisluxuria.common.events.VampireConversionEvents;
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;

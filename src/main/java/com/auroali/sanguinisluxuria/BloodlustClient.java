@@ -44,25 +44,25 @@ import net.minecraft.world.World;
 import org.lwjgl.glfw.GLFW;
 
 public class BloodlustClient implements ClientModInitializer {
-    public static KeyBinding SUCK_BLOOD = new KeyBinding(
+    public static final KeyBinding SUCK_BLOOD = new KeyBinding(
       "key.sanguinisluxuria.drain_blood",
       InputUtil.Type.KEYSYM,
       GLFW.GLFW_KEY_R,
       "category.sanguinisluxuria.sanguinisluxuria"
     );
-    public static KeyBinding ACTIVATE_BITE = new KeyBinding(
+    public static final KeyBinding ACTIVATE_BITE = new KeyBinding(
       "key.sanguinisluxuria.activate_bite",
       InputUtil.Type.KEYSYM,
       GLFW.GLFW_KEY_X,
       "category.sanguinisluxuria.sanguinisluxuria"
     );
-    public static KeyBinding ACTIVATE_BLINK = new KeyBinding(
+    public static final KeyBinding ACTIVATE_BLINK = new KeyBinding(
       "key.sanguinisluxuria.activate_blink",
       InputUtil.Type.KEYSYM,
       GLFW.GLFW_KEY_Z,
       "category.sanguinisluxuria.sanguinisluxuria"
     );
-    public static KeyBinding ACTIVATE_MIST = new KeyBinding(
+    public static final KeyBinding ACTIVATE_MIST = new KeyBinding(
       "key.sanguinisluxuria.activate_mist",
       InputUtil.Type.KEYSYM,
       GLFW.GLFW_KEY_C,

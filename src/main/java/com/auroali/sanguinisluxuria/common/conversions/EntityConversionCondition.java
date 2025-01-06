@@ -13,8 +13,8 @@ public interface EntityConversionCondition {
     Serializer<?> getSerializer();
 
     class Serializer<T extends EntityConversionCondition> {
-        Function<JsonObject, T> fromJson;
-        Function<T, JsonElement> toJson;
+        final Function<JsonObject, T> fromJson;
+        final Function<T, JsonElement> toJson;
 
         public Serializer(Function<JsonObject, T> fromJson) {
             this.fromJson = fromJson;

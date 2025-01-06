@@ -6,7 +6,7 @@ import net.minecraft.nbt.NbtElement;
 import java.util.Arrays;
 
 public class NbtTreeLocation {
-    String[] nodes;
+    final String[] nodes;
 
     private NbtTreeLocation(String[] pathEntries) {
         this.nodes = pathEntries;

@@ -19,7 +19,6 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.math.MathHelper;
@@ -91,24 +90,9 @@ public class BLHud {
             float cooldownPercent = MathHelper.clamp(cooldown / (float) maxCooldown, 0.f, 1.f);
             context.drawTexture(BLResources.ICONS, 0, height - 17, 0, 46, 64, 17);
             context.drawText(client.textRenderer, Text.translatable(ability.getTranslationKey()), 4, height - 13, -1, false);
-            //context.drawTexture(BLResources.ICONS, 4, height - 3, 0, 69, 56, 3);
-            //context.drawTexture(BLResources.ICONS, 4, height - 3, 0, 72, (int) (56 * cooldownPercent), 3);
-            //context.fill(3, height - 3, (int) (59 * cooldownPercent), height - 2, -1);
             context.drawTexture(BLResources.ICONS, 3, height - 3, 0, 63, (int) (56 * cooldownPercent), 1);
             context.getMatrices().translate(0, -20, 0);
         }
         context.getMatrices().pop();
-    }
-
-    public static Text getTextForSlot(int slot) {
-        return switch (slot) {
-            case 0 -> Text.keybind(BloodlustClient.ACTIVATE_BITE.getTranslationKey());
-            case 1 -> Text.keybind(BloodlustClient.ACTIVATE_BLINK.getTranslationKey());
-            default -> null;
-        };
-    }
-
-    public static ItemStack getOrCreateIcon(int slot, VampireAbility ability) {
-        return ItemStack.EMPTY;
     }
 }
