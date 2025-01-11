@@ -4,6 +4,7 @@ import com.auroali.sanguinisluxuria.BLResources;
 import com.auroali.sanguinisluxuria.Bloodlust;
 import com.auroali.sanguinisluxuria.common.blood.BloodDrainEffectInstance;
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.mojang.datafixers.util.Either;
@@ -36,10 +37,6 @@ import java.util.concurrent.Executor;
 public class BLEntityBloodDrainEffects implements IdentifiableResourceReloadListener {
     private static final HashMap<EntityType<?>, List<BloodDrainEffectInstance>> EFFECT_MAP = new HashMap<>();
     private static final List<LoadedEffects> UNRESOLVED_EFFECTS = new ArrayList<>();
-    private static final Codec<LoadedEffects> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-      Codec.either(TagKey.codec(RegistryKeys.ENTITY_TYPE), Registries.ENTITY_TYPE.getCodec()).fieldOf("entity").forGetter(LoadedEffects::targets),
-      BloodDrainEffectInstance.CODEC.listOf().fieldOf("effects").forGetter(LoadedEffects::effects)
-    ).apply(instance, LoadedEffects::new));
     private static final Gson GSON = new Gson();
     private static final ResourceFinder FINDER = new ResourceFinder("blood_drain_effects", "json");
 
@@ -92,18 +89,15 @@ public class BLEntityBloodDrainEffects implements IdentifiableResourceReloadList
           .thenApply(resources -> {
               List<LoadedEffects> entries = new ArrayList<>();
               resources.forEach((id, resource) -> {
-                  JsonObject object;
                   try {
-                      object = GSON.fromJson(resource.getReader(), JsonObject.class);
+                      JsonObject object = GSON.fromJson(resource.getReader(), JsonObject.class);
                       if (object.has(ResourceConditions.CONDITIONS_KEY) && !ResourceConditions.objectMatchesConditions(object))
                           return;
+
+                      entries.add(LoadedEffects.fromJson(object));
                   } catch (JsonParseException | IOException e) {
                       Bloodlust.LOGGER.error("Could not parse entity blood drain effect {}", id, e);
-                      return;
                   }
-                  CODEC.parse(JsonOps.INSTANCE, object)
-                    .resultOrPartial(e -> Bloodlust.LOGGER.error("Could not parse entity blood drain effect {}: {}", id, e))
-                    .ifPresent(entries::add);
               });
               return entries;
           })
@@ -130,6 +124,14 @@ public class BLEntityBloodDrainEffects implements IdentifiableResourceReloadList
         }
     }
 
+    /**
+     * Intermediate representation of a list of blood drain effects
+     * <br> Required because tags aren't loaded until after effects are, so the tag references can't be resolved until after
+     * datapack reload
+     *
+     * @param targets either a direct entity type reference, or a tag
+     * @param effects the list of effects
+     */
     private record LoadedEffects(Either<TagKey<EntityType<?>>, EntityType<?>> targets,
                                  List<BloodDrainEffectInstance> effects) {
         List<EntityType<?>> resolveTargets() {
@@ -137,6 +139,39 @@ public class BLEntityBloodDrainEffects implements IdentifiableResourceReloadList
               tag -> BLTags.getAllEntriesInTag(tag, Registries.ENTITY_TYPE),
               Collections::singletonList
             );
+        }
+
+        public static LoadedEffects fromJson(JsonObject object) {
+            // handle effects
+            List<BloodDrainEffectInstance> effects = new ArrayList<>();
+            for (JsonElement element : object.getAsJsonArray("effects")) {
+                if (!element.isJsonObject())
+                    throw new JsonParseException("Expected json object but got " + element);
+
+                BloodDrainEffectInstance.CODEC.parse(JsonOps.INSTANCE, element)
+                  .resultOrPartial(Bloodlust.LOGGER::error)
+                  .ifPresent(effects::add);
+            }
+
+            Either<TagKey<EntityType<?>>, EntityType<?>> targets;
+
+            // handle parsing target
+            String targetString = object.get("entity").getAsString();
+            if (targetString.startsWith("#")) {
+                Identifier id = Identifier.tryParse(targetString.substring(1));
+                if (id == null)
+                    throw new JsonParseException("Failed to parse id " + targetString + " for tag");
+                TagKey<EntityType<?>> tag = TagKey.of(RegistryKeys.ENTITY_TYPE, id);
+                targets = Either.left(tag);
+            } else {
+                Identifier id = Identifier.tryParse(targetString);
+                if (id == null)
+                    throw new JsonParseException("Failed to parse id " + targetString + " for entity");
+                EntityType<?> type = Registries.ENTITY_TYPE.get(id);
+                targets = Either.right(type);
+            }
+
+            return new LoadedEffects(targets, effects);
         }
     }
 }

@@ -3,7 +3,6 @@ package com.auroali.sanguinisluxuria.datagen.builders;
 import com.auroali.sanguinisluxuria.common.conversions.ConversionType;
 import com.auroali.sanguinisluxuria.common.conversions.EntityConversionCondition;
 import com.auroali.sanguinisluxuria.common.conversions.EntityConversionTransformer;
-import com.auroali.sanguinisluxuria.common.conversions.transformers.SetTransformer;
 import com.auroali.sanguinisluxuria.common.registry.BLRegistries;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
