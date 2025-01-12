@@ -86,6 +86,11 @@ public class SetTransformer implements EntityConversionTransformer {
 
 
     protected static NbtElement nbtFromJson(JsonObject object) {
+        if (!object.has("nbtType"))
+            throw new JsonParseException("Missing nbtType field");
+        if (!object.has("nbtValue"))
+            throw new JsonParseException("Missing nbtValue field");
+
         String type = object.get("nbtType").getAsString();
         JsonElement value = object.get("nbtValue");
         return switch (type) {

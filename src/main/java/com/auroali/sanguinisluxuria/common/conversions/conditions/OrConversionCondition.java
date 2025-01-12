@@ -3,9 +3,11 @@ package com.auroali.sanguinisluxuria.common.conversions.conditions;
 import com.auroali.sanguinisluxuria.common.conversions.ConversionContext;
 import com.auroali.sanguinisluxuria.common.conversions.EntityConversionCondition;
 import com.auroali.sanguinisluxuria.common.conversions.EntityConversionData;
+import com.auroali.sanguinisluxuria.common.registry.BLConversions;
 import com.auroali.sanguinisluxuria.common.registry.BLRegistries;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
 import net.minecraft.util.Identifier;
 
 import java.util.Arrays;
@@ -47,10 +49,15 @@ public class OrConversionCondition implements EntityConversionCondition {
 
     @Override
     public Serializer<?> getSerializer() {
-        return null;
+        return BLConversions.OR_CONDITION;
     }
 
     public static OrConversionCondition fromJson(JsonObject object) {
+        if (!object.has("conditions"))
+            throw new JsonParseException("Missing conditions field");
+        if (!object.get("conditions").isJsonArray())
+            throw new JsonParseException("Expected conditions to be a json array, got " + object.get("conditions"));
+
         List<EntityConversionCondition> conditions = EntityConversionData.parseConditions(object.getAsJsonArray("conditions"));
         return new OrConversionCondition(conditions);
     }
