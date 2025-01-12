@@ -95,7 +95,7 @@ public class BLEntityBloodDrainEffects implements IdentifiableResourceReloadList
                           return;
 
                       entries.add(LoadedEffects.fromJson(object));
-                  } catch (JsonParseException | IOException e) {
+                  } catch (JsonParseException | IllegalArgumentException | IOException e) {
                       Bloodlust.LOGGER.error("Could not parse entity blood drain effect {}", id, e);
                   }
               });

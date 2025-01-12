@@ -93,8 +93,8 @@ public class BLConversions implements IdentifiableResourceReloadListener {
 
                       EntityConversionData conversionData = EntityConversionData.fromJson(object);
                       data.add(conversionData);
-                  } catch (IOException | JsonParseException e) {
-                      Bloodlust.LOGGER.error("Failed to read conversion", e);
+                  } catch (IOException | IllegalArgumentException | JsonParseException e) {
+                      Bloodlust.LOGGER.error("Failed to read conversion {}", identifier, e);
                   }
               });
               return data;
