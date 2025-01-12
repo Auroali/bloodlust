@@ -29,6 +29,7 @@ public class OrConversionCondition implements EntityConversionCondition {
         return false;
     }
 
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Override
     public JsonObject toJson() {
         JsonObject object = new JsonObject();
@@ -38,8 +39,7 @@ public class OrConversionCondition implements EntityConversionCondition {
             if (typeId == null)
                 continue;
 
-            JsonObject conditionJson = condition.toJson();
-            conditionJson.addProperty("type", typeId.toString());
+            JsonObject conditionJson = ((EntityConversionCondition.Serializer) condition.getSerializer()).toJson(condition);
             conditionsArray.add(conditionJson);
         }
 

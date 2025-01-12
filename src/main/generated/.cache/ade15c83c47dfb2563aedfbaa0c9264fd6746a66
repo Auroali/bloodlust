@@ -1,4 +1,4 @@
-// 1.20.1	2025-01-06T19:28:27.828436428	Sanguinis Luxuria/Model Definitions
+// 1.20.1	2025-01-12T19:56:49.114081158	Sanguinis Luxuria/Model Definitions
 1b4d5423efb7f92cf5f51e03e4594662a3cd5b60 assets/sanguinisluxuria/models/block/hungry_decayed_log_2.json
 e83fba3eea321d2c8cbdeec79b48a1b657ea4c5c assets/sanguinisluxuria/models/block/raw_silver_block.json
 513a1ea2883e95c670872d3e21af39e15c644ab1 assets/sanguinisluxuria/models/item/silver_pressure_plate.json
@@ -86,8 +86,8 @@ c023a78d3ebb0693ec777446fac7fbf329c85cd3 assets/sanguinisluxuria/blockstates/raw
 2012044e548307287c95d7d187287c0bddee0255 assets/sanguinisluxuria/models/block/decayed_fence_gate.json
 eefb6ec1742f0122b77606205ad68e30168b170f assets/sanguinisluxuria/models/block/decayed_button_inventory.json
 45bd262cdaf0fbd68ea530c0619901507c74cdbe assets/sanguinisluxuria/models/block/stripped_hungry_decayed_log.json
-0e95a387e21666166e836e690a7962757fc2f519 assets/sanguinisluxuria/blockstates/decayed_stairs.json
 cc65376c9ff293c4f2a30d1df9246cb9d3611832 assets/sanguinisluxuria/models/item/blood_bag_2.json
+0e95a387e21666166e836e690a7962757fc2f519 assets/sanguinisluxuria/blockstates/decayed_stairs.json
 dd68b4967aeb0a6c7b763b040b3bafc4c1d7a664 assets/sanguinisluxuria/models/item/decayed_hanging_sign.json
 0f5225d71865790d096e220d92b850fe3a9f2c03 assets/sanguinisluxuria/models/block/decayed_planks.json
 d2d37220a5ccb862f2afce81a47e4040061d30e7 assets/sanguinisluxuria/models/block/decayed_fence_gate_wall_open.json

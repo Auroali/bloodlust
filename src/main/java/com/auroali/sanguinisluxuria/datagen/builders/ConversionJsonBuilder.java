@@ -132,6 +132,7 @@ public class ConversionJsonBuilder {
             this.conditions = conditions;
         }
 
+        @SuppressWarnings({ "unchecked", "rawtypes" })
         public void serialize(JsonObject object) {
             Identifier fromId = Registries.ENTITY_TYPE.getId(this.from);
             Identifier toId = Registries.ENTITY_TYPE.getId(this.to);
@@ -148,11 +149,7 @@ public class ConversionJsonBuilder {
             if (!this.transformers.isEmpty()) {
                 JsonArray serializedTransformers = new JsonArray();
                 this.transformers.forEach(transformer -> {
-                    JsonObject transformerJson = transformer.toJson();
-                    transformerJson.addProperty(
-                      "type",
-                      BLRegistries.CONVERSION_TRANSFORMERS.getId(transformer.getSerializer()).toString()
-                    );
+                    JsonObject transformerJson = ((EntityConversionTransformer.Serializer) transformer.getSerializer()).toJson(transformer);
                     serializedTransformers.add(transformerJson);
                 });
                 object.add("transformers", serializedTransformers);
@@ -161,11 +158,7 @@ public class ConversionJsonBuilder {
             if (!this.conditions.isEmpty()) {
                 JsonArray serializedConditions = new JsonArray();
                 this.conditions.forEach(condition -> {
-                    JsonObject conditionJson = condition.toJson();
-                    conditionJson.addProperty(
-                      "type",
-                      BLRegistries.CONVERSION_CONDITIONS.getId(condition.getSerializer()).toString()
-                    );
+                    JsonObject conditionJson = ((EntityConversionCondition.Serializer) condition.getSerializer()).toJson(condition);
                     serializedConditions.add(conditionJson);
                 });
                 object.add("conditions", serializedConditions);

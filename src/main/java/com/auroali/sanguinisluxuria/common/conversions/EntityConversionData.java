@@ -125,7 +125,7 @@ public class EntityConversionData {
             if (serializer == null)
                 throw new JsonParseException("Failed to read condition type " + id);
 
-            EntityConversionCondition condition = serializer.fromJson.apply(conditionJson);
+            EntityConversionCondition condition = serializer.fromJson(conditionJson);
             conditions.add(condition);
         }
         return conditions;
@@ -146,7 +146,7 @@ public class EntityConversionData {
             if (serializer == null)
                 throw new JsonParseException("Failed to read transformer type " + id);
 
-            EntityConversionTransformer transformer = serializer.fromJson.apply(transformerJson);
+            EntityConversionTransformer transformer = serializer.fromJson(transformerJson);
             transformers.add(transformer);
         }
         return transformers;
