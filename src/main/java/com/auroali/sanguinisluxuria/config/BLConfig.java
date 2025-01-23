@@ -29,8 +29,6 @@ public class BLConfig {
 
     public float vampireDamageMultiplier = 1.5f;
     public float vampireExhaustionMultiplier = 0.45f;
-    public float blessedWaterDamage = 5f;
-    public int skillPointsPerLevel = 1;
     public float piercingExhaustion = 2.5f;
     public boolean generateSilverOre = true;
 
@@ -52,25 +50,12 @@ public class BLConfig {
                 .binding(0.45f, () -> this.vampireExhaustionMultiplier, f -> this.vampireExhaustionMultiplier = f)
                 .controller(FloatFieldControllerBuilder::create)
                 .build()
-              ).option(Option.<Float>createBuilder()
-                .name(Text.translatable("sanguinisluxuria.config.option.blessed_water_damage"))
-                .description(OptionDescription.of(Text.translatable("sanguinisluxuria.config.option.blessed_water_damage.desc")))
-                .binding(5f, () -> this.blessedWaterDamage, f -> this.blessedWaterDamage = f)
-                .controller(FloatFieldControllerBuilder::create)
-                .build()
               ).build()
             ).build()
           )
           .category(ConfigCategory.createBuilder()
             .name(Text.translatable("sanguinisluxuria.config.category.abilities"))
             .group(OptionGroup.createBuilder()
-              .option(Option.<Integer>createBuilder()
-                .name(Text.translatable("sanguinisluxuria.config.option.skill_points_per_level"))
-                .description(OptionDescription.of(Text.translatable("sanguinisluxuria.config.option.skill_points_per_level.desc")))
-                .binding(1, () -> this.skillPointsPerLevel, f -> this.skillPointsPerLevel = f)
-                .controller(IntegerFieldControllerBuilder::create)
-                .build()
-              )
               .option(Option.<Float>createBuilder()
                 .name(Text.translatable("sanguinisluxuria.config.option.blink_piercing_exhaustion"))
                 .description(OptionDescription.of(Text.translatable("sanguinisluxuria.config.option.blink_piercing_exhaustion.desc")))
@@ -106,10 +91,8 @@ public class BLConfig {
           .category("gameplay")
           .writeValue("vampireDamageMultiplier", this.vampireDamageMultiplier, JsonObject::addProperty)
           .writeValue("vampireExhaustionMultiplier", this.vampireExhaustionMultiplier, JsonObject::addProperty)
-          .writeValue("blessedWaterDamage", this.blessedWaterDamage, JsonObject::addProperty)
           .up()
           .category("abilities")
-          .writeValue("skillPointsPerLevel", this.skillPointsPerLevel, JsonObject::addProperty)
           .writeValue("blinkPiercingExhaustion", this.piercingExhaustion, JsonObject::addProperty)
           .up()
           .category("worldgen")
@@ -141,10 +124,8 @@ public class BLConfig {
           .category("gameplay")
           .readValue("vampireDamageMultiplier", v -> this.vampireDamageMultiplier = v, this.vampireDamageMultiplier, JsonElement::getAsFloat)
           .readValue("vampireExhaustionMultiplier", v -> this.vampireExhaustionMultiplier = v, this.vampireExhaustionMultiplier, JsonElement::getAsFloat)
-          .readValue("blessedWaterDamage", v -> this.blessedWaterDamage = v, this.blessedWaterDamage, JsonElement::getAsFloat)
           .up()
           .category("abilities")
-          .readValue("skillPointsPerLevel", v -> this.skillPointsPerLevel = v, this.skillPointsPerLevel, JsonElement::getAsInt)
           .readValue("blinkPiercingExhaustion", v -> this.piercingExhaustion = v, this.piercingExhaustion, JsonElement::getAsFloat)
           .up()
           .category("worldgen")

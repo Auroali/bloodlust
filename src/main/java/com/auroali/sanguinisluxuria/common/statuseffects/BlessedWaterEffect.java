@@ -21,12 +21,14 @@ public class BlessedWaterEffect extends StatusEffect {
     @Override
     public void applyInstantEffect(@Nullable Entity source, @Nullable Entity attacker, LivingEntity target, int amplifier, double proximity) {
         super.applyInstantEffect(source, attacker, target, amplifier, proximity);
-        if (!target.isUndead() || (VampireHelper.isVampire(target) && target.hasStatusEffect(StatusEffects.WEAKNESS))) {
-            target.addStatusEffect(new StatusEffectInstance(BLStatusEffects.BLOOD_PROTECTION, 3600, 0));
+        if (!target.isUndead()) {
+            target.addStatusEffect(new StatusEffectInstance(BLStatusEffects.BLOOD_PROTECTION, 3600, amplifier));
             return;
         }
 
-        float damage = BLConfig.INSTANCE.blessedWaterDamage * (amplifier + 1);
+        float damage = 2.f * (amplifier + 1);
+
+        target.setOnFireFor(20 + 2 * amplifier);
 
         if (source != null)
             target.damage(BLDamageSources.blessedWater(source, attacker), damage);

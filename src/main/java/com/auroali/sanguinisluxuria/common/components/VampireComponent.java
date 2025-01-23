@@ -156,7 +156,8 @@ public interface VampireComponent extends Component, AutoSyncedComponent, Server
 
         // damage the vampire and cancel filling up hunger if the target has blood protection
         if (target.hasStatusEffect(BLStatusEffects.BLOOD_PROTECTION)) {
-            vampireEntity.damage(BLDamageSources.blessedWater(target), BLConfig.INSTANCE.blessedWaterDamage);
+            vampireEntity.damage(BLDamageSources.blessedWater(target), 2.f);
+            vampireEntity.setOnFireFor(12);
             return;
         }
 

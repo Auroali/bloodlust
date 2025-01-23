@@ -45,9 +45,6 @@ public class HungerManagerMixin implements VampireHungerManager {
 
     @ModifyVariable(method = "addExhaustion", at = @At("HEAD"), argsOnly = true)
     public float sanguinisluxuria$lowerExhaustionForVampires(float exhaustion) {
-        if (this.sanguinisluxuria$hmTrackedPlayer == null)
-            return exhaustion;
-
         // if the player is a vampire and does not have hunger, reduce exhaustion
         if (VampireHelper.isVampire(this.sanguinisluxuria$hmTrackedPlayer) && !this.sanguinisluxuria$hmTrackedPlayer.hasStatusEffect(StatusEffects.HUNGER))
             return exhaustion * BLConfig.INSTANCE.vampireExhaustionMultiplier;
@@ -57,14 +54,14 @@ public class HungerManagerMixin implements VampireHungerManager {
 
     @ModifyConstant(method = "update", constant = @Constant(intValue = 10))
     public int sanguinisluxuria$modifyHealRate(int constant) {
-        if (VampireHelper.isVampire(this.sanguinisluxuria$hmTrackedPlayer))
+        if (VampireHelper.isVampire(this.sanguinisluxuria$hmTrackedPlayer) && !this.sanguinisluxuria$hmTrackedPlayer.isOnFire())
             return constant / 4;
         return constant;
     }
 
     @ModifyConstant(method = "update", constant = @Constant(intValue = 80, ordinal = 0))
     public int sanguinisluxuria$modifySecondHealRate(int constant) {
-        if (VampireHelper.isVampire(this.sanguinisluxuria$hmTrackedPlayer))
+        if (VampireHelper.isVampire(this.sanguinisluxuria$hmTrackedPlayer) && !this.sanguinisluxuria$hmTrackedPlayer.isOnFire())
             return constant / 4;
         return constant;
     }
