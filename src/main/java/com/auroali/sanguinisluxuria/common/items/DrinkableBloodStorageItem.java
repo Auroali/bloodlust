@@ -34,7 +34,11 @@ public class DrinkableBloodStorageItem extends BloodStorageItem {
 
         if (!world.isClient) {
             BloodComponent blood = BLEntityComponents.BLOOD_COMPONENT.get(user);
-            int bloodToAdd = Math.min(blood.getMaxBlood() - blood.getBlood(), getStoredBlood(stack));
+            int bloodToAdd = Math.min(
+              blood.getMaxBlood() - blood.getBlood(),
+              Math.min(BloodStorageItem.getStoredBlood(stack), this.getMaxBloodForDrinking(stack))
+            );
+            // the item is empty
             if (bloodToAdd == 0)
                 return stack;
 
@@ -44,11 +48,12 @@ public class DrinkableBloodStorageItem extends BloodStorageItem {
                 if (user instanceof ServerPlayerEntity e && e.getRandom().nextInt(2) == 0)
                     e.getHungerManager().add(1, 0);
             } else if (VampireHelper.isVampire(user))
-                bloodToAdd = BLEntityComponents.BLOOD_COMPONENT.get(user).addBlood(bloodToAdd);
+                bloodToAdd = blood.addBlood(bloodToAdd);
 
             if (!(user instanceof PlayerEntity entity && entity.isCreative()))
-                setStoredBlood(stack, getStoredBlood(stack) - bloodToAdd);
-            if (getStoredBlood(stack) == 0 && this.emptyItem != null)
+                BloodStorageItem.setStoredBlood(stack, BloodStorageItem.getStoredBlood(stack) - bloodToAdd);
+
+            if (BloodStorageItem.getStoredBlood(stack) == 0 && this.emptyItem != null)
                 return new ItemStack(this.emptyItem, stack.getCount());
         }
 
@@ -71,7 +76,7 @@ public class DrinkableBloodStorageItem extends BloodStorageItem {
 
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
-        if (getStoredBlood(user.getStackInHand(hand)) == 0)
+        if (BloodStorageItem.getStoredBlood(user.getStackInHand(hand)) == 0)
             return TypedActionResult.pass(user.getStackInHand(hand));
         return ItemUsage.consumeHeldItem(world, user, hand);
     }
@@ -99,5 +104,9 @@ public class DrinkableBloodStorageItem extends BloodStorageItem {
     @Override
     public boolean canDrain() {
         return true;
+    }
+
+    public int getMaxBloodForDrinking(ItemStack stack) {
+        return BloodStorageItem.getMaxBlood(stack);
     }
 }

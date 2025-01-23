@@ -15,10 +15,7 @@ public class BLItems {
     public static final MaskItem MASK_1 = new MaskItem(new Item.Settings().maxCount(1));
     public static final MaskItem MASK_2 = new MaskItem(new Item.Settings().maxCount(1));
     public static final MaskItem MASK_3 = new MaskItem(new Item.Settings().maxCount(1));
-    public static final BloodStorageItem BLOOD_BAG = new DrinkableBloodStorageItem(
-      new Item.Settings().maxCount(1),
-      10 * BloodConstants.BLOOD_PER_BOTTLE
-    );
+    public static final BloodStorageItem BLOOD_BAG = new BloodBagItem(new Item.Settings().maxCount(1));
     public static final BloodStorageItem BLOOD_BOTTLE = new BloodBottleItem(
       new Item.Settings().maxCount(1).recipeRemainder(Items.GLASS_BOTTLE),
       BloodConstants.BLOOD_PER_BOTTLE
