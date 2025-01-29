@@ -103,5 +103,8 @@ public class BLItemTagsProvider extends FabricTagProvider<Item> {
           .add(BLBlocks.DECAYED_STAIRS.asItem());
         this.getOrCreateTagBuilder(ItemTags.WOODEN_SLABS)
           .add(BLBlocks.DECAYED_SLAB.asItem());
+
+        this.getOrCreateTagBuilder(BLTags.Items.BLOOD_STORING_BOTTLES)
+          .add(Items.GLASS_BOTTLE);
     }
 }

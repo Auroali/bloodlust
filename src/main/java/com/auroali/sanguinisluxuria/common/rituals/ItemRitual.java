@@ -4,13 +4,9 @@ import com.auroali.sanguinisluxuria.common.registry.BLRitualTypes;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.entity.ItemEntity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
 
 public record ItemRitual(ItemStack stack) implements Ritual, ItemCreatingRitual {
     public static final Codec<ItemRitual> CODEC = RecordCodecBuilder.create(instance -> instance
@@ -28,15 +24,15 @@ public record ItemRitual(ItemStack stack) implements Ritual, ItemCreatingRitual 
     }
 
     @Override
-    public void onCompleted(World world, LivingEntity initiator, BlockPos pos, Inventory inventory) {
-        Vec3d centerPos = pos.toCenterPos();
+    public void onCompleted(RitualParameters parameters) {
+        Vec3d centerPos = parameters.pos().toCenterPos();
         ItemEntity entity = new ItemEntity(
-          world,
+          parameters.world(),
           centerPos.getX(),
           centerPos.getY() + 1,
           centerPos.getZ(),
           this.stack().copy());
-        world.spawnEntity(entity);
+        parameters.world().spawnEntity(entity);
     }
 
     @Override

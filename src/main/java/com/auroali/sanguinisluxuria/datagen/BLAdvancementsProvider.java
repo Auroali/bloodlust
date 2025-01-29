@@ -36,7 +36,7 @@ public class BLAdvancementsProvider extends FabricAdvancementProvider {
         Advancement becomeVampire = Advancement.Builder
           .create()
           .display(
-            BloodStorageItem.setStoredBlood(new ItemStack(BLItems.BLOOD_BOTTLE), 1),
+            BloodStorageItem.createStack(BLItems.BLOOD_BOTTLE, 1),
             Text.translatable(title("become_vampire")),
             Text.translatable(desc("become_vampire")),
             new Identifier("textures/block/redstone_block.png"),
@@ -98,7 +98,7 @@ public class BLAdvancementsProvider extends FabricAdvancementProvider {
         Advancement unbecomeVampire = Advancement.Builder
           .create()
           .display(
-            BloodStorageItem.setStoredBlood(new ItemStack(Items.GLASS_BOTTLE), 1),
+            Items.GLASS_BOTTLE,
             Text.translatable(title("unbecome_vampire")),
             Text.translatable(desc("unbecome_vampire")),
             null,

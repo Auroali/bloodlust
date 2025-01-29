@@ -9,7 +9,6 @@ import com.auroali.sanguinisluxuria.common.commands.arguments.VampireAbilityArgu
 import com.auroali.sanguinisluxuria.common.components.BLEntityComponents;
 import com.auroali.sanguinisluxuria.common.components.BloodComponent;
 import com.auroali.sanguinisluxuria.common.components.VampireComponent;
-import com.auroali.sanguinisluxuria.common.items.BloodStorageItem;
 import com.auroali.sanguinisluxuria.common.network.ActivateAbilityC2S;
 import com.auroali.sanguinisluxuria.common.network.DrainBloodC2S;
 import com.auroali.sanguinisluxuria.common.registry.*;
@@ -24,7 +23,6 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.object.builder.v1.trade.TradeOfferHelper;
 import net.fabricmc.fabric.api.transfer.v1.fluid.CauldronFluidContent;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
-import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariantAttributes;
 import net.fabricmc.fabric.api.transfer.v1.item.InventoryStorage;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemStorage;
@@ -36,7 +34,6 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.item.AutomaticItemPlacementContext;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
@@ -124,9 +121,9 @@ public class Bloodlust implements ModInitializer {
 
         CauldronFluidContent.registerCauldron(BLBlocks.BLOOD_CAULDRON, BLFluids.BLOOD, FluidConstants.BOTTLE, LeveledCauldronBlock.LEVEL);
 
-        FluidStorage.combinedItemApiProvider(BLItems.BLOOD_BOTTLE).register(ctx -> new BloodStorageItem.FluidStorage(ctx, BLItems.BLOOD_BOTTLE));
-        FluidStorage.combinedItemApiProvider(Items.GLASS_BOTTLE).register(ctx -> new BloodStorageItem.FluidStorage(ctx, BLItems.BLOOD_BOTTLE));
-        FluidStorage.combinedItemApiProvider(BLItems.BLOOD_BAG).register(ctx -> new BloodStorageItem.FluidStorage(ctx, BLItems.BLOOD_BAG));
+        //FluidStorage.combinedItemApiProvider(BLItems.BLOOD_BOTTLE).register(ctx -> new BloodStorageItem.FluidStorage(ctx, BLItems.BLOOD_BOTTLE));
+        //FluidStorage.combinedItemApiProvider(Items.GLASS_BOTTLE).register(ctx -> new BloodStorageItem.FluidStorage(ctx, BLItems.BLOOD_BOTTLE));
+        //FluidStorage.combinedItemApiProvider(BLItems.BLOOD_BAG).register(ctx -> new BloodStorageItem.FluidStorage(ctx, BLItems.BLOOD_BAG));
 
         FluidVariantAttributes.register(BLFluids.BLOOD, BLFluids.BLOOD_ATTRIBUTE_HANDLER);
     }

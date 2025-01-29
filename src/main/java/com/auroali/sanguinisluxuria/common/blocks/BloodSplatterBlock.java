@@ -1,6 +1,5 @@
 package com.auroali.sanguinisluxuria.common.blocks;
 
-import com.auroali.sanguinisluxuria.common.blood.BloodConstants;
 import com.auroali.sanguinisluxuria.common.items.BloodStorageItem;
 import com.auroali.sanguinisluxuria.common.registry.BLBlocks;
 import com.auroali.sanguinisluxuria.common.registry.BLItems;
@@ -127,8 +126,7 @@ public class BloodSplatterBlock extends Block {
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         ItemStack stack = player.getStackInHand(hand);
         if (stack.isOf(Items.GLASS_BOTTLE)) {
-            ItemStack bloodBottle = new ItemStack(BLItems.BLOOD_BOTTLE);
-            BloodStorageItem.setStoredBlood(bloodBottle, BLItems.BLOOD_BOTTLE.getMaxBlood());
+            ItemStack bloodBottle = BloodStorageItem.createStack(BLItems.BLOOD_BOTTLE);
             if (!world.isClient) {
                 stack.decrement(1);
                 if (!player.getInventory().insertStack(bloodBottle))
@@ -219,7 +217,7 @@ public class BloodSplatterBlock extends Block {
 
     @Override
     public ItemStack getPickStack(BlockView world, BlockPos pos, BlockState state) {
-        return BloodStorageItem.setStoredBlood(new ItemStack(BLItems.BLOOD_BOTTLE), BloodConstants.BLOOD_PER_BOTTLE);
+        return BloodStorageItem.createStack(BLItems.BLOOD_BOTTLE);
     }
 
     @Override

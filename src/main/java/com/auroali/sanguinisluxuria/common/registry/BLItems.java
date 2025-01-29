@@ -2,7 +2,10 @@ package com.auroali.sanguinisluxuria.common.registry;
 
 import com.auroali.sanguinisluxuria.BLResources;
 import com.auroali.sanguinisluxuria.common.blood.BloodConstants;
-import com.auroali.sanguinisluxuria.common.items.*;
+import com.auroali.sanguinisluxuria.common.items.DrinkableBloodItem;
+import com.auroali.sanguinisluxuria.common.items.EmptyingDrinkableBloodItem;
+import com.auroali.sanguinisluxuria.common.items.MaskItem;
+import com.auroali.sanguinisluxuria.common.items.PendantOfPiercingItem;
 import com.auroali.sanguinisluxuria.common.items.tools.*;
 import net.fabricmc.fabric.api.registry.CompostingChanceRegistry;
 import net.minecraft.block.Block;
@@ -15,12 +18,13 @@ public class BLItems {
     public static final MaskItem MASK_1 = new MaskItem(new Item.Settings().maxCount(1));
     public static final MaskItem MASK_2 = new MaskItem(new Item.Settings().maxCount(1));
     public static final MaskItem MASK_3 = new MaskItem(new Item.Settings().maxCount(1));
-    public static final BloodStorageItem BLOOD_BAG = new BloodBagItem(new Item.Settings().maxCount(1));
-    public static final BloodStorageItem BLOOD_BOTTLE = new BloodBottleItem(
-      new Item.Settings().maxCount(1).recipeRemainder(Items.GLASS_BOTTLE),
-      BloodConstants.BLOOD_PER_BOTTLE
-    ).emptyItem(Items.GLASS_BOTTLE);
-    public static final Item TWISTED_BLOOD = new TwistedBloodItem(new Item.Settings().maxCount(1));
+    public static final Item BLOOD_BAG = new DrinkableBloodItem(20, new Item.Settings().maxCount(1).food(DrinkableBloodItem.BLOOD_FOOD_COMPONENT));
+    public static final Item BLOOD_BOTTLE = new EmptyingDrinkableBloodItem(
+      BloodConstants.BLOOD_PER_BOTTLE,
+      Items.GLASS_BOTTLE,
+      new Item.Settings().maxCount(1).recipeRemainder(Items.GLASS_BOTTLE).food(DrinkableBloodItem.BLOOD_FOOD_COMPONENT)
+    );
+    public static final Item TWISTED_BLOOD = new Item(new Item.Settings().maxCount(1));
     public static final Item VAMPIRE_VILLAGER_SPAWN_EGG = new SpawnEggItem(BLEntities.VAMPIRE_VILLAGER, 0xFF1E1C1B, 0xFFF9f8EF, new Item.Settings());
     public static final Item PENDANT_OF_PIERCING = new PendantOfPiercingItem(new Item.Settings().maxCount(1));
     public static final Item BLOOD_PETAL = new Item(new Item.Settings());

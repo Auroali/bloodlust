@@ -6,12 +6,14 @@ import com.auroali.sanguinisluxuria.common.abilities.VampireAbilityContainer;
 import com.auroali.sanguinisluxuria.common.blood.BloodConstants;
 import com.auroali.sanguinisluxuria.common.components.BLEntityComponents;
 import com.auroali.sanguinisluxuria.common.components.BloodComponent;
+import com.auroali.sanguinisluxuria.common.components.EntityTrackingDrainer;
 import com.auroali.sanguinisluxuria.common.components.VampireComponent;
 import com.auroali.sanguinisluxuria.common.events.VampireSunEvents;
-import com.auroali.sanguinisluxuria.common.items.BloodStorageItem;
+import com.auroali.sanguinisluxuria.common.items.EntityTrackingItem;
 import com.auroali.sanguinisluxuria.common.registry.*;
 import com.jamieswhiteshirt.reachentityattributes.ReachEntityAttributes;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.AttributeContainer;
@@ -36,10 +38,11 @@ import net.minecraft.world.RaycastContext;
 
 import java.util.UUID;
 
-public class PlayerVampireComponent implements VampireComponent {
+public class PlayerVampireComponent implements VampireComponent, EntityTrackingDrainer {
     private static final int SYNC_BLOOD_DRAIN = 1;
     private static final int SYNC_SUN_TICKS = 1 << 1;
     private static final int SYNC_ABILITIES = 1 << 2;
+    private static final int ENTITY_TRACKING_TICKS = 3600;
     private static final EntityAttributeModifier SPEED_ATTRIBUTE = new EntityAttributeModifier(
       UUID.fromString("a2440a9d-964a-4a84-beac-3c56917cc9fd"),
       "bloodlust.vampire_speed",
@@ -66,6 +69,8 @@ public class PlayerVampireComponent implements VampireComponent {
     private int level;
     private boolean isDowned;
     private boolean isMist;
+    private Entity lastDrainedEntity;
+    private int ticksEntityTracked;
 
     public PlayerVampireComponent(PlayerEntity holder) {
         this.holder = holder;
@@ -143,6 +148,16 @@ public class PlayerVampireComponent implements VampireComponent {
 
         if (this.target != null) {
             this.tickBloodDrain();
+        }
+
+        // handle entity tracking
+        if (this.lastDrainedEntity != null && !this.lastDrainedEntity.isAlive())
+            this.lastDrainedEntity = null;
+
+        if (this.lastDrainedEntity != null) {
+            this.ticksEntityTracked++;
+            if (this.ticksEntityTracked > ENTITY_TRACKING_TICKS)
+                this.lastDrainedEntity = null;
         }
 
         if (this.needsSync)
@@ -318,8 +333,14 @@ public class PlayerVampireComponent implements VampireComponent {
         if (blood.getBlood() == 0)
             return;
 
-        if (BloodStorageItem.tryAddBloodToItemInHand(this.holder, 1))
+        if (VampireHelper.fillHeldBloodStorage(this.holder, 1, stack -> {
+            if (EntityTrackingItem.canTrackEntity(stack) && EntityTrackingItem.getEntity(stack) == null && this.getLastDrained() != null) {
+                EntityTrackingItem.setEntity(stack, this.getLastDrained());
+                this.setLastDrained(null);
+            }
+        })) {
             blood.drainBlood();
+        }
     }
 
     @Override
@@ -453,5 +474,15 @@ public class PlayerVampireComponent implements VampireComponent {
 
     private boolean shouldSync(int flag) {
         return this.syncType == 0 || (this.syncType & flag) != 0;
+    }
+
+    @Override
+    public void setLastDrained(Entity entity) {
+        this.lastDrainedEntity = entity;
+    }
+
+    @Override
+    public Entity getLastDrained() {
+        return this.lastDrainedEntity;
     }
 }

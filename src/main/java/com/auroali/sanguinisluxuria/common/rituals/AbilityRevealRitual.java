@@ -6,8 +6,6 @@ import com.auroali.sanguinisluxuria.common.components.VampireComponent;
 import com.auroali.sanguinisluxuria.common.registry.BLRitualTypes;
 import com.mojang.serialization.Codec;
 import net.minecraft.entity.ItemEntity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.WrittenBookItem;
@@ -17,9 +15,7 @@ import net.minecraft.nbt.NbtString;
 import net.minecraft.text.Text;
 import net.minecraft.text.Texts;
 import net.minecraft.util.Formatting;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,8 +34,8 @@ public class AbilityRevealRitual implements Ritual, ItemCreatingRitual {
     }
 
     @Override
-    public void onCompleted(World world, LivingEntity initiator, BlockPos pos, Inventory inventory) {
-        VampireComponent vampire = BLEntityComponents.VAMPIRE_COMPONENT.get(initiator);
+    public void onCompleted(RitualParameters parameters) {
+        VampireComponent vampire = BLEntityComponents.VAMPIRE_COMPONENT.get(parameters.initiator());
         ItemStack outputStack = new ItemStack(Items.WRITTEN_BOOK);
         NbtCompound nbt = outputStack.getOrCreateNbt();
         nbt.putString(WrittenBookItem.AUTHOR_KEY, "Ritual of Revealing");
@@ -75,14 +71,14 @@ public class AbilityRevealRitual implements Ritual, ItemCreatingRitual {
         outputStack.setSubNbt(WrittenBookItem.PAGES_KEY, pagesNbt);
 
         // spawn the entity
-        Vec3d centerPos = pos.toCenterPos();
+        Vec3d centerPos = parameters.pos().toCenterPos();
         ItemEntity entity = new ItemEntity(
-          world,
+          parameters.world(),
           centerPos.getX(),
           centerPos.getY() + 1,
           centerPos.getZ(),
           outputStack);
-        world.spawnEntity(entity);
+        parameters.world().spawnEntity(entity);
     }
 
     @Override

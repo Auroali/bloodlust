@@ -1,7 +1,7 @@
-// 1.20.1	2025-01-12T19:56:49.053902486	Sanguinis Luxuria/Recipes
+// 1.20.1	2025-01-28T23:39:50.662564949	Sanguinis Luxuria/Recipes
 6743f234851f6553c2bd57007383515893b68cae data/sanguinisluxuria/advancements/recipes/decorations/grafted_sapling.json
-88e1ee3b634ca842f44edee1d5f6478c9fea0012 data/sanguinisluxuria/recipes/altar.json
 6259d5231dfcd88cd6d915e51537135efda354cf data/sanguinisluxuria/advancements/recipes/redstone/decayed_door.json
+88e1ee3b634ca842f44edee1d5f6478c9fea0012 data/sanguinisluxuria/recipes/altar.json
 6991c535b822bb01bc9e93de465d5bc68d755f56 data/sanguinisluxuria/recipes/rituals/blink.json
 0b7ecc594f1edb0f8b6e04d51ee9c357225915d2 data/sanguinisluxuria/recipes/decayed_slab.json
 0ab17d97f71df924dbeac1b1c74c7f5a47b091b2 data/sanguinisluxuria/recipes/decayed_fence_gate.json
@@ -71,8 +71,8 @@ c3ca7185111403fe56723a31b29198b78063a4e5 data/sanguinisluxuria/advancements/reci
 0198a2973bebd3d4d3f7422ed657f6e8c4730e45 data/sanguinisluxuria/advancements/recipes/misc/raw_silver_block.json
 719de28a7c84163f50674069aa76745c5cdb446a data/sanguinisluxuria/recipes/decayed_sign.json
 e9a1b097ecf24da96a23f9e8f1a9863a5f26eb31 data/sanguinisluxuria/advancements/recipes/misc/rituals/reset_abilities.json
-e39e8cc82c632a0860e5a2beeb42ba0941bc32d4 data/sanguinisluxuria/recipes/pedestal.json
 8d0ed2e644e8739deb3693dab8d69de7e24191da data/sanguinisluxuria/recipes/silver_axe.json
+e39e8cc82c632a0860e5a2beeb42ba0941bc32d4 data/sanguinisluxuria/recipes/pedestal.json
 6e4dafd17bfd1312aa73da4c6a5837f9ce7c9c94 data/sanguinisluxuria/recipes/silver_block.json
 6f8f5ec2edfab07808a1aa24f5e868101bdf5b32 data/sanguinisluxuria/recipes/cauldron_filling/blood_bag.json
 e33155395be7d2fb845b3be86914bebcce3804d0 data/sanguinisluxuria/advancements/recipes/misc/blasting/silver_ingot.json

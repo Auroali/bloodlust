@@ -1,14 +1,14 @@
 package com.auroali.sanguinisluxuria;
 
-import com.auroali.sanguinisluxuria.common.blood.BloodConstants;
 import com.auroali.sanguinisluxuria.common.components.BLEntityComponents;
 import com.auroali.sanguinisluxuria.common.components.BloodComponent;
+import com.auroali.sanguinisluxuria.common.items.BloodStorageItem;
 import com.auroali.sanguinisluxuria.common.registry.BLAdvancementCriterion;
+import com.auroali.sanguinisluxuria.common.registry.BLItems;
 import com.auroali.sanguinisluxuria.common.registry.BLStatusEffects;
 import com.auroali.sanguinisluxuria.common.registry.BLTags;
 import com.google.common.base.Predicates;
 import dev.emi.trinkets.api.TrinketsApi;
-import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.AttributeContainer;
@@ -16,6 +16,7 @@ import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeInstance;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -28,6 +29,8 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 
+import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 public class VampireHelper {
@@ -120,28 +123,6 @@ public class VampireHelper {
     }
 
     /**
-     * Converts blood units to droplets
-     *
-     * @param blood the amount of blood
-     * @return the amount of droplets
-     */
-    @SuppressWarnings("UnstableApiUsage")
-    public static long bloodToDroplets(int blood) {
-        return blood * FluidConstants.BOTTLE / BloodConstants.BLOOD_PER_BOTTLE;
-    }
-
-    /**
-     * Converts droplets to blood units
-     *
-     * @param droplets the amount of droplets
-     * @return the amount of blood, rounded down
-     */
-    @SuppressWarnings("UnstableApiUsage")
-    public static int dropletsToBlood(long droplets) {
-        return (int) (droplets * BloodConstants.BLOOD_PER_BOTTLE / FluidConstants.BOTTLE);
-    }
-
-    /**
      * Gets the item in an entity's hand
      *
      * @param entity        the entity to get the item from
@@ -178,6 +159,44 @@ public class VampireHelper {
 
     public static Hand getHandForStack(LivingEntity entity, ItemStack stack) {
         return stack.isEmpty() || stack == entity.getMainHandStack() ? Hand.MAIN_HAND : Hand.OFF_HAND;
+    }
+
+    public static boolean fillHeldBloodStorage(LivingEntity entity, int amount) {
+        return fillHeldBloodStorage(entity, amount, null);
+    }
+
+    public static boolean fillHeldBloodStorage(LivingEntity entity, int amount, Consumer<ItemStack> consumer) {
+        ItemStack stack = getItemInHand(entity, Hand.MAIN_HAND, s -> s.getItem() instanceof BloodStorageItem || s.isIn(BLTags.Items.BLOOD_STORING_BOTTLES));
+        Hand hand = getHandForStack(entity, stack);
+
+        ItemStack resultStack = stack;
+        if (stack.isIn(BLTags.Items.BLOOD_STORING_BOTTLES)) {
+            resultStack = new ItemStack(BLItems.BLOOD_BOTTLE);
+            stack.decrement(1);
+        }
+
+        if (!BloodStorageItem.incrementItemBlood(resultStack, amount))
+            return false;
+
+        if (consumer != null)
+            consumer.accept(resultStack);
+
+        if (stack == resultStack)
+            return true;
+
+        if (stack.isEmpty()) {
+            entity.setStackInHand(hand, resultStack);
+            return true;
+        }
+
+        if (entity instanceof PlayerEntity player) {
+            if (!player.getInventory().insertStack(resultStack))
+                player.dropItem(resultStack, true);
+            return true;
+        }
+
+        entity.dropStack(resultStack);
+        return true;
     }
 
     public static void applyModifierFromBlood(LivingEntity entity, EntityAttribute attribute, EntityAttributeModifier modifier, BloodComponent blood, Predicate<BloodComponent> bloodPredicate) {

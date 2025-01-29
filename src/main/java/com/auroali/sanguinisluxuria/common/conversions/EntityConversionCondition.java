@@ -1,7 +1,6 @@
 package com.auroali.sanguinisluxuria.common.conversions;
 
 import com.auroali.sanguinisluxuria.common.registry.BLRegistries;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.minecraft.util.Identifier;
 

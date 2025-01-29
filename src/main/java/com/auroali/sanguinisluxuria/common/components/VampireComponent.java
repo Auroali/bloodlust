@@ -170,6 +170,8 @@ public interface VampireComponent extends Component, AutoSyncedComponent, Server
 
         BloodEvents.BLOOD_DRAINED.invoker().onBloodDrained(vampireEntity, target, 1);
 
+        if (vampire instanceof EntityTrackingDrainer tracker)
+            tracker.setLastDrained(target);
 
         // reset the downed state
         vampire.setDowned(false);

@@ -17,11 +17,13 @@ public class BLCauldronBehaviours {
     public static final Map<Item, CauldronBehavior> BLOOD_CAULDRON_BEHAVIOUR = CauldronBehavior.createMap();
     public static final CauldronBehavior BLOOD_STORING_ITEM_FILL = (state, world, pos, player, hand, stack) -> {
         if (stack.getItem() instanceof BloodStorageItem item) {
-            if (BloodStorageItem.getStoredBlood(stack) >= BloodConstants.BLOOD_PER_BOTTLE) {
-                int bloodToDrain = Math.min(BloodStorageItem.getStoredBlood(stack) / BloodConstants.BLOOD_PER_BOTTLE, LeveledCauldronBlock.MAX_LEVEL);
-                BloodStorageItem.setStoredBlood(stack, BloodStorageItem.getStoredBlood(stack) - bloodToDrain * BloodConstants.BLOOD_PER_BOTTLE);
-                if (item.getEmptyItem() != null && BloodStorageItem.getStoredBlood(stack) == 0) {
-                    player.setStackInHand(hand, item.getEmptyItem().getDefaultStack());
+            if (BloodStorageItem.getItemBlood(stack) >= BloodConstants.BLOOD_PER_BOTTLE) {
+                int bloodToDrain = Math.min(BloodStorageItem.getItemBlood(stack) / BloodConstants.BLOOD_PER_BOTTLE, LeveledCauldronBlock.MAX_LEVEL);
+                BloodStorageItem.decrementItemBlood(stack, bloodToDrain * BloodConstants.BLOOD_PER_BOTTLE);
+                if (BloodStorageItem.getItemMaxBlood(stack) == 0) {
+                    ItemStack emptyStack = BloodStorageItem.createEmptyStackFor(stack);
+                    if (emptyStack != stack)
+                        player.setStackInHand(hand, emptyStack);
                 }
                 world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.ITEM_BOTTLE_EMPTY, SoundCategory.BLOCKS, 1, 1);
                 world.setBlockState(pos, BLBlocks.BLOOD_CAULDRON.getDefaultState().with(LeveledCauldronBlock.LEVEL, bloodToDrain));
@@ -32,8 +34,8 @@ public class BLCauldronBehaviours {
     };
     public static final CauldronBehavior BLOOD_STORING_ITEM_DRAIN_FILL = (state, world, pos, player, hand, stack) -> {
         if (stack.getItem() instanceof BloodStorageItem item) {
-            if (state.get(LeveledCauldronBlock.LEVEL) >= 1 && BloodStorageItem.getStoredBlood(stack) <= BloodStorageItem.getMaxBlood(stack) - BloodConstants.BLOOD_PER_BOTTLE) {
-                BloodStorageItem.setStoredBlood(stack, BloodStorageItem.getStoredBlood(stack) + BloodConstants.BLOOD_PER_BOTTLE);
+            if (state.get(LeveledCauldronBlock.LEVEL) >= 1 && BloodStorageItem.getItemBlood(stack) <= BloodStorageItem.getItemMaxBlood(stack) - BloodConstants.BLOOD_PER_BOTTLE) {
+                BloodStorageItem.incrementItemBlood(stack, BloodConstants.BLOOD_PER_BOTTLE);
 
                 LeveledCauldronBlock.decrementFluidLevel(state, world, pos);
                 world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.ITEM_BOTTLE_FILL, SoundCategory.BLOCKS, 1, 1);
@@ -41,13 +43,15 @@ public class BLCauldronBehaviours {
             }
 
             int level = state.contains(LeveledCauldronBlock.LEVEL) ? state.get(LeveledCauldronBlock.LEVEL) : 0;
-            int newLevel = Math.min(level + BloodStorageItem.getStoredBlood(stack) / BloodConstants.BLOOD_PER_BOTTLE, LeveledCauldronBlock.MAX_LEVEL);
+            int newLevel = Math.min(level + BloodStorageItem.getItemBlood(stack) / BloodConstants.BLOOD_PER_BOTTLE, LeveledCauldronBlock.MAX_LEVEL);
             if (level == newLevel)
                 return ActionResult.FAIL;
 
-            BloodStorageItem.setStoredBlood(stack, BloodStorageItem.getStoredBlood(stack) - (newLevel - level) * BloodConstants.BLOOD_PER_BOTTLE);
-            if (item.getEmptyItem() != null && BloodStorageItem.getStoredBlood(stack) == 0) {
-                player.setStackInHand(hand, item.getEmptyItem().getDefaultStack());
+            BloodStorageItem.decrementItemBlood(stack, (newLevel - level) * BloodConstants.BLOOD_PER_BOTTLE);
+            if (BloodStorageItem.getItemMaxBlood(stack) == 0) {
+                ItemStack emptyStack = BloodStorageItem.createEmptyStackFor(stack);
+                if (emptyStack != stack)
+                    player.setStackInHand(hand, emptyStack);
             }
             world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.ITEM_BOTTLE_EMPTY, SoundCategory.BLOCKS, 1, 1);
             world.setBlockState(pos, BLBlocks.BLOOD_CAULDRON.getDefaultState().with(LeveledCauldronBlock.LEVEL, newLevel));
@@ -58,7 +62,7 @@ public class BLCauldronBehaviours {
 
     public static final CauldronBehavior FILL_GLASS_BOTTLE = (state, world, pos, player, hand, stack) -> {
         if (stack.isOf(Items.GLASS_BOTTLE)) {
-            ItemStack bloodBottle = BloodStorageItem.setStoredBlood(new ItemStack(BLItems.BLOOD_BOTTLE), BloodConstants.BLOOD_PER_BOTTLE);
+            ItemStack bloodBottle = BloodStorageItem.createStack(BLItems.BLOOD_BOTTLE, BloodConstants.BLOOD_PER_BOTTLE);
             LeveledCauldronBlock.decrementFluidLevel(state, world, pos);
             stack.decrement(1);
             if (stack.isEmpty())

@@ -1,7 +1,6 @@
 package com.auroali.sanguinisluxuria.common.entities;
 
 import com.auroali.sanguinisluxuria.VampireHelper;
-import com.auroali.sanguinisluxuria.common.blood.BloodConstants;
 import com.auroali.sanguinisluxuria.common.components.BLEntityComponents;
 import com.auroali.sanguinisluxuria.common.entities.goals.AcivateAbilityWhenDownedGoal;
 import com.auroali.sanguinisluxuria.common.entities.goals.FleeWhenDownedGoal;
@@ -59,7 +58,7 @@ public class VampireMerchant extends MerchantEntity {
         this.goalSelector.add(2,
           new HoldInHandsGoal<>(
             this,
-            BloodStorageItem.setStoredBlood(new ItemStack(BLItems.BLOOD_BOTTLE), BloodConstants.BLOOD_PER_BOTTLE),
+            BloodStorageItem.createStack(BLItems.BLOOD_BOTTLE),
             BLSounds.DRAIN_BLOOD,
             merchant -> VampireHelper.isVampire(merchant) && BLEntityComponents.VAMPIRE_COMPONENT.get(merchant).isDown()
           ));

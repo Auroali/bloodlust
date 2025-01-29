@@ -8,11 +8,7 @@ import com.auroali.sanguinisluxuria.common.components.VampireComponent;
 import com.auroali.sanguinisluxuria.common.registry.BLAdvancementCriterion;
 import com.auroali.sanguinisluxuria.common.registry.BLRitualTypes;
 import com.mojang.serialization.Codec;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.inventory.Inventory;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 
 public class VampireAbilityResetRitual implements Ritual {
     public static final VampireAbilityResetRitual INSTANCE = new VampireAbilityResetRitual();
@@ -22,20 +18,20 @@ public class VampireAbilityResetRitual implements Ritual {
     }
 
     @Override
-    public void onCompleted(World world, LivingEntity initiator, BlockPos pos, Inventory inventory) {
-        if (!VampireHelper.isVampire(initiator))
+    public void onCompleted(RitualParameters parameters) {
+        if (!VampireHelper.isVampire(parameters.initiator()))
             return;
 
-        VampireComponent vampire = BLEntityComponents.VAMPIRE_COMPONENT.get(initiator);
+        VampireComponent vampire = BLEntityComponents.VAMPIRE_COMPONENT.get(parameters.initiator());
         VampireAbilityContainer abilities = vampire.getAbilties();
         for (VampireAbility ability : abilities) {
-            ability.onAbilityRemoved(initiator, vampire);
+            ability.onAbilityRemoved(parameters.initiator(), vampire);
             abilities.removeAbility(ability);
-            if (initiator instanceof ServerPlayerEntity player)
+            if (parameters.initiator() instanceof ServerPlayerEntity player)
                 BLAdvancementCriterion.RESET_ABILITIES.trigger(player);
         }
 
-        BLEntityComponents.VAMPIRE_COMPONENT.sync(initiator);
+        BLEntityComponents.VAMPIRE_COMPONENT.sync(parameters.initiator());
     }
 
     @Override

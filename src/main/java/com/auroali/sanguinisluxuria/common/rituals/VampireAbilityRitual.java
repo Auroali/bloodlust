@@ -9,11 +9,7 @@ import com.auroali.sanguinisluxuria.common.registry.BLRegistries;
 import com.auroali.sanguinisluxuria.common.registry.BLRitualTypes;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.inventory.Inventory;
 import net.minecraft.text.Text;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 
 import java.util.List;
 
@@ -24,13 +20,13 @@ public record VampireAbilityRitual(VampireAbility ability) implements Ritual {
 
 
     @Override
-    public void onCompleted(World world, LivingEntity initiator, BlockPos pos, Inventory inventory) {
-        if (!VampireHelper.isVampire(initiator))
+    public void onCompleted(RitualParameters parameters) {
+        if (!VampireHelper.isVampire(parameters.target()))
             return;
 
-        VampireComponent vampire = BLEntityComponents.VAMPIRE_COMPONENT.get(initiator);
+        VampireComponent vampire = BLEntityComponents.VAMPIRE_COMPONENT.get(parameters.target());
         VampireAbilityContainer abilities = vampire.getAbilties();
-        if (abilities.hasAbility(this.ability) || !this.ability.testConditions(initiator, vampire, abilities))
+        if (abilities.hasAbility(this.ability) || !this.ability.testConditions(parameters.target(), vampire, abilities))
             // todo: add feedback
             return;
 

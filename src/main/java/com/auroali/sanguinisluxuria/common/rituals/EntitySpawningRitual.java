@@ -4,15 +4,10 @@ import com.auroali.sanguinisluxuria.common.registry.BLRitualTypes;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.TameableEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.Inventory;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.Registries;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
 
 public record EntitySpawningRitual(EntityType<?> type, NbtCompound nbt, boolean autoTame) implements Ritual {
     public static final Codec<EntitySpawningRitual> CODEC = RecordCodecBuilder.create(instance -> instance.group(
@@ -35,16 +30,16 @@ public record EntitySpawningRitual(EntityType<?> type, NbtCompound nbt, boolean 
 
 
     @Override
-    public void onCompleted(World world, LivingEntity initiator, BlockPos pos, Inventory inventory) {
+    public void onCompleted(RitualParameters parameters) {
         NbtCompound compound = this.nbt == null ? new NbtCompound() : this.nbt().copy();
         compound.putString("id", EntityType.getId(this.type).toString());
-        EntityType.getEntityFromNbt(compound, world)
+        EntityType.getEntityFromNbt(compound, parameters.world())
           .ifPresent(entity -> {
-              Vec3d position = pos.toCenterPos().add(0, 1, 0);
+              Vec3d position = parameters.pos().toCenterPos().add(0, 1, 0);
               entity.setPosition(position);
-              world.spawnEntity(entity);
-              if (this.autoTame() && entity instanceof TameableEntity tameable && initiator instanceof PlayerEntity player)
-                  tameable.setOwner(player);
+              parameters.world().spawnEntity(entity);
+              if (this.autoTame() && entity instanceof TameableEntity tameable)
+                  parameters.applyToPlayerInitiator(tameable::setOwner);
           });
     }
 

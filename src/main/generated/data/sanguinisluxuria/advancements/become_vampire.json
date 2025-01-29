@@ -15,7 +15,7 @@
     "hidden": false,
     "icon": {
       "item": "sanguinisluxuria:blood_bottle",
-      "nbt": "{StoredBlood:1}"
+      "nbt": "{Blood:{CurrentBlood:1,MaxBlood:2}}"
     },
     "show_toast": true,
     "title": {

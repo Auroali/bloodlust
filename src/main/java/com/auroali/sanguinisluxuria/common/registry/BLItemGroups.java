@@ -1,7 +1,6 @@
 package com.auroali.sanguinisluxuria.common.registry;
 
 import com.auroali.sanguinisluxuria.BLResources;
-import com.auroali.sanguinisluxuria.common.blood.BloodConstants;
 import com.auroali.sanguinisluxuria.common.items.BloodStorageItem;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
@@ -21,12 +20,13 @@ public class BLItemGroups {
 
     public static void register() {
         Registry.register(Registries.ITEM_GROUP, BLResources.ITEM_GROUP_ID, FabricItemGroup.builder()
-          .icon(() -> BloodStorageItem.setStoredBlood(new ItemStack(BLItems.BLOOD_BOTTLE), BloodConstants.BLOOD_PER_BOTTLE))
+          .icon(() -> BloodStorageItem.createStack(BLItems.BLOOD_BOTTLE))
           .displayName(Text.translatable("itemGroup.sanguinisluxuria.sanguinisluxuria"))
           .entries((displayContext, entries) -> {
-              entries.addAll(BLItems.BLOOD_BOTTLE.generateGroupEntries());
+              entries.add(BloodStorageItem.createStack(BLItems.BLOOD_BOTTLE));
               entries.add(BLItems.TWISTED_BLOOD);
-              entries.addAll(BLItems.BLOOD_BAG.generateGroupEntries());
+              entries.add(BloodStorageItem.createStack(BLItems.BLOOD_BAG, 0));
+              entries.add(BloodStorageItem.createStack(BLItems.BLOOD_BAG));
               entries.add(BLItems.MASK_1);
               entries.add(BLItems.MASK_2);
               entries.add(BLItems.MASK_3);

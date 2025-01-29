@@ -7,7 +7,6 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.inventory.Inventory;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.StringIdentifiable;
 import net.minecraft.util.TypeFilter;
@@ -28,14 +27,14 @@ public record StatusEffectRitual(List<StatusEffect> effects, int duration, Targe
     ).apply(instance, StatusEffectRitual::new));
 
     @Override
-    public void onCompleted(World world, LivingEntity initiator, BlockPos pos, Inventory inventory) {
+    public void onCompleted(RitualParameters parameters) {
         switch (this.target()) {
             case ALL -> {
-                this.applyToEntity(initiator, initiator);
-                this.applyToOthers(world, initiator, pos);
+                this.applyToEntity(parameters.target(), parameters.initiator());
+                this.applyToOthers(parameters.world(), parameters.initiator(), parameters.pos());
             }
-            case OTHER -> this.applyToOthers(world, initiator, pos);
-            case INITIATOR -> this.applyToEntity(initiator, initiator);
+            case OTHER -> this.applyToOthers(parameters.world(), parameters.initiator(), parameters.pos());
+            case INITIATOR -> this.applyToEntity(parameters.target(), parameters.initiator());
         }
     }
 

@@ -58,7 +58,7 @@ public class HungryDecayedLogBlock extends PillarBlock {
         // fill glass bottles
         if (stack.isOf(Items.GLASS_BOTTLE) && state.get(BLOOD_LEVEL) >= 3) {
             stack.decrement(1);
-            ItemStack bloodBottle = BloodStorageItem.setStoredBlood(new ItemStack(BLItems.BLOOD_BOTTLE), BloodConstants.BLOOD_PER_BOTTLE);
+            ItemStack bloodBottle = BloodStorageItem.createStack(BLItems.BLOOD_BOTTLE);
             if (stack.isEmpty())
                 player.setStackInHand(hand, bloodBottle);
             else if (!player.getInventory().insertStack(bloodBottle))
@@ -71,10 +71,10 @@ public class HungryDecayedLogBlock extends PillarBlock {
         }
         // fill blood storing items
         if (stack.getItem() instanceof BloodStorageItem bloodStoringItem && bloodStoringItem.canFill() && state.get(BLOOD_LEVEL) >= 3) {
-            if (BloodStorageItem.getStoredBlood(stack) > BloodStorageItem.getMaxBlood(stack) - BloodConstants.BLOOD_PER_BOTTLE)
+            if (BloodStorageItem.getItemBlood(stack) > BloodStorageItem.getItemMaxBlood(stack) - BloodConstants.BLOOD_PER_BOTTLE)
                 return ActionResult.FAIL;
 
-            BloodStorageItem.setStoredBlood(stack, BloodStorageItem.getStoredBlood(stack) + BloodConstants.BLOOD_PER_BOTTLE);
+            BloodStorageItem.incrementItemBlood(stack, BloodConstants.BLOOD_PER_BOTTLE);
 
             world.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.ITEM_BOTTLE_FILL, SoundCategory.BLOCKS, 1.0f, 1.0f);
             world.setBlockState(pos, state.with(BLOOD_LEVEL, 0));

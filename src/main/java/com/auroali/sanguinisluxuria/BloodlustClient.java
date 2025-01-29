@@ -200,7 +200,7 @@ public class BloodlustClient implements ClientModInitializer {
                 ClientPlayNetworking.send(new ActivateAbilityC2S(BLVampireAbilities.MIST));
             }
             if (SUCK_BLOOD.isPressed()) {
-                if (isLookingAtValidTarget() || !VampireHelper.getItemInHand(client.player, Hand.MAIN_HAND, BloodStorageItem.FILLABLE_ITEM_PREDICATE).isEmpty()) {
+                if (isLookingAtValidTarget() || !VampireHelper.getItemInHand(client.player, Hand.MAIN_HAND, stack -> stack.getItem() instanceof BloodStorageItem || stack.isIn(BLTags.Items.BLOOD_STORING_BOTTLES)).isEmpty()) {
                     ClientPlayNetworking.send(new DrainBloodC2S(true));
                     this.drainingBlood = true;
                 }

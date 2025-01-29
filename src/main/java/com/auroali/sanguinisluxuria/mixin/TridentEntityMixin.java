@@ -4,7 +4,6 @@ import com.auroali.sanguinisluxuria.VampireHelper;
 import com.auroali.sanguinisluxuria.common.components.BLEntityComponents;
 import com.auroali.sanguinisluxuria.common.components.BloodComponent;
 import com.auroali.sanguinisluxuria.common.components.BloodTransferComponent;
-import com.auroali.sanguinisluxuria.common.items.BloodStorageItem;
 import com.auroali.sanguinisluxuria.common.registry.BLSounds;
 import com.auroali.sanguinisluxuria.common.registry.BLStatusEffects;
 import com.auroali.sanguinisluxuria.common.registry.BLTags;
@@ -70,7 +69,7 @@ public abstract class TridentEntityMixin extends PersistentProjectileEntity {
 
             int timeToDrain = latched instanceof LivingEntity e && e.hasStatusEffect(BLStatusEffects.BLEEDING) ? 20 : 40;
             if (this.sanguinisluxuria$latchedTicks % timeToDrain == 0 && !this.getWorld().isClient && blood.drainBlood()) {
-                if (!(owner instanceof LivingEntity entity && BloodStorageItem.tryAddBloodToItemInHand(entity, 1)) && VampireHelper.isVampire(owner)) {
+                if (!(owner instanceof LivingEntity entity && VampireHelper.fillHeldBloodStorage(entity, 1)) && VampireHelper.isVampire(owner)) {
                     ownerBlood.addBlood(1);
                 }
                 this.playSound(BLSounds.DRAIN_BLOOD, 1.0f, 1.0f);

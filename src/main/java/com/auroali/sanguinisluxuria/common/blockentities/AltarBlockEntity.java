@@ -1,6 +1,5 @@
 package com.auroali.sanguinisluxuria.common.blockentities;
 
-import com.auroali.sanguinisluxuria.Bloodlust;
 import com.auroali.sanguinisluxuria.BloodlustClient;
 import com.auroali.sanguinisluxuria.VampireHelper;
 import com.auroali.sanguinisluxuria.common.blocks.AltarBlock;
@@ -10,13 +9,14 @@ import com.auroali.sanguinisluxuria.common.registry.BLAdvancementCriterion;
 import com.auroali.sanguinisluxuria.common.registry.BLBlockEntities;
 import com.auroali.sanguinisluxuria.common.registry.BLRecipeTypes;
 import com.auroali.sanguinisluxuria.common.registry.BLSounds;
+import com.auroali.sanguinisluxuria.common.rituals.ActiveRitualData;
 import com.auroali.sanguinisluxuria.common.rituals.Ritual;
+import com.auroali.sanguinisluxuria.common.rituals.RitualParameters;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventories;
@@ -24,12 +24,10 @@ import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
@@ -40,16 +38,15 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 public class AltarBlockEntity extends BlockEntity implements Inventory, ItemDisplayingBlockEntity {
     public static final int INVENTORY_SIZE = 1;
     public static final int PEDESTAL_SEARCH_RADIUS = 8;
     DefaultedList<ItemStack> inventory = DefaultedList.ofSize(INVENTORY_SIZE, ItemStack.EMPTY);
     int ticks;
-    LivingEntity initiator;
-    UUID initiatorUUID;
-    Ritual ritual;
+    LivingEntity cachedInitiator;
+    LivingEntity cachedTarget;
+    ActiveRitualData ritualData;
     int ticksProcessing;
 
     public AltarBlockEntity(BlockPos pos, BlockState state) {
@@ -62,15 +59,7 @@ public class AltarBlockEntity extends BlockEntity implements Inventory, ItemDisp
         this.inventory = DefaultedList.ofSize(INVENTORY_SIZE, ItemStack.EMPTY);
         Inventories.readNbt(nbt, this.inventory);
 
-        if (nbt.containsUuid("Initiator"))
-            this.initiatorUUID = nbt.getUuid("Initiator");
-
-        if (nbt.contains("Ritual")) {
-            this.ticksProcessing = nbt.getInt("TicksProcessing");
-            Ritual.RITUAL_CODEC.parse(NbtOps.INSTANCE, nbt.get("Ritual"))
-              .resultOrPartial(Bloodlust.LOGGER::error)
-              .ifPresent(ritual -> this.ritual = ritual);
-        }
+        this.ritualData = ActiveRitualData.readNbt(nbt);
     }
 
     @Override
@@ -78,15 +67,7 @@ public class AltarBlockEntity extends BlockEntity implements Inventory, ItemDisp
         super.writeNbt(nbt);
         Inventories.writeNbt(nbt, this.inventory);
 
-        if (this.initiatorUUID != null)
-            nbt.putUuid("Initiator", this.initiatorUUID);
-
-        if (this.ritual != null) {
-            nbt.putInt("TicksProcessing", this.ticksProcessing);
-            Ritual.RITUAL_CODEC.encodeStart(NbtOps.INSTANCE, this.ritual)
-              .resultOrPartial(Bloodlust.LOGGER::error)
-              .ifPresent(tag -> nbt.put("Ritual", tag));
-        }
+        ActiveRitualData.writeNbt(nbt, this.ritualData);
     }
 
     public static void tickClient(World world, BlockPos pos, BlockState state, AltarBlockEntity altar) {
@@ -98,20 +79,19 @@ public class AltarBlockEntity extends BlockEntity implements Inventory, ItemDisp
     }
 
     public static void tick(World world, BlockPos pos, BlockState state, AltarBlockEntity altar) {
-        if (altar.ritual == null)
+        if (altar.ritualData == null)
             return;
 
         LivingEntity initiator = altar.getInitiator();
-        if (!VampireHelper.isVampire(initiator)) {
-            altar.ritual = null;
+        LivingEntity target = altar.getTarget();
+        if (!VampireHelper.isVampire(initiator) || target == null) {
+            altar.ritualData = null;
             altar.ticksProcessing = 0;
-            altar.setInitiator(null);
             altar.markDirty();
             return;
         }
 
         if (world.getTime() % 20 == 0) {
-            // todo: this crashes on the dedicated server
             world.playSound(null, pos, BLSounds.ALTAR_BEATS, SoundCategory.BLOCKS);
             SpawnAltarBeatParticleS2C packet = new SpawnAltarBeatParticleS2C(altar.pos);
             PlayerLookup.tracking(altar)
@@ -123,13 +103,22 @@ public class AltarBlockEntity extends BlockEntity implements Inventory, ItemDisp
             return;
         }
 
-        altar.ritual.onCompleted(world, initiator, pos, altar);
-        if (initiator instanceof ServerPlayerEntity player)
-            BLAdvancementCriterion.PERFORM_RITUAL.trigger(player, altar.ritual);
+        Ritual ritual = altar.ritualData.ritual();
+        RitualParameters parameters = RitualParameters
+          .builder()
+          .world(world)
+          .position(pos)
+          .inventory(altar)
+          .initiator(initiator)
+          .target(target)
+          .build();
+        ritual.onCompleted(parameters);
+        parameters.applyToPlayerInitiator(player -> BLAdvancementCriterion.PERFORM_RITUAL.trigger(player, ritual));
         altar.getStack(0).decrement(1);
-        altar.ritual = null;
+        altar.ritualData = null;
         altar.ticksProcessing = 0;
-        altar.setInitiator(null);
+        altar.cachedTarget = null;
+        altar.cachedInitiator = null;
         world.setBlockState(pos, state.with(AltarBlock.ACTIVE, false));
         altar.markDirty();
     }
@@ -174,10 +163,9 @@ public class AltarBlockEntity extends BlockEntity implements Inventory, ItemDisp
                   entity.inv.markDirty();
               });
 
-              this.setInitiator(initiator);
               world.setBlockState(pos, state.with(AltarBlock.ACTIVE, true));
               this.ticksProcessing = 0;
-              this.ritual = recipe.getRitual();
+              this.ritualData = new ActiveRitualData(recipe.getRitual(), initiator.getUuid(), initiator.getUuid());
               if (initiator instanceof ServerPlayerEntity player) {
                   Criteria.RECIPE_CRAFTED.trigger(player, recipe.getId(), inventory.stacks);
               }
@@ -185,31 +173,24 @@ public class AltarBlockEntity extends BlockEntity implements Inventory, ItemDisp
           });
     }
 
-    public void setInitiator(LivingEntity entity) {
-        if (entity == null) {
-            this.initiator = null;
-            this.initiatorUUID = null;
-            this.markDirty();
-            return;
-        }
-        this.initiator = entity;
-        this.initiatorUUID = entity.getUuid();
-        this.markDirty();
-    }
-
     public LivingEntity getInitiator() {
-        if (this.initiator != null && this.initiator.isAlive())
-            return this.initiator;
-        if (this.initiatorUUID != null && this.getWorld() instanceof ServerWorld serverWorld) {
-            Entity entity = serverWorld.getEntity(this.initiatorUUID);
-            if (entity instanceof LivingEntity livingEntity) {
-                this.initiator = livingEntity;
-                return this.initiator;
-            }
-            this.initiatorUUID = null;
+        if (this.cachedInitiator == null || !this.cachedInitiator.isAlive()) {
+            this.cachedInitiator = null;
+            if (this.ritualData != null)
+                return this.cachedInitiator = this.ritualData.resolveInitiator(this.getWorld());
             return null;
         }
-        return null;
+        return this.cachedInitiator;
+    }
+
+    public LivingEntity getTarget() {
+        if (this.cachedTarget == null || !this.cachedTarget.isAlive()) {
+            this.cachedTarget = null;
+            if (this.ritualData != null)
+                return this.cachedTarget = this.ritualData.resolveTarget(this.getWorld());
+            return null;
+        }
+        return this.cachedTarget;
     }
 
     @Nullable

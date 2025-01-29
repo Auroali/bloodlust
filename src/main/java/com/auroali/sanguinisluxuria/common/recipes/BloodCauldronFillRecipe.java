@@ -18,14 +18,14 @@ import net.minecraft.world.World;
 
 public class BloodCauldronFillRecipe extends BloodCauldronRecipe {
     public BloodCauldronFillRecipe(Identifier id, Ingredient ingredient, ItemStack result) {
-        super(id, 1, ingredient, BloodStorageItem.setStoredBlood(result, Math.min(BloodStorageItem.getMaxBlood(result), BloodConstants.BLOOD_PER_BOTTLE)));
+        super(id, 1, ingredient, BloodStorageItem.setItemBlood(result, BloodStorageItem.getItemMaxBlood(result)));
     }
 
     @Override
     public boolean matches(SimpleInventory inventory, World world) {
         ItemStack stack = inventory.getStack(0);
         return this.ingredient.test(inventory.getStack(0))
-          && (!BloodStorageItem.canBeFilled(stack) || BloodStorageItem.getMaxBlood(stack) - BloodStorageItem.getStoredBlood(stack) >= BloodConstants.BLOOD_PER_BOTTLE);
+          && (!BloodStorageItem.isItemFillable(stack) || BloodStorageItem.getItemMaxBlood(stack) - BloodStorageItem.getItemBlood(stack) >= BloodConstants.BLOOD_PER_BOTTLE);
     }
 
     @Override
@@ -37,8 +37,7 @@ public class BloodCauldronFillRecipe extends BloodCauldronRecipe {
             stack.setNbt(tag);
         }
 
-        int currentBlood = BloodStorageItem.getStoredBlood(stack);
-        BloodStorageItem.setStoredBlood(stack, currentBlood + BloodConstants.BLOOD_PER_BOTTLE);
+        BloodStorageItem.incrementItemBlood(stack, BloodConstants.BLOOD_PER_BOTTLE);
         return stack;
     }
 
