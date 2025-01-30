@@ -113,8 +113,6 @@ public class EntityVampireComponent<T extends LivingEntity> implements VampireCo
         this.downed = tag.getBoolean("Downed");
         this.isMist = tag.getBoolean("IsMist");
         this.abilities.load(tag);
-        // ensure that all default abilities are present
-        this.defaultAbilities.forEach(this.abilities::addAbility);
     }
 
     @Override
