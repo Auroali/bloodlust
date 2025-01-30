@@ -26,7 +26,7 @@ public interface BloodStorageItem {
 
     default int getMaxBlood(ItemStack stack) {
         if (!stack.hasNbt() || !stack.getNbt().contains(BLOOD_KEY, NbtElement.COMPOUND_TYPE))
-            return 0;
+            return stack.getItem() instanceof BloodStorageItem item ? item.getDefaultMaxBlood() : 0;
 
         return stack.getSubNbt(BLOOD_KEY).getInt(MAX_BLOOD_KEY);
     }

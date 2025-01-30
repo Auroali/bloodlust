@@ -10,6 +10,7 @@ import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.FoodComponent;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -83,7 +84,9 @@ public class DrinkableBloodItem extends Item implements BloodStorageItem, Entity
           4
         );
 
-        BloodStorageItem.decrementItemBlood(stack, bloodToFill);
+        if (!(user instanceof PlayerEntity player && player.isCreative()))
+            BloodStorageItem.decrementItemBlood(stack, bloodToFill);
+        
         ItemStack result = BloodStorageItem.getItemBlood(stack) == 0 ? BloodStorageItem.createEmptyStackFor(stack) : stack;
 
         if (VampireHelper.isVampire(user)) {
