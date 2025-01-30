@@ -80,7 +80,7 @@ public class BLHud {
     public static void showAbilityCooldowns(DrawContext context, MinecraftClient client, int height, VampireAbilityContainer container) {
         TextRenderer renderer = client.textRenderer;
         context.getMatrices().push();
-        context.getMatrices().translate(0, -2, 0);
+        context.getMatrices().translate(2, -2, 0);
         for (VampireAbility ability : container) {
             if (!container.isOnCooldown(ability))
                 continue;
