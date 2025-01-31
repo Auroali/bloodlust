@@ -63,7 +63,7 @@ public class DrinkableBloodItem extends Item implements BloodStorageItem, Entity
         // copy the stack so that vanilla food logic can run
         // without decrementing the original stack size
         ItemStack stackCopy = stack.copy();
-        if (!user.getType().isIn(BLTags.Entities.HAS_BLOOD)) {
+        if (!VampireHelper.hasBlood(user)) {
             user.eatFood(world, stackCopy);
             BloodStorageItem.decrementItemBlood(stack, 1);
             if (BloodStorageItem.getItemBlood(stack) == 0)
@@ -86,7 +86,7 @@ public class DrinkableBloodItem extends Item implements BloodStorageItem, Entity
 
         if (!(user instanceof PlayerEntity player && player.isCreative()))
             BloodStorageItem.decrementItemBlood(stack, bloodToFill);
-        
+
         ItemStack result = BloodStorageItem.getItemBlood(stack) == 0 ? BloodStorageItem.createEmptyStackFor(stack) : stack;
 
         if (VampireHelper.isVampire(user)) {

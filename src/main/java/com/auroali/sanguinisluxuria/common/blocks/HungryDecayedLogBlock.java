@@ -1,5 +1,6 @@
 package com.auroali.sanguinisluxuria.common.blocks;
 
+import com.auroali.sanguinisluxuria.VampireHelper;
 import com.auroali.sanguinisluxuria.common.blood.BloodConstants;
 import com.auroali.sanguinisluxuria.common.components.BLEntityComponents;
 import com.auroali.sanguinisluxuria.common.components.BloodComponent;
@@ -115,7 +116,7 @@ public class HungryDecayedLogBlock extends PillarBlock {
             int newLevel = state.get(BLOOD_LEVEL) + 1;
             Box boundingBox = new Box(pos).expand(5);
 
-            List<LivingEntity> entities = world.getEntitiesByType(TypeFilter.instanceOf(LivingEntity.class), boundingBox, entity -> entity.getType().isIn(BLTags.Entities.HAS_BLOOD));
+            List<LivingEntity> entities = world.getEntitiesByType(TypeFilter.instanceOf(LivingEntity.class), boundingBox, VampireHelper::hasBlood);
 
             for (LivingEntity entity : entities) {
                 BloodComponent component = BLEntityComponents.BLOOD_COMPONENT.get(entity);

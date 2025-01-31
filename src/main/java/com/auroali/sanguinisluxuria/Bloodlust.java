@@ -9,6 +9,7 @@ import com.auroali.sanguinisluxuria.common.commands.arguments.VampireAbilityArgu
 import com.auroali.sanguinisluxuria.common.components.BLEntityComponents;
 import com.auroali.sanguinisluxuria.common.components.BloodComponent;
 import com.auroali.sanguinisluxuria.common.components.VampireComponent;
+import com.auroali.sanguinisluxuria.common.events.BloodStorageFillEvents;
 import com.auroali.sanguinisluxuria.common.items.BloodStorageItem;
 import com.auroali.sanguinisluxuria.common.items.storage.BloodItemFluidStorage;
 import com.auroali.sanguinisluxuria.common.network.ActivateAbilityC2S;
@@ -116,6 +117,13 @@ public class Bloodlust implements ModInitializer {
             return ActionResult.PASS;
         });
 
+        BloodStorageFillEvents.ALLOW_ITEM.register((entity, stack) -> stack.isIn(BLTags.Items.BLOOD_STORING_BOTTLES));
+        BloodStorageFillEvents.TRANSFORM_STACK.register((entity, stack) ->
+          stack.isIn(BLTags.Items.BLOOD_STORING_BOTTLES)
+            ? new ItemStack(BLItems.BLOOD_BOTTLE)
+            : ItemStack.EMPTY
+        );
+
         TradeOfferHelper.registerVillagerOffers(VillagerProfession.CLERIC, 3, BLTradeOffers::registerClericTrades);
 
         ItemStorage.SIDED.registerForBlockEntities((blockEntity, context) -> {
@@ -145,7 +153,7 @@ public class Bloodlust implements ModInitializer {
 
     private static void dropBlood(LivingEntity entity, DamageSource source) {
         if (!VampireHelper.isVampire(entity)
-          && entity.getType().isIn(BLTags.Entities.HAS_BLOOD)
+          && VampireHelper.hasBlood(entity)
           && (entity.getType().isIn(BLTags.Entities.CAN_DROP_BLOOD) || entity.hasStatusEffect(BLStatusEffects.BLEEDING))
         ) {
             BloodComponent blood = BLEntityComponents.BLOOD_COMPONENT.get(entity);

@@ -83,7 +83,7 @@ public abstract class TridentEntityMixin extends PersistentProjectileEntity {
     @Inject(method = "onEntityHit", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/projectile/TridentEntity;playSound(Lnet/minecraft/sound/SoundEvent;FF)V"))
     public void sanguinisluxuria$latchOnEntity(EntityHitResult entityHitResult, CallbackInfo ci, @Local(ordinal = 0) Entity target, @Local(ordinal = 1) Entity owner) {
         BloodTransferComponent bloodTransfer = BLEntityComponents.BLOOD_TRANSFER_COMPONENT.get(this);
-        if (bloodTransfer.getBloodTransferLevel() != 0 && target.getType().isIn(BLTags.Entities.HAS_BLOOD)) {
+        if (bloodTransfer.getBloodTransferLevel() != 0 && VampireHelper.hasBlood(target)) {
             if (target instanceof LivingEntity livingTarget && livingTarget.hasStatusEffect(BLStatusEffects.BLOOD_PROTECTION))
                 return;
             bloodTransfer.setLatchedEntity(target);

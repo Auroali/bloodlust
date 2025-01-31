@@ -50,5 +50,5 @@ public interface BloodComponent extends Component, AutoSyncedComponent {
     /**
      * @return whether the component holder has blood
      */
-    boolean hasBlood();
+    boolean isEmpty();
 }

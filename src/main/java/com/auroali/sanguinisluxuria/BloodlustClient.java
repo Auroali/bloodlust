@@ -220,6 +220,6 @@ public class BloodlustClient implements ClientModInitializer {
         HitResult result = client.crosshairTarget;
         LivingEntity target = result != null && result.getType() == HitResult.Type.ENTITY && ((EntityHitResult) result).getEntity() instanceof LivingEntity living ? living : null;
 
-        return target != null && target.getType().isIn(BLTags.Entities.HAS_BLOOD);
+        return VampireHelper.hasBlood(target);
     }
 }

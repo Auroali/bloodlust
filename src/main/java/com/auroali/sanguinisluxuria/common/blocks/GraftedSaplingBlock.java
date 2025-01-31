@@ -1,5 +1,6 @@
 package com.auroali.sanguinisluxuria.common.blocks;
 
+import com.auroali.sanguinisluxuria.VampireHelper;
 import com.auroali.sanguinisluxuria.common.components.BLEntityComponents;
 import com.auroali.sanguinisluxuria.common.components.BloodComponent;
 import com.auroali.sanguinisluxuria.common.registry.BLSounds;
@@ -49,7 +50,7 @@ public class GraftedSaplingBlock extends SaplingBlock {
 
         Box box = new Box(pos).expand(BLOOD_DRAIN_RANGE);
         AtomicBoolean hasDrainedBlood = new AtomicBoolean();
-        world.getEntitiesByType(TypeFilter.instanceOf(LivingEntity.class), box, entity -> entity.getType().isIn(BLTags.Entities.HAS_BLOOD))
+        world.getEntitiesByType(TypeFilter.instanceOf(LivingEntity.class), box, VampireHelper::hasBlood)
           .forEach(entity -> {
               BloodComponent bloodComponent = BLEntityComponents.BLOOD_COMPONENT.get(entity);
               if (bloodComponent.drainBlood()) {

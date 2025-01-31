@@ -2,6 +2,7 @@ package com.auroali.sanguinisluxuria;
 
 import com.auroali.sanguinisluxuria.common.components.BLEntityComponents;
 import com.auroali.sanguinisluxuria.common.components.BloodComponent;
+import com.auroali.sanguinisluxuria.common.events.BloodStorageFillEvents;
 import com.auroali.sanguinisluxuria.common.items.BloodStorageItem;
 import com.auroali.sanguinisluxuria.common.registry.BLAdvancementCriterion;
 import com.auroali.sanguinisluxuria.common.registry.BLItems;
@@ -42,6 +43,16 @@ public class VampireHelper {
      */
     public static boolean isVampire(Entity entity) {
         return entity != null && BLEntityComponents.VAMPIRE_COMPONENT.isProvidedBy(entity) && BLEntityComponents.VAMPIRE_COMPONENT.get(entity).isVampire();
+    }
+
+    /**
+     * Checks if an entity both provides a blood component and is in the has_blood tag
+     *
+     * @param entity the entity to check
+     * @return whether the entity has blood
+     */
+    public static boolean hasBlood(Entity entity) {
+        return entity != null && entity.getType().isIn(BLTags.Entities.HAS_BLOOD) && BLEntityComponents.BLOOD_COMPONENT.isProvidedBy(entity);
     }
 
     /**
@@ -157,25 +168,47 @@ public class VampireHelper {
         return getItemInHand(entity, initialHand, Predicates.alwaysTrue());
     }
 
+    /**
+     * Returns the hand a given stack is held in.
+     * Assumes that the input stack is actually being held
+     *
+     * @param entity the entity holding the item
+     * @param stack  the stack to check
+     * @return the hand the stack is held in
+     */
     public static Hand getHandForStack(LivingEntity entity, ItemStack stack) {
         return stack.isEmpty() || stack == entity.getMainHandStack() ? Hand.MAIN_HAND : Hand.OFF_HAND;
     }
 
+    /**
+     * Attempts to fill a held blood storage item
+     *
+     * @param entity the entity holding the item
+     * @param amount the amount to try and fill
+     * @return if the item was successfully filled
+     */
     public static boolean fillHeldBloodStorage(LivingEntity entity, int amount) {
         return fillHeldBloodStorage(entity, amount, null);
     }
 
+    /**
+     * Attempts to fill a held blood storage item
+     *
+     * @param entity   the entity holding the item
+     * @param amount   the amount to try and fill
+     * @param consumer the consumer to call once the item is filled
+     * @return if the item was successfully filled
+     */
     public static boolean fillHeldBloodStorage(LivingEntity entity, int amount, Consumer<ItemStack> consumer) {
-        ItemStack stack = getItemInHand(entity, Hand.MAIN_HAND, s -> s.getItem() instanceof BloodStorageItem || s.isIn(BLTags.Items.BLOOD_STORING_BOTTLES));
+        ItemStack stack = getItemInHand(entity, Hand.MAIN_HAND, s -> s.getItem() instanceof BloodStorageItem || BloodStorageFillEvents.ALLOW_ITEM.invoker().allowItem(entity, s));
         Hand hand = getHandForStack(entity, stack);
 
         ItemStack resultStack = stack;
-        if (stack.isIn(BLTags.Items.BLOOD_STORING_BOTTLES)) {
-            resultStack = new ItemStack(BLItems.BLOOD_BOTTLE);
-            stack.decrement(1);
+        if (!(resultStack.getItem() instanceof BloodStorageItem)) {
+            resultStack = BloodStorageFillEvents.TRANSFORM_STACK.invoker().createFrom(entity, resultStack);
         }
 
-        if (!BloodStorageItem.incrementItemBlood(resultStack, amount))
+        if (!BloodStorageItem.isItemFillable(resultStack) || !BloodStorageItem.incrementItemBlood(resultStack, amount))
             return false;
 
         if (consumer != null)
@@ -183,6 +216,8 @@ public class VampireHelper {
 
         if (stack == resultStack)
             return true;
+        
+        stack.decrement(1);
 
         if (stack.isEmpty()) {
             entity.setStackInHand(hand, resultStack);

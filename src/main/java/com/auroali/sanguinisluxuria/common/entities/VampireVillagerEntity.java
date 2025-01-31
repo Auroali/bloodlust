@@ -1,5 +1,6 @@
 package com.auroali.sanguinisluxuria.common.entities;
 
+import com.auroali.sanguinisluxuria.VampireHelper;
 import com.auroali.sanguinisluxuria.common.blood.BloodConstants;
 import com.auroali.sanguinisluxuria.common.components.BLEntityComponents;
 import com.auroali.sanguinisluxuria.common.components.BloodComponent;
@@ -102,7 +103,7 @@ public class VampireVillagerEntity extends HostileEntity {
         this.goalSelector.add(5, new ActiveTargetGoal<>(this, PlayerEntity.class, true));
         this.goalSelector.add(6, new ActiveTargetGoal<>(this, LivingEntity.class, true, e -> {
             BloodComponent blood = BLEntityComponents.BLOOD_COMPONENT.get(this);
-            return e.getType().isIn(BLTags.Entities.HAS_BLOOD) && ((double) blood.getBlood() / blood.getMaxBlood()) < 0.4;
+            return VampireHelper.hasBlood(e) && ((double) blood.getBlood() / blood.getMaxBlood()) < 0.4;
         }));
     }
 
@@ -110,7 +111,7 @@ public class VampireVillagerEntity extends HostileEntity {
     public boolean tryAttack(Entity target) {
         BloodComponent blood = BLEntityComponents.BLOOD_COMPONENT.get(this);
         VampireComponent vampire = BLEntityComponents.VAMPIRE_COMPONENT.get(this);
-        if (target instanceof LivingEntity entity && target.getType().isIn(BLTags.Entities.HAS_BLOOD) && this.bloodDrainTimer == 0 && blood.getBlood() < blood.getMaxBlood()) {
+        if (target instanceof LivingEntity entity && VampireHelper.hasBlood(target) && this.bloodDrainTimer == 0 && blood.getBlood() < blood.getMaxBlood()) {
             vampire.drainBloodFrom(entity);
             this.playSound(BLSounds.DRAIN_BLOOD, 1.0f, 1.0f);
             this.bloodDrainTimer = BloodConstants.BLOOD_DRAIN_TIME * 2;

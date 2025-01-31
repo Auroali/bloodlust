@@ -112,7 +112,7 @@ public class EntityBloodComponent implements InitializableBloodComponent, Server
 
     @Override
     public boolean drainBlood(LivingEntity drainer) {
-        if (!this.hasBlood())
+        if (!this.isEmpty())
             return false;
 
         this.bloodGainTimer = 0;
@@ -134,7 +134,7 @@ public class EntityBloodComponent implements InitializableBloodComponent, Server
     }
 
     @Override
-    public boolean hasBlood() {
+    public boolean isEmpty() {
         return this.getMaxBlood() > 0;
     }
 

@@ -83,7 +83,7 @@ public class PlayerBloodComponent implements BloodComponent {
     }
 
     @Override
-    public boolean hasBlood() {
+    public boolean isEmpty() {
         return true;
     }
 }

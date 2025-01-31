@@ -1,5 +1,6 @@
 package com.auroali.sanguinisluxuria.common.conversions;
 
+import com.auroali.sanguinisluxuria.VampireHelper;
 import com.auroali.sanguinisluxuria.common.components.BLEntityComponents;
 import com.auroali.sanguinisluxuria.common.components.BloodComponent;
 import com.auroali.sanguinisluxuria.common.components.InitializableBloodComponent;
@@ -63,7 +64,7 @@ public class EntityConversionData {
             return;
         }
 
-        if (newEntity.getType().isIn(BLTags.Entities.HAS_BLOOD) && BLEntityComponents.BLOOD_COMPONENT.isProvidedBy(newEntity) && BLEntityComponents.BLOOD_COMPONENT.isProvidedBy(entity)) {
+        if (VampireHelper.hasBlood(newEntity) && VampireHelper.hasBlood(entity)) {
             BloodComponent oldBlood = BLEntityComponents.BLOOD_COMPONENT.get(entity);
             BloodComponent newBlood = BLEntityComponents.BLOOD_COMPONENT.get(newEntity);
             if (newBlood instanceof InitializableBloodComponent initializable)
