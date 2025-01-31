@@ -1,39 +1,45 @@
 package com.auroali.sanguinisluxuria.common.items;
 
 import com.auroali.sanguinisluxuria.VampireHelper;
+import com.auroali.sanguinisluxuria.common.blood.BloodConstants;
 import com.auroali.sanguinisluxuria.common.components.BLEntityComponents;
 import com.auroali.sanguinisluxuria.common.components.BloodComponent;
+import com.auroali.sanguinisluxuria.common.registry.BLBlocks;
 import com.auroali.sanguinisluxuria.common.registry.BLSounds;
 import com.auroali.sanguinisluxuria.common.registry.BLStatusEffects;
 import com.auroali.sanguinisluxuria.common.registry.BLTags;
 import net.minecraft.advancement.criterion.Criteria;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.ShapeContext;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.FoodComponent;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import net.minecraft.item.*;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
 import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
-import net.minecraft.util.UseAction;
+import net.minecraft.util.*;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
+import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
 public class DrinkableBloodItem extends Item implements BloodStorageItem, EntityTrackingItem {
     public static final FoodComponent BLOOD_FOOD_COMPONENT = new FoodComponent.Builder()
-      .hunger(1)
-      .saturationModifier(0.05f)
-      .statusEffect(new StatusEffectInstance(StatusEffects.HUNGER, 360), 0.4f)
-      .alwaysEdible()
-      .build();
+            .hunger(1)
+            .saturationModifier(0.05f)
+            .statusEffect(new StatusEffectInstance(StatusEffects.HUNGER, 360), 0.4f)
+            .alwaysEdible()
+            .build();
 
     private final int maxBlood;
 
@@ -80,9 +86,9 @@ public class DrinkableBloodItem extends Item implements BloodStorageItem, Entity
         // is then clamped between 0 and 6, and added to the entity's blood
         // component and removed from the blood storage item's blood amount
         int bloodToFill = MathHelper.clamp(
-          Math.min(userBlood.getMaxBlood() - userBlood.getBlood(), BloodStorageItem.getItemBlood(stack)),
-          0,
-          4
+                Math.min(userBlood.getMaxBlood() - userBlood.getBlood(), BloodStorageItem.getItemBlood(stack)),
+                0,
+                4
         );
 
         if (!(user instanceof PlayerEntity player && player.isCreative()))
@@ -119,6 +125,58 @@ public class DrinkableBloodItem extends Item implements BloodStorageItem, Entity
     @Override
     public UseAction getUseAction(ItemStack stack) {
         return BloodStorageItem.getItemBlood(stack) > 0 ? UseAction.DRINK : UseAction.NONE;
+    }
+
+    @Override
+    public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
+        if (BloodStorageItem.getItemBlood(user.getStackInHand(hand)) <= 0)
+            return TypedActionResult.pass(user.getStackInHand(hand));
+        return super.use(world, user, hand);
+    }
+
+    @Override
+    public ActionResult useOnBlock(ItemUsageContext context) {
+        ItemStack stack = context.getStack();
+        PlayerEntity player = context.getPlayer();
+        World world = context.getWorld();
+        if (!BloodStorageItem.isItemDrainable(stack) || BloodStorageItem.getItemBlood(stack) < BloodConstants.BLOOD_PER_BOTTLE)
+            return super.useOnBlock(context);
+
+        ItemPlacementContext placementContext = new ItemPlacementContext(context);
+        if (!placementContext.canPlace() || player == null || !player.isSneaking())
+            return super.useOnBlock(context);
+
+        BlockPos pos = placementContext.getBlockPos();
+        BlockState bloodState = BLBlocks.BLOOD_SPLATTER.getPlacementState(placementContext);
+        ShapeContext shapeContext = ShapeContext.of(player);
+        // check to make sure the blockstate isn't null and that it can be placed at
+        // the location. returns fail here if it can't be placed
+        if (
+                bloodState == null
+                        || !bloodState.canPlaceAt(world, pos)
+                        || !world.canPlace(bloodState, pos, shapeContext)
+        ) {
+            return ActionResult.FAIL;
+        }
+
+        // place the block
+        world.setBlockState(pos, bloodState, Block.NOTIFY_ALL | Block.REDRAW_ON_MAIN_THREAD);
+
+        // if the player is in survival, drain blood from the bottle
+        if (!player.isCreative()) {
+            BloodStorageItem.decrementItemBlood(stack, BloodConstants.BLOOD_PER_BOTTLE);
+            if (BloodStorageItem.getItemBlood(stack) <= 0)
+                player.setStackInHand(context.getHand(), BloodStorageItem.createEmptyStackFor(stack));
+        }
+        // play the bottle empty sound and emit the block place game event
+        world.playSound(player, pos, SoundEvents.ITEM_BOTTLE_EMPTY, SoundCategory.BLOCKS, 1.0f, 1.0f);
+        world.emitGameEvent(
+                GameEvent.BLOCK_PLACE,
+                pos,
+                GameEvent.Emitter.of(player, bloodState)
+        );
+
+        return ActionResult.success(world.isClient);
     }
 
     @Override

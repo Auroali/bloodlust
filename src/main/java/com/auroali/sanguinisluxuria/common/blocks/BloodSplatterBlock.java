@@ -1,5 +1,7 @@
 package com.auroali.sanguinisluxuria.common.blocks;
 
+import com.auroali.sanguinisluxuria.common.blood.BloodConstants;
+import com.auroali.sanguinisluxuria.common.events.BloodStorageFillEvents;
 import com.auroali.sanguinisluxuria.common.items.BloodStorageItem;
 import com.auroali.sanguinisluxuria.common.registry.BLBlocks;
 import com.auroali.sanguinisluxuria.common.registry.BLItems;
@@ -124,20 +126,34 @@ public class BloodSplatterBlock extends Block {
 
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+        // todo: cleanup
         ItemStack stack = player.getStackInHand(hand);
-        if (stack.isOf(Items.GLASS_BOTTLE)) {
-            ItemStack bloodBottle = BloodStorageItem.createStack(BLItems.BLOOD_BOTTLE);
-            if (!world.isClient) {
-                stack.decrement(1);
-                if (!player.getInventory().insertStack(bloodBottle))
-                    player.dropItem(bloodBottle, true);
-                world.removeBlock(pos, false);
-                world.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ITEM_BOTTLE_FILL, SoundCategory.PLAYERS, 1.0f, 1.0f);
-            }
+        boolean isFillableRegularItem = BloodStorageFillEvents.ALLOW_ITEM.invoker().allowItem(player, stack);
+        if (!isFillableRegularItem && !BloodStorageItem.isItemFillable(stack))
+            return ActionResult.FAIL;
 
-            return ActionResult.success(world.isClient);
+        ItemStack resultItem = stack;
+        if (isFillableRegularItem) {
+            resultItem = BloodStorageFillEvents.TRANSFORM_STACK.invoker().createFrom(player, stack);
+            if (!BloodStorageItem.isItemFillable(resultItem) || BloodStorageItem.getItemMaxBlood(resultItem) - BloodStorageItem.getItemBlood(stack) < BloodConstants.BLOOD_PER_BOTTLE)
+                return ActionResult.FAIL;
+
+            stack.decrement(1);
+            if (stack.isEmpty())
+                player.setStackInHand(hand, resultItem);
+            else if (!player.getInventory().insertStack(resultItem))
+                player.dropItem(resultItem, true);
         }
-        return super.onUse(state, world, pos, player, hand, hit);
+
+        if (BloodStorageItem.getItemMaxBlood(resultItem) - BloodStorageItem.getItemBlood(stack) < BloodConstants.BLOOD_PER_BOTTLE)
+            return ActionResult.FAIL;
+
+        BloodStorageItem.incrementItemBlood(resultItem, BloodConstants.BLOOD_PER_BOTTLE);
+
+        world.removeBlock(pos, false);
+        world.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ITEM_BOTTLE_FILL, SoundCategory.PLAYERS, 1.0f, 1.0f);
+
+        return ActionResult.success(world.isClient);
     }
 
     @Override
