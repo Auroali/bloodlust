@@ -111,7 +111,7 @@ public class VampireVillagerEntity extends HostileEntity {
     public boolean tryAttack(Entity target) {
         BloodComponent blood = BLEntityComponents.BLOOD_COMPONENT.get(this);
         VampireComponent vampire = BLEntityComponents.VAMPIRE_COMPONENT.get(this);
-        if (target instanceof LivingEntity entity && VampireHelper.hasBlood(target) && this.bloodDrainTimer == 0 && blood.getBlood() < blood.getMaxBlood()) {
+        if (target instanceof LivingEntity entity && VampireHelper.hasBlood(target) && !vampire.isMist() && this.bloodDrainTimer == 0 && blood.getBlood() < blood.getMaxBlood()) {
             vampire.drainBloodFrom(entity);
             this.playSound(BLSounds.DRAIN_BLOOD, 1.0f, 1.0f);
             this.bloodDrainTimer = BloodConstants.BLOOD_DRAIN_TIME * 2;

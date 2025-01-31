@@ -2,9 +2,13 @@
   "replace": false,
   "values": [
     "minecraft:iron_bars",
+    "minecraft:bamboo",
     "#minecraft:doors",
     "#minecraft:trapdoors",
     "#minecraft:fence_gates",
-    "#minecraft:fences"
+    "#minecraft:fences",
+    "#minecraft:all_hanging_signs",
+    "#minecraft:beds",
+    "#minecraft:anvil"
   ]
 }

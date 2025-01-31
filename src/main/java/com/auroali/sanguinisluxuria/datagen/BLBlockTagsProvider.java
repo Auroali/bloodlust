@@ -97,9 +97,13 @@ public class BLBlockTagsProvider extends FabricTagProvider<Block> {
           .add(BLBlocks.GRAFTED_SAPLING);
         this.getOrCreateTagBuilder(BLTags.Blocks.NO_MIST_COLLISION)
           .add(Blocks.IRON_BARS)
+          .add(Blocks.BAMBOO)
           .forceAddTag(BlockTags.DOORS)
           .forceAddTag(BlockTags.TRAPDOORS)
           .forceAddTag(BlockTags.FENCE_GATES)
-          .forceAddTag(BlockTags.FENCES);
+          .forceAddTag(BlockTags.FENCES)
+          .forceAddTag(BlockTags.ALL_HANGING_SIGNS)
+          .forceAddTag(BlockTags.BEDS)
+          .forceAddTag(BlockTags.ANVIL);
     }
 }

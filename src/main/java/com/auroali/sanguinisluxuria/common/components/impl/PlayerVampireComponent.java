@@ -352,7 +352,7 @@ public class PlayerVampireComponent implements VampireComponent, EntityTrackingD
     }
 
     private boolean canDrainBlood() {
-        return !VampireHelper.isMasked(this.holder);
+        return !VampireHelper.isMasked(this.holder) && !this.isMist();
     }
 
     @Override
