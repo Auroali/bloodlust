@@ -16,6 +16,20 @@
     "sanguinisluxuria:silver_shovel",
     "sanguinisluxuria:raw_silver_block",
     "sanguinisluxuria:silver_sword",
-    "sanguinisluxuria:pedestal"
+    "sanguinisluxuria:pedestal",
+    "sanguinisluxuria:decayed_wood",
+    "sanguinisluxuria:stripped_decayed_wood",
+    "sanguinisluxuria:decayed_planks",
+    "sanguinisluxuria:decayed_sign",
+    "sanguinisluxuria:decayed_hanging_sign",
+    "sanguinisluxuria:decayed_door",
+    "sanguinisluxuria:decayed_trapdoor",
+    "sanguinisluxuria:decayed_fence",
+    "sanguinisluxuria:decayed_fence_gate",
+    "sanguinisluxuria:decayed_pressure_plate",
+    "sanguinisluxuria:decayed_button",
+    "sanguinisluxuria:decayed_slab",
+    "sanguinisluxuria:decayed_stairs",
+    "sanguinisluxuria:silver_pressure_plate"
   ]
 }

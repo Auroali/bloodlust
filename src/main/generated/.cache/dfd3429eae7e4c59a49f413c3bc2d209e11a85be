@@ -1,4 +1,4 @@
-// 1.20.1	2025-01-30T23:09:20.04068999	Sanguinis Luxuria/Advancements
+// 1.20.1	2025-01-30T23:50:41.842145085	Sanguinis Luxuria/Advancements
 254e74381e407636facd5f920299e1e1144474f3 data/sanguinisluxuria/advancements/infect_other.json
 d88d26be7e0e8abd887de72890af18e1f5c9ba2b data/sanguinisluxuria/advancements/unbecome_vampire.json
 0f0d0baf97bce306ca600928763c8eefece0d230 data/sanguinisluxuria/advancements/craft_hungry_sapling.json
@@ -10,5 +10,5 @@ f7b346306b2f8ec55f6eeacef09be70d280a4c71 data/sanguinisluxuria/advancements/unlo
 3e3d600e7ad72661cc0c4435f93f4d3f08f05716 data/sanguinisluxuria/advancements/obtain_hungry_decayed_log.json
 87e91b09c4e5a7c6ce0f60d9dd6012bf0e558a3c data/sanguinisluxuria/advancements/transfer_more_effects.json
 3610c98e9faf06b5dcd5116d1a240985203252cc data/sanguinisluxuria/advancements/reset_abilities.json
-7ef2b2d722bae6363af6eddbd8ca107c49d37609 data/sanguinisluxuria/advancements/become_vampire.json
 9a9b681d0ed43fbf0a2d9164c9c64a29e8cf279f data/sanguinisluxuria/advancements/transfer_effects.json
+7ef2b2d722bae6363af6eddbd8ca107c49d37609 data/sanguinisluxuria/advancements/become_vampire.json

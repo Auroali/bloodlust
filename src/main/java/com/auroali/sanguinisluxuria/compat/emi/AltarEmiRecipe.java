@@ -43,7 +43,7 @@ public class AltarEmiRecipe implements EmiRecipe {
         this.recipe = recipe;
         this.ritual = recipe.getRitual();
         this.catalyst = EmiIngredient.of(recipe.getCatalyst());
-        DefaultedList<EmiIngredient> stacks = DefaultedList.ofSize(8, EmiStack.EMPTY);
+        DefaultedList<EmiIngredient> stacks = DefaultedList.ofSize(recipe.getIngredients().size(), EmiStack.EMPTY);
         for (int i = 0; i < recipe.getIngredients().size(); i++) {
             stacks.set(i, EmiIngredient.of(recipe.getIngredients().get(i)));
         }
@@ -86,14 +86,10 @@ public class AltarEmiRecipe implements EmiRecipe {
 
     @Override
     public void addWidgets(WidgetHolder widgets) {
-        for (int i = 0; i < this.inputs.size() / 2; i++) {
-            int x = 32 + (int) (32 * Math.cos((MathHelper.HALF_PI / 2 + i * 2 * MathHelper.TAU / this.inputs.size())));
-            int y = 40 + (int) (32 * Math.sin((MathHelper.HALF_PI / 2 + i * 2 * MathHelper.TAU / this.inputs.size())));
-            widgets.addSlot(this.inputs.get(i), x, y);
-        }
-        for (int i = this.inputs.size() / 2; i < this.inputs.size(); i++) {
-            int x = 32 + (int) (32 * Math.cos((i * 2 * MathHelper.TAU / this.inputs.size())));
-            int y = 40 + (int) (32 * Math.sin((i * 2 * MathHelper.TAU / this.inputs.size())));
+        double angle = 2 * Math.PI / this.inputs.size();
+        for (int i = 0; i < this.inputs.size(); i++) {
+            int x = 32 + (int) (32 * Math.cos(i * angle));
+            int y = 40 + (int) (32 * Math.sin(i * angle));
             widgets.addSlot(this.inputs.get(i), x, y);
         }
 

@@ -64,6 +64,8 @@ public class BLRecipeProvider extends FabricRecipeProvider {
         generateFamily(exporter, BLBlockFamilies.DECAYED_WOOD_FAMILY);
         offerPlanksRecipe(exporter, BLBlocks.DECAYED_PLANKS, BLTags.Items.DECAYED_LOGS, 4);
         offerHangingSignRecipe(exporter, BLBlocks.DECAYED_HANGING_SIGN, BLBlocks.STRIPPED_DECAYED_LOG);
+        offerBarkBlockRecipe(exporter, BLBlocks.DECAYED_WOOD, BLBlocks.DECAYED_LOG);
+        offerBarkBlockRecipe(exporter, BLBlocks.STRIPPED_DECAYED_WOOD, BLBlocks.STRIPPED_DECAYED_LOG);
 
         ShapelessRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, BLBlocks.GRAFTED_SAPLING)
           .input(BLItems.BLOOD_PETAL)

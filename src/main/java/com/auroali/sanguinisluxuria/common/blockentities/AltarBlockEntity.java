@@ -223,6 +223,7 @@ public class AltarBlockEntity extends BlockEntity implements Inventory, ItemDisp
     }
 
     public void onInventoryChanged() {
+        this.ritualData = null;
         this.markDirty();
         if (this.world != null)
             this.world.updateListeners(this.pos, this.getCachedState(), this.getCachedState(), AltarBlock.NOTIFY_LISTENERS);

@@ -132,7 +132,8 @@ public interface BloodStorageItem {
             ModelPredicateProviderRegistry.register(BLResources.BLOOD_STORAGE_ITEM_MODEL_PREDICATE, (stack, world, entity, seed) -> {
                 int blood = bloodStorage.getBlood(stack);
                 int maxBlood = bloodStorage.getMaxBlood(stack);
-
+                if (maxBlood == 0)
+                    return 0.f;
                 return (float) blood / maxBlood;
             });
         }
