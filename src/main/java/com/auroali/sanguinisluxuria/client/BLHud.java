@@ -65,7 +65,7 @@ public class BLHud {
 
         int bloodBarX = (width - 14) / 2;
         int bloodBarY = height / 2 + 5;
-        if (!VampireHelper.isMasked(client.player))
+        if (!VampireHelper.isMasked(client.player) && !vampire.isMist())
             context.drawTexture(BLResources.ICONS, fangX, fangY, 0, 0, 26, 7, 256, 256);
         context.drawTexture(BLResources.ICONS, bloodBarX, bloodBarY, 0, 14, 14, 3, 256, 256);
 
