@@ -5,9 +5,11 @@ import com.auroali.sanguinisluxuria.common.components.BLEntityComponents;
 import com.auroali.sanguinisluxuria.common.components.BloodComponent;
 import com.auroali.sanguinisluxuria.common.components.VampireComponent;
 import com.auroali.sanguinisluxuria.common.registry.BLEntityAttributes;
+import com.auroali.sanguinisluxuria.common.registry.BLStatusEffects;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityGroup;
 import net.minecraft.entity.EntityType;
@@ -15,7 +17,10 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.effect.StatusEffect;
+import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.registry.tag.DamageTypeTags;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -38,6 +43,12 @@ public abstract class LivingEntityMixin extends Entity {
 
     @Shadow
     public abstract double getAttributeValue(EntityAttribute attribute);
+
+    @Shadow
+    public abstract boolean hasStatusEffect(StatusEffect effect);
+
+    @Shadow
+    protected abstract void fall(double heightDifference, boolean onGround, BlockState state, BlockPos landedPosition);
 
     public LivingEntityMixin(EntityType<?> type, World world) {
         super(type, world);
@@ -112,6 +123,12 @@ public abstract class LivingEntityMixin extends Entity {
 
         VampireComponent vampire = BLEntityComponents.VAMPIRE_COMPONENT.get(target);
         if (vampire.isDown())
+            cir.setReturnValue(false);
+    }
+
+    @Inject(method = "canHaveStatusEffect", at = @At("HEAD"), cancellable = true)
+    public void sanguinisluxuria$preventBloodLustEffectForVampires(StatusEffectInstance effect, CallbackInfoReturnable<Boolean> cir) {
+        if (effect.getEffectType() == BLStatusEffects.BLOOD_LUST && (VampireHelper.isVampire(this) || this.hasStatusEffect(BLStatusEffects.BLOOD_PROTECTION)))
             cir.setReturnValue(false);
     }
 }

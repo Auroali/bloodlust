@@ -4,6 +4,7 @@ import com.auroali.sanguinisluxuria.VampireHelper;
 import com.auroali.sanguinisluxuria.common.components.BLEntityComponents;
 import com.auroali.sanguinisluxuria.common.components.BloodComponent;
 import com.auroali.sanguinisluxuria.common.registry.BLSounds;
+import com.auroali.sanguinisluxuria.common.registry.BLStatusEffects;
 import com.auroali.sanguinisluxuria.common.registry.BLTags;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.client.item.TooltipContext;
@@ -89,7 +90,12 @@ public class DrinkableBloodItem extends Item implements BloodStorageItem, Entity
 
         ItemStack result = BloodStorageItem.getItemBlood(stack) == 0 ? BloodStorageItem.createEmptyStackFor(stack) : stack;
 
-        if (VampireHelper.isVampire(user)) {
+        if (VampireHelper.isVampire(user) || user.hasStatusEffect(BLStatusEffects.BLOOD_LUST)) {
+            // doing the same check twice probably isnt great
+            // but it works
+            // so thats something
+            if (user.hasStatusEffect(BLStatusEffects.BLOOD_LUST))
+                VampireHelper.incrementBloodSickness(user);
             // only add the blood to vampires
             userBlood.addBlood(bloodToFill);
             return result;

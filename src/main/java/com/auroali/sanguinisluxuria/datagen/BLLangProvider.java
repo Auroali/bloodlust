@@ -108,6 +108,11 @@ public class BLLangProvider extends FabricLanguageProvider {
         generatePotionKey(translationBuilder, BLStatusEffects.BLESSED_WATER_POTION_TWO, Items.SPLASH_POTION, "Splash Potion of Blessed Water");
         generatePotionKey(translationBuilder, BLStatusEffects.BLESSED_WATER_POTION_TWO, Items.LINGERING_POTION, "Lingering Potion of Blessed Water");
         generatePotionKey(translationBuilder, BLStatusEffects.BLESSED_WATER_POTION_TWO, Items.TIPPED_ARROW, "Arrow of Blessed Water");
+
+        generatePotionKey(translationBuilder, BLStatusEffects.BLOOD_LUST_POTION, Items.POTION, "Potion of Blood Lust");
+        generatePotionKey(translationBuilder, BLStatusEffects.BLOOD_LUST_POTION, Items.SPLASH_POTION, "Splash Potion of Blood Lust");
+        generatePotionKey(translationBuilder, BLStatusEffects.BLOOD_LUST_POTION, Items.LINGERING_POTION, "Lingering Potion of Blood Lust");
+        generatePotionKey(translationBuilder, BLStatusEffects.BLOOD_LUST_POTION, Items.TIPPED_ARROW, "Arrow of Blood Lust");
     }
 
     private static void enchantments(TranslationBuilder translationBuilder) {
@@ -243,6 +248,7 @@ public class BLLangProvider extends FabricLanguageProvider {
         translationBuilder.add(BLStatusEffects.BLESSED_WATER, "Blessed Water");
         translationBuilder.add(BLStatusEffects.BLOOD_PROTECTION, "Blessed Blood");
         translationBuilder.add(BLStatusEffects.BLEEDING, "Bleeding");
+        translationBuilder.add(BLStatusEffects.BLOOD_LUST, "Blood Lust");
     }
 
     public static void advancements(TranslationBuilder translationBuilder) {
